@@ -9,7 +9,7 @@ import express from '@feathersjs/express'
 import envHelpers from 'feathers-envhelpers'
 
 import logger, { loggerHook } from './hooks/logger'
-import apollo from './apollo'
+import graphql from './graphql'
 import middleware from './middleware'
 import services from './services'
 
@@ -32,7 +32,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.configure(middleware)
-app.configure(apollo)
+app.configure(graphql)
 app.configure(services)
 
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')))

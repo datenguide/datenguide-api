@@ -1,22 +1,10 @@
-import { ApolloServer, gql } from 'apollo-server-express'
+import { ApolloServer } from 'apollo-server-express'
 import { graphiqlExpress } from 'graphql-server-express'
 
+import typeDefs from './schema'
+import resolvers from './resolvers'
+
 export default app => {
-  const typeDefs = gql`
-    type Query {
-      hello: String!
-    }
-  `
-
-  // A map of functions which return data for the schema.
-  const resolvers = {
-    Query: {
-      hello: () => 'world'
-    }
-
-    // feathers service, get data..
-  }
-
   const server = new ApolloServer({
     typeDefs,
     resolvers
