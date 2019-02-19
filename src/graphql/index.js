@@ -1,10 +1,10 @@
 import { ApolloServer, gql } from 'apollo-server-express'
+import { graphiqlExpress } from 'graphql-server-express'
 
 export default app => {
   const typeDefs = gql`
     type Query {
-      "A simple type for getting started!"
-      hello: String
+      hello: String!
     }
   `
 
@@ -13,6 +13,8 @@ export default app => {
     Query: {
       hello: () => 'world'
     }
+
+    // feathers service, get data..
   }
 
   const server = new ApolloServer({
@@ -20,5 +22,14 @@ export default app => {
     resolvers
   })
 
+  // apollo / apollo playground
   server.applyMiddleware({ app })
+
+  // graphiql
+  app.use(
+    '/graphiql',
+    graphiqlExpress({
+      endpointURL: '/graphql'
+    })
+  )
 }

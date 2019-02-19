@@ -46,6 +46,7 @@
     "feathers-hooks-common": "^4.20.2",
     "feathers-logger": "^0.3.2",
     "graphql": "^14.1.1",
+    "graphql-server-express": "^1.4.0",
     "helmet": "^3.15.1",
     "path": "^0.12.7",
     "pino": "^5.11.1",
