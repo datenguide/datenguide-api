@@ -1,3 +1,5 @@
-module.exports = function () {
-  const app = this; // eslint-disable-line no-unused-vars
-};
+import genesapi from './genesapi'
+
+export default app => {
+  app.configure(genesapi)
+}
