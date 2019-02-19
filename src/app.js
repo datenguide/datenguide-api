@@ -8,8 +8,9 @@ import configuration from '@feathersjs/configuration'
 import express from '@feathersjs/express'
 import envHelpers from 'feathers-envhelpers'
 
-import middleware from './middleware'
 import logger, { loggerHook } from './hooks/logger'
+import apollo from './apollo'
+import middleware from './middleware'
 import services from './services'
 
 dotenv.config({ path: path.resolve(__dirname, '..', '.env') })
@@ -31,6 +32,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.configure(middleware)
+app.configure(apollo)
 app.configure(services)
 
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')))

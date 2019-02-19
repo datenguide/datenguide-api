@@ -1,16 +1,16 @@
-const service = require('feathers-elasticsearch')
-const elasticsearch = require('elasticsearch')
+import service from 'feathers-elasticsearch'
+import { Client } from 'elasticsearch'
 
 export default app => {
   const genesapiService = service({
-    Model: new elasticsearch.Client({
+    Model: new Client({
       host: 'localhost:9200',
       apiVersion: '6.0'
     }),
-    // paginate: {
-    //   default: 10,
-    //   max: 50
-    // },
+    paginate: {
+      default: 10,
+      max: 50
+    },
     elasticsearch: {
       index: 'genesapi',
       type: 'doc'
