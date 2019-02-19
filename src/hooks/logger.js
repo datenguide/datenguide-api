@@ -1,24 +1,23 @@
-// A hook that logs service method before, after and error
-const logger = require('winston');
+import pino from 'pino'
+import logger from 'feathers-logger'
 
-module.exports = function () {
-  return function (hook) {
-    let message = `${hook.type}: ${hook.path} - Method: ${hook.method}`;
+export const appLogger = pino()
 
-    if (hook.type === 'error') {
-      message += `: ${hook.error.message}`;
-    }
+export default app => {
+  appLogger.level = process.env.NODE_ENV === 'DEVELOPMENT' ? 'debug' : 'warn'
+  app.configure(logger(appLogger))
+}
 
-    logger.info(message);
-    logger.debug('hook.data', hook.data);
-    logger.debug('hook.params', hook.params);
+export const loggerHook = context => {
+  const { app, type, path, method, toJSON, error } = context
 
-    if (hook.result) {
-      logger.debug('hook.result', hook.result);
-    }
+  app.info(`${type} app.service('${path}').${method}()`)
 
-    if (hook.error) {
-      logger.error(hook.error);
-    }
-  };
-};
+  if (typeof toJSON === 'function') {
+    app.debug(context, 'context')
+  }
+
+  if (error) {
+    app.error(context.error.stack)
+  }
+}

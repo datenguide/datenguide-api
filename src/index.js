@@ -1,18 +1,17 @@
-/* eslint-disable no-console */
-const logger = require('winston')
-const app = require('./app')
+import app from './app'
 
 const port = app.get('port')
 const server = app.listen(port)
 
 process.on('unhandledRejection', (reason, p) =>
-  logger.error('Unhandled Rejection at: Promise ', p, reason)
+  app.error('Unhandled Rejection at: Promise ', p, reason)
 )
 
-server.on('listening', () =>
-  logger.info(
-    'Feathers application started on http://%s:%d',
-    app.get('host'),
-    port
+server.on('listening', () => {
+  app.info(
+    `Datenguide API is running on ${app.get(
+      'host'
+    )}:${port} in ${app.getEnv()} mode`
   )
-)
+  app.info('')
+})
