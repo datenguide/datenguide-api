@@ -2,12 +2,12 @@ import { ApolloServer } from 'apollo-server-express'
 import { graphiqlExpress } from 'graphql-server-express'
 
 import typeDefs from './schema'
-import resolvers from './resolvers'
+import genesApiResolvers from './resolvers'
 
 export default app => {
   const server = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers: genesApiResolvers(app)
   })
 
   // apollo / apollo playground
