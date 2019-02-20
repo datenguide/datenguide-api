@@ -1,10 +1,7 @@
 const resolvers = {
   Query: {
+    // eslint-disable-next-line
     region: (obj, args, context, info) => {
-      console.log(' obj', obj)
-      console.log('args', args)
-      console.log('context', context)
-      console.log('info', info)
       return {
         name: 'region'
       }

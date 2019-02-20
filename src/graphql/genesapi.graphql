@@ -1,0 +1,66 @@
+type Source {
+  title_de: String
+  valid_from: String
+  periodicity: String
+  name: String
+  url: String
+}
+
+
+# just integers for now
+#type SpatialClassificationAttribute {
+#
+#}
+#
+#type TemporalClassificationAttribute {
+#
+#}
+#
+#type FactualClassificationAttribute {
+#
+#}
+
+type ValueAttribute {
+  # id
+  id: String
+  # year
+  year: String
+  # date
+  date: String
+  # source
+  source: Source
+  # value
+  value: Int
+  # sachliches Merkmal
+  SACHLICHESMERKMAL: Int
+}
+
+
+type Region {
+  # Regionalschlüssel
+  id: String
+  # Name
+  name: String
+  # Wertmerkmal
+  WERTMERKMAL: ValueAttribute
+}
+
+# Graphql-API zum Datenbestand der GENESIS-Datenbank "Regionalstatistik"
+type Query {
+  # Detail-Endpunkt zur Abfrage exakt einer Region
+  region(
+  # Regionalschlüssel
+  id: String!
+): Region
+  # Listen-Endpunkt zur Abfrage mehrerer Regionen
+  regions(
+  # **Filter Regionen nach NUTS-Ebene.**
+  # *Optionen:*
+  # 1 – Bundesländer
+  # 2 – Regierungsbezirke / statistische Regionen
+  # 3 – Kreise / kreisfreie Städte
+  # 4 – Gemeinden (LAU 1 / LAU 2)
+  nuts: Int
+  # Filter Regionen nach ID (Regionalschlüssel) der Elternregion
+  parent: String
+): [Region!]
