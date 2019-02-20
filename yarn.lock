@@ -1071,7 +1071,15 @@ apollo-server-errors@2.2.0:
   resolved "https://registry.npmjs.org/apollo-server-errors/-/apollo-server-errors-2.2.0.tgz#5b452a1d6ff76440eb0f127511dc58031a8f3cb5"
   integrity sha512-gV9EZG2tovFtT1cLuCTavnJu2DaKxnXPRNGSTo+SDI6IAk6cdzyW0Gje5N2+3LybI0Wq5KAbW6VLei31S4MWmg==
 
-apollo-server-express@2.4.2, apollo-server-express@^2.4.2:
+apollo-server-express@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.npmjs.org/apollo-server-express/-/apollo-server-express-1.4.0.tgz#7d7c58d6d6f9892b83fe575669093bb66738b125"
+  integrity sha512-zkH00nxhLnJfO0HgnNPBTfZw8qI5ILaPZ5TecMCI9+Y9Ssr2b0bFr9pBRsXy9eudPhI+/O4yqegSUsnLdF/CPw==
+  dependencies:
+    apollo-server-core "^1.4.0"
+    apollo-server-module-graphiql "^1.4.0"
+
+apollo-server-express@^2.4.2:
   version "2.4.2"
   resolved "https://registry.npmjs.org/apollo-server-express/-/apollo-server-express-2.4.2.tgz#870daf04fd9b727a54b1339cdb55066450b3e05a"
   integrity sha512-Q5/unCAi6a2dT39LQaIiLC1d8O4fmBDU2CrRhVhPWP8I344xPgNOcrs7MsNN7Ecb56UGbgDKxBoWowFG65ulKw==
@@ -1089,14 +1097,6 @@ apollo-server-express@2.4.2, apollo-server-express@^2.4.2:
     graphql-tools "^4.0.0"
     type-is "^1.6.16"
 
-apollo-server-express@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.npmjs.org/apollo-server-express/-/apollo-server-express-1.4.0.tgz#7d7c58d6d6f9892b83fe575669093bb66738b125"
-  integrity sha512-zkH00nxhLnJfO0HgnNPBTfZw8qI5ILaPZ5TecMCI9+Y9Ssr2b0bFr9pBRsXy9eudPhI+/O4yqegSUsnLdF/CPw==
-  dependencies:
-    apollo-server-core "^1.4.0"
-    apollo-server-module-graphiql "^1.4.0"
-
 apollo-server-module-graphiql@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npmjs.org/apollo-server-module-graphiql/-/apollo-server-module-graphiql-1.4.0.tgz#c559efa285578820709f1769bb85d3b3eed3d8ec"
@@ -1106,17 +1106,6 @@ apollo-server-plugin-base@0.3.2:
   version "0.3.2"
   resolved "https://registry.npmjs.org/apollo-server-plugin-base/-/apollo-server-plugin-base-0.3.2.tgz#4609c9a9d154568401d84b7ac17d1e30e3529104"
   integrity sha512-yzXrkVSPBoux2uPgbTGROGh7W0axRWopMZM+KT9aF9H/+yMCwtt0EhGOGyNUDMOFA4rT3z+cLVvYuZr1rSQWcg==
-
-apollo-server@^2.4.2:
-  version "2.4.2"
-  resolved "https://registry.npmjs.org/apollo-server/-/apollo-server-2.4.2.tgz#6ca42906664918c32d8be391db1178c6eaa8dc54"
-  integrity sha512-oFwHUhJtJedIPCtZ2ftvRWrVA3KpmeWsgDBs4e5jW/7f5ozkUF22h7L3iy8rEljppiEa2X/GgSi11SVxIOL8gw==
-  dependencies:
-    apollo-server-core "2.4.2"
-    apollo-server-express "2.4.2"
-    express "^4.0.0"
-    graphql-subscriptions "^1.0.0"
-    graphql-tools "^4.0.0"
 
 apollo-tracing@0.5.1:
   version "0.5.1"
@@ -2290,7 +2279,7 @@ expect-ct@0.1.1:
   resolved "https://registry.npmjs.org/expect-ct/-/expect-ct-0.1.1.tgz#de84476a2dbcb85000d5903737e9bc8a5ba7b897"
   integrity sha512-ngXzTfoRGG7fYens3/RMb6yYoVLvLMfmsSllP/mZPxNHgFq41TmPSLF/nLY7fwoclI2vElvAmILFWGUYqdjfCg==
 
-express@^4.0.0, express@^4.16.2:
+express@^4.16.2:
   version "4.16.4"
   resolved "https://registry.npmjs.org/express/-/express-4.16.4.tgz#fddef61926109e24c515ea97fd2f1bdbf62df12e"
   integrity sha512-j12Uuyb4FMrd/qQAm6uCHAkPtO8FDTRJZBDd5D2KOL2eLaz1yUNdUB/NOIyq0iU4q4cFarsUCrnFDPBcnksuOg==

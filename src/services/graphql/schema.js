@@ -33,10 +33,7 @@ const attributeToField = (id, { name, description, source, args }) => `
 *aus GENESIS-Statistik "${source.title_de}" ${source.name})*
 ${description || ''}                                         
 """
-${id}(${mapAll(
-  Object.assign({}, args, { year: {} }),
-  argumentToArgument
-)}): ${id}
+${id}(year: String, ${mapAll(args, argumentToArgument)}): ${id}
 `
 
 const schema = `
