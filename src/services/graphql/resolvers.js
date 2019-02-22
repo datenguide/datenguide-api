@@ -1,3 +1,4 @@
+/* eslint-disable */
 import _ from 'lodash'
 import genesApiSchema from './schema.json'
 
