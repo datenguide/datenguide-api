@@ -1,6 +1,6 @@
 /* eslint-disable */
 import _ from 'lodash'
-import genesApiSchema from './schema.json'
+import genesApiSchema from '../schema/schema.json'
 
 export default app => {
   const lookups = {

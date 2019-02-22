@@ -6,7 +6,6 @@ type Source {
   url: String
 }
 
-
 # just integers for now
 #type SpatialClassificationAttribute {
 #

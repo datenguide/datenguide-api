@@ -36,7 +36,7 @@ ${description || ''}
 ${id}(year: String, ${mapAll(args, argumentToArgument)}): ${id}
 `
 
-const schema = `
+const index = `
 type Source {
   title_de: String
   valid_from: String
@@ -79,5 +79,5 @@ type Query {
 }
 `
 export default gql`
-  ${schema}
+  ${index}
 `
