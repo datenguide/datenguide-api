@@ -1,7 +1,7 @@
 {
   "name": "datenguide-api",
   "description": "Datenguide API server",
-  "version": "0.0.0",
+  "version": "0.0.1-alpha.0",
   "homepage": "",
   "main": "src",
   "keywords": [
@@ -11,10 +11,14 @@
     "name": "Christian Rijke",
     "email": "hello@christianrijke.de"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/datenguide/datenguide-api"
+  },
   "contributors": [],
   "bugs": {},
   "directories": {
-    "lib": "src",
+    "lib": "build",
     "test": "test/"
   },
   "engines": {
@@ -26,6 +30,7 @@
     "lint": "eslint src/. --fix",
     "clean": "rm -rf build && mkdir build",
     "build": "npx babel -d ./build -D ./src",
+    "prepublishOnly": "yarn clean && yarn build",
     "pretty-quick": "npx pretty-quick --staged",
     "prettier": "npx prettier **/*.js --write",
     "dev": "babel-watch --watch src/templates src/index.js | npx pino-pretty --translateTime ",
@@ -75,6 +80,9 @@
     "pretty-quick": "^1.10.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "babel": {
     "presets": [
