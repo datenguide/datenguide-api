@@ -1,5 +1,5 @@
 {
-  "name": "datenguide-api",
+  "name": "@datenguide/datenguide-api",
   "description": "Datenguide API server",
   "version": "0.0.1-alpha.0",
   "homepage": "",
