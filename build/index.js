@@ -19,6 +19,4 @@ server.on('listening', () => {
       'host'
     )}:${port} in ${_app.default.getEnv()} mode`
   )
-
-  _app.default.info('')
 })

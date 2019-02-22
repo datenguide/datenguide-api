@@ -13,8 +13,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _default = app => {
   app.set('elasticsearch', new _elasticsearch.Client({
-    host: 'localhost:9200',
-    apiVersion: '6.0'
+    host: app.get('elasticsearch').host,
+    apiVersion: app.get('elasticsearch').version
   }));
   const genesapiService = (0, _feathersElasticsearch.default)({
     Model: app.get('elasticsearch'),

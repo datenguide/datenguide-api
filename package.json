@@ -33,7 +33,7 @@
     "prepublishOnly": "yarn clean && yarn build",
     "pretty-quick": "npx pretty-quick --staged",
     "prettier": "npx prettier **/*.js --write",
-    "dev": "babel-watch --watch src/templates src/index.js | npx pino-pretty --translateTime ",
+    "dev": "babel-watch --watch src/templates src/index.js | npx pino-colada",
     "mocha": "mocha test/ --recursive --exit"
   },
   "dependencies": {
@@ -58,7 +58,7 @@
     "lodash": "^4.17.11",
     "path": "^0.12.7",
     "pino": "^5.11.1",
-    "pino-pretty": "^2.5.0",
+    "pino-colada": "^1.4.4",
     "serve-favicon": "^2.5.0"
   },
   "devDependencies": {

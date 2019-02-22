@@ -2,8 +2,8 @@
   "host": "localhost",
   "port": 3030,
   "public": "../public/",
-  "paginate": {
-    "default": 10,
-    "max": 50
+  "elasticsearch": {
+    "host": "localhost:9200",
+    "version": "6.0"
   }
 }

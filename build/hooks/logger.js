@@ -15,7 +15,7 @@ const appLogger = (0, _pino.default)();
 exports.appLogger = appLogger;
 
 var _default = app => {
-  appLogger.level = process.env.NODE_ENV === 'DEVELOPMENT' ? 'debug' : 'warn';
+  appLogger.level = app.isDevelopment() ? 'debug' : 'info';
   app.configure((0, _feathersLogger.default)(appLogger));
 };
 
@@ -33,7 +33,10 @@ const loggerHook = context => {
   app.info(`${type} app.service('${path}').${method}()`);
 
   if (typeof toJSON === 'function') {
-    app.debug(context, 'context');
+    const {
+      arguments: args
+    } = context;
+    app.debug('arguments', args);
   }
 
   if (error) {

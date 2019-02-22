@@ -5,8 +5,8 @@ export default app => {
   app.set(
     'elasticsearch',
     new Client({
-      host: 'localhost:9200',
-      apiVersion: '6.0'
+      host: app.get('elasticsearch').host,
+      apiVersion: app.get('elasticsearch').version
     })
   )
 

@@ -67,8 +67,8 @@ _dotenv.default.config({
 const app = (0, _express.default)((0, _feathers.default)())
 app.disable('x-powered-by')
 app.configure(_express.default.rest())
-app.configure(_logger.default)
 app.configure((0, _feathersEnvhelpers.default)())
+app.configure(_logger.default)
 const conf = (0, _configuration.default)()
 app.configure(conf)
 app.info(conf(), 'App configuration')
@@ -92,7 +92,7 @@ app.use(_express.default.notFound())
 app.use(_express.default.errorHandler(app.get('errorhandler')))
 app.hooks({
   before: {
-    all: [],
+    all: [_logger.loggerHook],
     find: [],
     get: [],
     create: [],
