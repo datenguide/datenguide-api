@@ -10,9 +10,7 @@ const port = _app.default.get('port')
 
 const server = _app.default.listen(port)
 
-process.on('unhandledRejection', (reason, p) =>
-  _app.default.error('Unhandled Rejection at: Promise ', p, reason)
-)
+process.on('unhandledRejection', error => _app.default.error(error))
 server.on('listening', () => {
   _app.default.info(
     `Datenguide API is running on ${_app.default.get(

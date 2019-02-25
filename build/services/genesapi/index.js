@@ -18,10 +18,7 @@ var _default = app => {
   }));
   const genesapiService = (0, _feathersElasticsearch.default)({
     Model: app.get('elasticsearch'),
-    paginate: {
-      default: 10,
-      max: 50
-    },
+    paginate: false,
     elasticsearch: {
       index: 'genesapi',
       type: 'doc'
