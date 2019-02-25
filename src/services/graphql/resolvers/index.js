@@ -3,83 +3,83 @@ import _ from 'lodash'
 import genesApiSchema from '../schema/schema.json'
 
 export default app => {
-  const lookups = {
-    nuts: val => id =>
-      id.length === [null, 2, 3, 5, 8][val] && val < 5 && id !== 'DG',
-    parent: val => id => id.startsWith(val)
-  }
-
-  const genesApiService = app.service('genesapi')
-  const elasticsearch = app.get('elasticsearch')
-
-  // console.log(
-  //   await genesApiService.find({
-  //     query: {},
-  //     paginate: false
-  //   })
-  // )
-
-  // eslint-disable-next-line
-  const regionQuery = (ids, fields) => ({
-    query: {
-      constant_score: {
-        filter: {
-          bool: {
-            must:
-              ids.length > 1 ? { terms: { id: ids } } : { term: { id: ids[0] } }
-            // should: [
-            //   {
-            //     // bool: {
-            //     //   must: [{'exists': {'field': field}}] + [{'term': {k: v}} for k, v in filters.items()]
-            //     // }
-            //   }
-            // ] // for field, filters in fields.items() if field in self.schema.keys()
-          }
-        }
-      }
-    }
-  })
-
-  const region = (obj, args, context, info) => {
-    return {
-      name: 'region'
+  const attributeResolver = attributeId => {
+    return (obj, args) => {
+      return _.filter(obj[attributeId], args).map(o =>
+        _.merge(o, {
+          value: o[attributeId].value,
+          id: o._id,
+          source: genesApiSchema[attributeId].source
+        })
+      )
     }
   }
 
-  const regions = async (obj, args, context, info) => {
-    console.log('args', args)
-    const idAggregation = await elasticsearch.search({
-      index: 'genesapi',
-      body: {
-        aggs: {
-          ids: {
-            terms: { field: 'id', size: 20000 }
-          }
+  const attributeResolvers = Object.assign(
+    {},
+    ...Object.keys(genesApiSchema).map(key => ({
+      [key]: attributeResolver(key)
+    }))
+  )
+
+  const fetchData = async (args, fields) => {
+    const argumentToQuery = {
+      id: value => ({ region_id: value }),
+      nuts: value => ({
+        nuts: value
+      }),
+      parent: value => ({
+        parent: {
+          $prefix: value
         }
+      })
+    }
+
+    const argumentsToQuery = args =>
+      Object.keys(args).reduce((acc, key) => {
+        return Object.assign({}, acc, argumentToQuery[key](args[key]))
+      }, {})
+
+    return app.service('genesapi').find({
+      query: {
+        ...argumentsToQuery(args),
+        $exists: fields.filter(f => f !== 'name')
       }
     })
-
-    const ids = idAggregation.aggregations.ids.buckets.map(bucket => bucket.key)
-
-    // FIXME
-    // const filteredIds = ids.filter(
-    //   _.flow(Object.keys(args).map((key, value) => lookups[key](value)))
-    // )
-
-    const result = await elasticsearch.search({
-      index: 'genesapi',
-      body: regionQuery(ids)
-    })
-    // result.scan().map(s => console.log(s))
-    console.log('result', result)
-    console.log('result.hit', result.hits)
-    return result
   }
+
+  const getFieldsFromInfo = info => {
+    return info.fieldNodes[0].selectionSet.selections
+      .map(s => s.name.value)
+      .filter(f => !['id', 'name'].includes(f))
+  }
+
+  const resolvableAttributes = (result, fields) =>
+    fields.map(f => ({
+      [f]: result
+    }))
 
   return {
     Query: {
-      region,
-      regions
-    }
+      region: async (obj, args, context, info) => {
+        const fields = getFieldsFromInfo(info)
+
+        const data = await fetchData(args, fields)
+        const region = await app.service('regions').get(args.id)
+
+        return _.merge(region, ...resolvableAttributes(data, fields))
+      },
+      regions: async (obj, args, context, info) => {
+        const fields = getFieldsFromInfo(info)
+
+        const data = await fetchData(args, fields)
+        const regions = await app.service('regions').find({ query: args })
+
+        return regions.map(region =>
+          _.merge(region, ...resolvableAttributes(data, fields))
+        )
+      }
+    },
+    Region: attributeResolvers
   }
 }

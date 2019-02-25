@@ -7,18 +7,18 @@ const mapAll = (obj, fn) =>
     .join('\n')
 
 const argumentToField = (id, { name }) => `
-# ${name}
+"${name}"
 ${id}: String
 `
 
 const attributeToType = (id, { args }) => `
-type ${id} {
+type ${id}Attribute {
   "Interne eindeutige ID"
   id: String
   "Jahr des Stichtages"
   year: String
-  "Stichtag"
-  date: String
+  "Wert"
+  value: String
   "Quellenverweis zur GENESIS Regionaldatenbank"
   source: Source
   ${mapAll(args, argumentToField)}
@@ -33,10 +33,10 @@ const attributeToField = (id, { name, description, source, args }) => `
 *aus GENESIS-Statistik "${source.title_de}" ${source.name})*
 ${description || ''}                                         
 """
-${id}(year: String, ${mapAll(args, argumentToArgument)}): ${id}
+${id}(year: String, ${mapAll(args, argumentToArgument)}): [${id}Attribute]
 `
 
-const index = `
+const schema = `
 type Source {
   title_de: String
   valid_from: String
@@ -79,5 +79,5 @@ type Query {
 }
 `
 export default gql`
-  ${index}
+  ${schema}
 `

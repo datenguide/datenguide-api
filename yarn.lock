@@ -2299,13 +2299,6 @@ expect-ct@0.1.1:
   resolved "https://registry.npmjs.org/expect-ct/-/expect-ct-0.1.1.tgz#de84476a2dbcb85000d5903737e9bc8a5ba7b897"
   integrity sha512-ngXzTfoRGG7fYens3/RMb6yYoVLvLMfmsSllP/mZPxNHgFq41TmPSLF/nLY7fwoclI2vElvAmILFWGUYqdjfCg==
 
-express-pino-logger@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/express-pino-logger/-/express-pino-logger-4.0.0.tgz#775cf253a4e0e7ee2c24804f8a32900d6d0168ca"
-  integrity sha512-BTJwjQXMSR6tFiyvTOOr6aosJkJOuJpW0mXE+icv3ae/0WXBGnLaumINGHJvWMuDO1RSLHBLfRrJaghMjMhVrg==
-  dependencies:
-    pino-http "^4.0.0"
-
 express@^4.16.2:
   version "4.16.4"
   resolved "https://registry.npmjs.org/express/-/express-4.16.4.tgz#fddef61926109e24c515ea97fd2f1bdbf62df12e"
@@ -4408,20 +4401,12 @@ pino-colada@^1.4.4:
     pretty-ms "^2.1.0"
     split2 "^2.1.1"
 
-pino-http@^4.0.0:
-  version "4.1.0"
-  resolved "https://registry.npmjs.org/pino-http/-/pino-http-4.1.0.tgz#e2dca663712d1e437311be2d5796c76736744cfe"
-  integrity sha512-IRmQMLFK2M/N05T+yitm7IL1duTjs5YlsfVCV6Pm5akFl6mIbr/fx9K2F4JZtEiwRFfyGb1A9MRJ/YhKd+3TUw==
-  dependencies:
-    pino "^5.0.0"
-    pino-std-serializers "^2.1.0"
-
-pino-std-serializers@^2.1.0, pino-std-serializers@^2.3.0:
+pino-std-serializers@^2.3.0:
   version "2.3.0"
   resolved "https://registry.npmjs.org/pino-std-serializers/-/pino-std-serializers-2.3.0.tgz#34eeaab97c055c28e22c0542ae55978e7e427786"
   integrity sha512-klfGoOsP6sJH7ON796G4xoUSx2fkpFgKHO4YVVO2zmz31jR+etzc/QzGJILaOIiCD6HTCFgkPx+XN8nk+ruqPw==
 
-pino@^5.0.0, pino@^5.11.1:
+pino@^5.11.1:
   version "5.11.1"
   resolved "https://registry.npmjs.org/pino/-/pino-5.11.1.tgz#2d6d8edb7ebc7c354be03bfa04fd436352e1d67b"
   integrity sha512-NIua0mGb9Adknq35ONvQmvh93LCUVUjp2+1q1EcvIkJmpJnSd3E5rHVKlKNjzMXFl/z3fI+QA0xXCjPEKNiLvQ==

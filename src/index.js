@@ -3,9 +3,7 @@ import app from './app'
 const port = app.get('port')
 const server = app.listen(port)
 
-process.on('unhandledRejection', (reason, p) =>
-  app.error('Unhandled Rejection at: Promise ', p, reason)
-)
+process.on('unhandledRejection', error => app.error(error))
 
 server.on('listening', () => {
   app.info(
