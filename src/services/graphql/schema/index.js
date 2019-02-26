@@ -6,13 +6,36 @@ const mapAll = (obj, fn) =>
     .map(key => fn(key, obj[key]))
     .join('\n')
 
+const argumentValueToEnumValue = (id, { name, value }) => `
+"${name}"
+${value}
+`
+
+const argumentToEnum = (id, { name, values }) => `
+"${name}"
+enum ${id}Enum {
+ ${mapAll(values, argumentValueToEnumValue)}
+}
+`
+
+// TODO map directly from GENESIS catalog instead of extracting from json schema?
+const extractAllSchemaArguments = schema =>
+  Object.keys(schema)
+    .map(key => schema[key].args)
+    .reduce((acc, curr) => {
+      Object.keys(curr).forEach(key => {
+        acc[key] = curr[key]
+      })
+      return acc
+    }, {})
+
 const argumentToField = (id, { name }) => `
 "${name}"
-${id}: String
+${id}: ${id}Enum
 `
 
 const attributeToType = (id, { args }) => `
-type ${id}Attribute {
+type ${id}Value {
   "Interne eindeutige ID"
   id: String
   "Jahr des Stichtages"
@@ -25,7 +48,7 @@ type ${id}Attribute {
 }
 `
 
-const argumentToArgument = arg => `${arg}: String`
+const argumentToArgument = arg => `${arg}: ${arg}Enum`
 
 const attributeToField = (id, { name, description, source, args }) => `
 """
@@ -33,7 +56,7 @@ const attributeToField = (id, { name, description, source, args }) => `
 *aus GENESIS-Statistik "${source.title_de}" ${source.name})*
 ${description || ''}                                         
 """
-${id}(year: String, ${mapAll(args, argumentToArgument)}): [${id}Attribute]
+${id}(year: String, ${mapAll(args, argumentToArgument)}): [${id}Value]
 `
 
 const schema = `
@@ -44,6 +67,8 @@ type Source {
   name: String
   url: String
 }
+
+${mapAll(extractAllSchemaArguments(genesApiSchema), argumentToEnum)}
 
 ${mapAll(genesApiSchema, attributeToType)}
 
@@ -78,6 +103,7 @@ type Query {
   ): [Region!]
 }
 `
+
 export default gql`
   ${schema}
 `
