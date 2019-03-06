@@ -43,7 +43,7 @@ export default app => {
     return app.service('genesapi').find({
       query: {
         ...argumentsToQuery(args),
-        $exists: fields.filter(f => f !== 'name')
+        $exists: fields
       }
     })
   }
