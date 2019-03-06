@@ -19,9 +19,12 @@ const argumentToQuery = (value, key) =>
     })
   }[key](value))
 
-const fieldArgumentToQuery = arg => ({
-  term: { [arg.name.value]: arg.value.value }
-})
+const fieldArgumentToQuery = arg =>
+  arg.value.value
+    ? {
+        term: { [arg.name.value]: arg.value.value }
+      }
+    : { terms: { [arg.name.value]: arg.value.values.map(a => a.value) } }
 
 const fieldToQuery = field =>
   field.args.length > 0

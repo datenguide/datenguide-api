@@ -48,7 +48,7 @@ type ${id}Value {
 }
 `
 
-const argumentToArgument = arg => `${arg}: ${arg}Enum`
+const argumentToArgument = arg => `${arg}: [${arg}Enum]`
 
 const attributeToField = (id, { name, description, source, args }) => `
 """
@@ -56,7 +56,7 @@ const attributeToField = (id, { name, description, source, args }) => `
 *aus GENESIS-Statistik "${source.title_de}" ${source.name})*
 ${description || ''}                                         
 """
-${id}(year: Int, ${mapAll(args, argumentToArgument)}): [${id}Value]
+${id}(year: [Int], ${mapAll(args, argumentToArgument)}): [${id}Value]
 `
 
 const schema = `

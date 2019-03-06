@@ -4,14 +4,26 @@ import genesApiSchema from '../schema/schema.json'
 import getQuery from './query'
 
 export default app => {
-  const attributeResolver = attributeId => (obj, args) =>
-    _.filter(obj[attributeId], args).map(o => {
-      return _.merge(o, {
-        value: o[attributeId].value,
-        id: o._id,
-        source: genesApiSchema[attributeId].source
-      })
-    })
+  const attributeResolver = attributeId => {
+    return (obj, args) => {
+      return obj[attributeId]
+        .filter(o => {
+          Object.keys(args).forEach(key => {
+            if (!args[key].includes(o[key])) {
+              return false
+            }
+          })
+          return true
+        })
+        .map(o => {
+          return _.merge(o, {
+            value: o[attributeId].value,
+            id: o._id,
+            source: genesApiSchema[attributeId].source
+          })
+        })
+    }
+  }
 
   const attributeResolvers = Object.assign(
     {},
