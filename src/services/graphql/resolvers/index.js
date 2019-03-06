@@ -5,13 +5,13 @@ import getQuery from './query'
 
 export default app => {
   const attributeResolver = attributeId => (obj, args) =>
-    _.filter(obj[attributeId], args).map(o =>
-      _.merge(o, {
+    _.filter(obj[attributeId], args).map(o => {
+      return _.merge(o, {
         value: o[attributeId].value,
         id: o._id,
         source: genesApiSchema[attributeId].source
       })
-    )
+    })
 
   const attributeResolvers = Object.assign(
     {},
@@ -57,9 +57,9 @@ export default app => {
       .map(s => ({ name: s.name.value, args: s.arguments }))
       .filter(f => !['id', 'name'].includes(f.name))
 
-  const resolvableAttributes = (result, fields) =>
+  const resolvableAttributes = (data, fields) =>
     fields.map(f => ({
-      [f]: result
+      [f]: data.filter(doc => Object.keys(doc).includes(f))
     }))
 
   return {
