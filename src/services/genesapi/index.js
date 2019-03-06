@@ -2,16 +2,11 @@ import service from 'feathers-elasticsearch'
 import { Client } from 'elasticsearch'
 
 export default app => {
-  app.set(
-    'elasticsearch',
-    new Client({
+  const genesapiService = service({
+    Model: new Client({
       host: app.get('elasticsearch').host,
       apiVersion: app.get('elasticsearch').version
-    })
-  )
-
-  const genesapiService = service({
-    Model: app.get('elasticsearch'),
+    }),
     paginate: {
       default: 10000
     },
