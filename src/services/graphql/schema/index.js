@@ -39,7 +39,7 @@ type ${id}Value {
   "Interne eindeutige ID"
   id: String
   "Jahr des Stichtages"
-  year: String
+  year: Int
   "Wert"
   value: String
   "Quellenverweis zur GENESIS Regionaldatenbank"
@@ -56,7 +56,7 @@ const attributeToField = (id, { name, description, source, args }) => `
 *aus GENESIS-Statistik "${source.title_de}" ${source.name})*
 ${description || ''}                                         
 """
-${id}(year: String, ${mapAll(args, argumentToArgument)}): [${id}Value]
+${id}(year: Int, ${mapAll(args, argumentToArgument)}): [${id}Value]
 `
 
 const schema = `

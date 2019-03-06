@@ -43,12 +43,21 @@ export default app => {
     const params = {
       query: {
         ...argumentsToQuery(args),
-        $exists: fields
+        $exists: fields,
+        $skip: skip
       }
     }
 
     return await app.service('genesapi').find(params)
   }
+
+  const postProcessResult = data =>
+    data
+      .map(doc => {
+        doc.year = parseInt(doc.year)
+        return doc
+      })
+      .sort((docA, docB) => docA.year - docB.year)
 
   const fetchData = async (args, fields) => {
     let pageIndex = 0
@@ -67,7 +76,7 @@ export default app => {
       result = result.concat(data)
       fetched += limit
     }
-    return result
+    return postProcessResult(result)
   }
 
   const getFieldsFromInfo = info => {
