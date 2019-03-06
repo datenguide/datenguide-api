@@ -68,7 +68,6 @@ export default app => {
         const fields = getFieldsFromInfo(info)
 
         const data = await fetchData(args, fields)
-
         const region = await app.service('regions').get(args.id)
 
         return _.merge(
@@ -80,7 +79,6 @@ export default app => {
         const fields = getFieldsFromInfo(info)
 
         const data = await fetchData(args, fields)
-        console.log('data', data)
         const regions = await app.service('regions').find({ query: args })
 
         return regions.map(region =>
