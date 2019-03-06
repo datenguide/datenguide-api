@@ -67,7 +67,7 @@ export default app => {
       region: async (obj, args, context, info) => {
         const fields = getFieldsFromInfo(info)
 
-        const data = await fetchData(args, fields)
+        const data = fields.length > 0 ? await fetchData(args, fields) : []
         const region = await app.service('regions').get(args.id)
 
         return _.merge(
@@ -77,8 +77,7 @@ export default app => {
       },
       regions: async (obj, args, context, info) => {
         const fields = getFieldsFromInfo(info)
-
-        const data = await fetchData(args, fields)
+        const data = fields.length > 0 ? await fetchData(args, fields) : []
         const regions = await app.service('regions').find({ query: args })
 
         return regions.map(region =>
