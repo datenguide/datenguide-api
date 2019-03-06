@@ -22,30 +22,52 @@ export default app => {
     }))
   )
 
-  const fetchData = async (args, fields) => {
-    const argumentToQuery = {
-      id: value => ({ region_id: value }),
-      nuts: value => ({
-        nuts: value
-      }),
-      parent: value => ({
-        parent: {
-          $prefix: value
-        }
-      })
-    }
+  const argumentToQuery = {
+    id: value => ({ region_id: value }),
+    nuts: value => ({
+      nuts: value
+    }),
+    parent: value => ({
+      parent: {
+        $prefix: value
+      }
+    })
+  }
 
-    const argumentsToQuery = args =>
-      Object.keys(args).reduce((acc, key) => {
-        return Object.assign({}, acc, argumentToQuery[key](args[key]))
-      }, {})
+  const argumentsToQuery = args =>
+    Object.keys(args).reduce((acc, key) => {
+      return Object.assign({}, acc, argumentToQuery[key](args[key]))
+    }, {})
 
-    return app.service('genesapi').find({
+  const fetchPage = async (args, fields, skip) => {
+    const params = {
       query: {
         ...argumentsToQuery(args),
         $exists: fields
       }
-    })
+    }
+
+    return await app.service('genesapi').find(params)
+  }
+
+  const fetchData = async (args, fields) => {
+    let pageIndex = 0
+    let result = []
+    const { total, limit, data: pageData } = await fetchPage(
+      args,
+      fields,
+      pageIndex
+    )
+    result = result.concat(pageData)
+
+    let fetched = limit
+    while (total > fetched) {
+      pageIndex += 1
+      const { data } = await fetchPage(args, fields, pageIndex)
+      result = result.concat(data)
+      fetched += limit
+    }
+    return result
   }
 
   const getFieldsFromInfo = info => {

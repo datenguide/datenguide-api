@@ -12,7 +12,9 @@ export default app => {
 
   const genesapiService = service({
     Model: app.get('elasticsearch'),
-    paginate: false,
+    paginate: {
+      default: 10000
+    },
     elasticsearch: {
       index: 'genesapi',
       type: 'doc'
