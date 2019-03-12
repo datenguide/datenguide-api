@@ -15,6 +15,8 @@ const argumentToEnum = (id, { name, values }) => `
 "${name}"
 enum ${id}Enum {
  ${mapAll(values, argumentValueToEnumValue)}
+ "Gesamt"
+ GESAMT
 }
 `
 

@@ -1,5 +1,7 @@
 import genesApiSchema from '../schema/schema.json'
 
+const GESAMT_VALUE = 'GESAMT'
+
 const mapAll = (obj, fn) =>
   Object.keys(obj).reduce((acc, key) => {
     acc.push(fn(obj[key], key))
@@ -21,12 +23,48 @@ const regionArgumentToQuery = (value, key) =>
     })
   }[key](value))
 
-const fieldArgumentToQuery = arg =>
-  arg.value.value
-    ? {
-        term: { [arg.name.value]: arg.value.value }
+const fieldArgumentToQuery = arg => {
+  const argumentName = arg.name.value
+  const argumentValues = arg.value.value ? [arg.value] : arg.value.values
+
+  const gesamtValueToQuery = () => ({
+    bool: {
+      must_not: {
+        exists: {
+          field: argumentName
+        }
       }
-    : { terms: { [arg.name.value]: arg.value.values.map(a => a.value) } }
+    }
+  })
+
+  const singleEnumValueToQuery = a => ({
+    term: { [argumentName]: a.value }
+  })
+
+  const enumValuesToQuery = a => ({
+    terms: { [argumentName]: a.map(v => v.value) }
+  })
+
+  if (argumentValues.length === 1) {
+    if (arg.value.value === GESAMT_VALUE) {
+      return gesamtValueToQuery()
+    }
+    return singleEnumValueToQuery(argumentValues[0])
+  }
+
+  const gesamtValue = argumentValues.find(a => a.value === GESAMT_VALUE)
+  const enumValues = argumentValues.filter(a => a.value !== GESAMT_VALUE)
+
+  if (gesamtValue) {
+    return {
+      bool: {
+        should: [gesamtValueToQuery(), enumValuesToQuery(enumValues)]
+      }
+    }
+  }
+
+  return enumValuesToQuery(enumValues)
+}
 
 const nonPresentFieldArgumentToQuery = arg => ({
   exists: {
@@ -41,20 +79,15 @@ const nonPresentArguments = field => {
   )
 }
 
-const fieldToQuery = field => {
-  return {
-    bool: {
-      must: [
-        ...mapAll(field.args, fieldArgumentToQuery),
-        { exists: { field: field.name } }
-      ],
-      must_not: mapAll(
-        nonPresentArguments(field),
-        nonPresentFieldArgumentToQuery
-      )
-    }
+const fieldToQuery = field => ({
+  bool: {
+    must: [
+      ...mapAll(field.args, fieldArgumentToQuery),
+      { exists: { field: field.name } }
+    ],
+    must_not: mapAll(nonPresentArguments(field), nonPresentFieldArgumentToQuery)
   }
-}
+})
 
 const getQuery = (args, fields) => {
   return {
