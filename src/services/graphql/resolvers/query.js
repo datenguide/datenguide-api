@@ -6,7 +6,8 @@ const mapAll = (obj, fn) =>
 
 const argumentToQuery = (value, key) =>
   ({
-    id: val => ({ terms: { region_id: [val] } }),
+    id: val => ({ term: { region_id: val } }),
+    ids: val => ({ terms: { region_id: val } }),
     nuts: val => ({
       terms: {
         nuts: [val]

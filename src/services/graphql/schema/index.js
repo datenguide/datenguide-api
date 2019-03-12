@@ -80,6 +80,13 @@ type Region {
   ${mapAll(genesApiSchema, attributeToField)}
 }
 
+type RegionsResult {
+  data: [Region]
+  skip: Int
+  limit: Int
+  total: Int
+}
+
 "Graphql-API zum Datenbestand der GENESIS-Datenbank \\"Regionalstatistik\\""
 type Query {
   "Detail-Endpunkt zur Abfrage exakt einer Region"
@@ -100,7 +107,9 @@ type Query {
     nuts: Int
     "Filter Regionen nach ID (Regionalschlüssel) der Elternregion"
     parent: String
-  ): [Region!]
+    _skip: Int
+    _limit: Int
+  ): RegionsResult
 }
 `
 

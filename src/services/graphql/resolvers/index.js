@@ -1,6 +1,7 @@
 /* eslint-disable */
 import _ from 'lodash'
 import genesApiSchema from '../schema/schema.json'
+import { UserInputError } from 'apollo-server-express'
 import getQuery from './query'
 
 export default app => {
@@ -55,23 +56,43 @@ export default app => {
   }
 
   const getFieldsFromInfo = info =>
-    info.fieldNodes[0].selectionSet.selections
+    info.selectionSet.selections
       .map(s => ({ name: s.name.value, args: s.arguments }))
       .filter(f => !['id', 'name'].includes(f.name))
 
   return {
     Query: {
       region: async (obj, args, context, info) => {
-        const fields = getFieldsFromInfo(info)
-        context.data = fields.length > 0 ? await fetchData(args, fields) : []
+        const fields = getFieldsFromInfo(info.fieldNodes[0])
+
+        // regions
         const region = await app.service('regions').get(args.id)
+
+        // statistics
+        context.data = fields.length > 0 ? await fetchData(args, fields) : []
+        
         return region
       },
       regions: async (obj, args, context, info) => {
-        const fields = getFieldsFromInfo(info)
-        context.data = fields.length > 0 ? await fetchData(args, fields) : []
+        const fields = getFieldsFromInfo(info.fieldNodes[0].selectionSet.selections[0])
+
+        // regions
+        args = _.mapKeys(args, (value, key) => key.replace('_', '$'))
         const regions = await app.service('regions').find({ query: args })
-        return regions.data
+
+        // statistics
+        args = _.fromPairs(
+          _.toPairs(args).filter(([key]) => !key.startsWith('$'))
+        )
+        context.data =
+          fields.length > 0
+            ? await fetchData(
+                { ...args, ids: regions.data.map(r => r.id) },
+                fields
+              )
+            : []
+
+        return regions
       }
     },
     Region: attributeResolvers
