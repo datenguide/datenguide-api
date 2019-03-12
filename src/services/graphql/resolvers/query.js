@@ -1,10 +1,12 @@
+import genesApiSchema from '../schema/schema.json'
+
 const mapAll = (obj, fn) =>
   Object.keys(obj).reduce((acc, key) => {
     acc.push(fn(obj[key], key))
     return acc
   }, [])
 
-const argumentToQuery = (value, key) =>
+const regionArgumentToQuery = (value, key) =>
   ({
     id: val => ({ terms: { region_id: [val] } }),
     nuts: val => ({
@@ -26,39 +28,57 @@ const fieldArgumentToQuery = arg =>
       }
     : { terms: { [arg.name.value]: arg.value.values.map(a => a.value) } }
 
-const fieldToQuery = field =>
-  field.args.length > 0
-    ? {
-        bool: {
-          must: [
-            ...mapAll(field.args, fieldArgumentToQuery),
-            { exists: { field: field.name } }
-          ]
-        }
-      }
-    : { exists: { field: field.name } }
+const nonPresentFieldArgumentToQuery = arg => ({
+  exists: {
+    field: arg
+  }
+})
 
-const getQuery = (args, fields) => ({
-  index: 'genesapi',
-  size: 10,
-  type: 'doc',
-  scroll: '10s',
-  body: {
-    query: {
-      constant_score: {
-        filter: {
-          bool: {
-            ...(Object.keys(args).length > 0
-              ? { must: mapAll(args, argumentToQuery) }
-              : {}),
-            ...(fields.length > 0
-              ? { should: mapAll(fields, fieldToQuery) }
-              : {})
+const nonPresentArguments = field => {
+  const fieldArgs = field.args.map(arg => arg.name.value)
+  return Object.keys(genesApiSchema[field.name].args).filter(
+    arg => !fieldArgs.includes(arg)
+  )
+}
+
+const fieldToQuery = field => {
+  return {
+    bool: {
+      must: [
+        ...mapAll(field.args, fieldArgumentToQuery),
+        { exists: { field: field.name } }
+      ],
+      must_not: mapAll(
+        nonPresentArguments(field),
+        nonPresentFieldArgumentToQuery
+      )
+    }
+  }
+}
+
+const getQuery = (args, fields) => {
+  return {
+    index: 'genesapi',
+    size: 10,
+    type: 'doc',
+    scroll: '10s',
+    body: {
+      query: {
+        constant_score: {
+          filter: {
+            bool: {
+              ...(Object.keys(args).length > 0
+                ? { must: mapAll(args, regionArgumentToQuery) }
+                : {}),
+              ...(fields.length > 0
+                ? { should: mapAll(fields, fieldToQuery) }
+                : {})
+            }
           }
         }
       }
     }
   }
-})
+}
 
 export default getQuery
