@@ -4,26 +4,16 @@ import genesApiSchema from '../schema/schema.json'
 import getQuery from './query'
 
 export default app => {
-  const attributeResolver = attributeId => {
-    return (obj, args) => {
-      return obj[attributeId]
-        .filter(o => {
-          Object.keys(args).forEach(key => {
-            if (!args[key].includes(o[key])) {
-              return false
-            }
-          })
-          return true
+  const attributeResolver = attribute => (obj, args, context) =>
+    context.data
+      .filter(doc => Object.keys(doc).includes(attribute))
+      .map(o => {
+        return _.merge(o, {
+          value: o[attribute].value,
+          id: o.fact_id,
+          source: genesApiSchema[attribute].source
         })
-        .map(o => {
-          return _.merge(o, {
-            value: o[attributeId].value,
-            id: o._id,
-            source: genesApiSchema[attributeId].source
-          })
-        })
-    }
-  }
+      })
 
   const attributeResolvers = Object.assign(
     {},
@@ -69,35 +59,19 @@ export default app => {
       .map(s => ({ name: s.name.value, args: s.arguments }))
       .filter(f => !['id', 'name'].includes(f.name))
 
-  const resolvableAttributes = (data, fields) =>
-    fields.map(f => ({
-      [f]: data.filter(doc => Object.keys(doc).includes(f))
-    }))
-
   return {
     Query: {
       region: async (obj, args, context, info) => {
         const fields = getFieldsFromInfo(info)
-
-        const data = fields.length > 0 ? await fetchData(args, fields) : []
+        context.data = fields.length > 0 ? await fetchData(args, fields) : []
         const region = await app.service('regions').get(args.id)
-
-        return _.merge(
-          region,
-          ...resolvableAttributes(data, fields.map(f => f.name))
-        )
+        return region
       },
       regions: async (obj, args, context, info) => {
         const fields = getFieldsFromInfo(info)
-        const data = fields.length > 0 ? await fetchData(args, fields) : []
+        context.data = fields.length > 0 ? await fetchData(args, fields) : []
         const regions = await app.service('regions').find({ query: args })
-
-        return regions.map(region =>
-          _.merge(
-            region,
-            ...resolvableAttributes(data, fields.map(f => f.name))
-          )
-        )
+        return regions.data
       }
     },
     Region: attributeResolvers

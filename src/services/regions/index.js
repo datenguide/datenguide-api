@@ -18,10 +18,20 @@ const queryToFilters = {
 export default async app => {
   const service = {
     find: async params => {
-      const filters = Object.keys(params.query).map(key => {
-        return r => r.filter(queryToFilters[key](params.query[key]))
-      })
-      return _.flow(...filters)(regions)
+      const filters = Object.keys(params.query)
+        .filter(key => !key.startsWith('$'))
+        .map(key => {
+          return r => r.filter(queryToFilters[key](params.query[key]))
+        })
+      const result = _.flow(...filters)(regions)
+      const limit = params.query.$limit || 10
+      const skip = params.query.$skip || 0
+      return {
+        total: result.length,
+        limit,
+        skip,
+        data: result.slice(skip * limit, skip * limit + limit)
+      }
     },
     get: async id => regions.find(o => o.id === id.toString())
   }

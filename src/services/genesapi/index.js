@@ -8,7 +8,7 @@ export default app => {
       apiVersion: app.get('elasticsearch').version
     }),
     paginate: {
-      default: 10000
+      default: 10
     },
     elasticsearch: {
       index: 'genesapi',

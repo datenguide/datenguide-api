@@ -40,7 +40,7 @@ const fieldToQuery = field =>
 
 const getQuery = (args, fields) => ({
   index: 'genesapi',
-  size: 10000,
+  size: 10,
   type: 'doc',
   scroll: '10s',
   body: {
