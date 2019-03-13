@@ -1,6 +1,8 @@
 import { gql } from 'apollo-server-express'
 import genesApiSchema from './schema.json'
 
+export const GESAMT_VALUE = 'GESAMT'
+
 const mapAll = (obj, fn) =>
   Object.keys(obj)
     .map(key => fn(key, obj[key]))
@@ -16,7 +18,7 @@ const argumentToEnum = (id, { name, values }) => `
 enum ${id}Enum {
  ${mapAll(values, argumentValueToEnumValue)}
  "Gesamt"
- GESAMT
+ ${GESAMT_VALUE}
 }
 `
 

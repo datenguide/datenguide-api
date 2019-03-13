@@ -1,6 +1,5 @@
 import genesApiSchema from '../schema/schema.json'
-
-const GESAMT_VALUE = 'GESAMT'
+import { GESAMT_VALUE} from '../schema'
 
 const mapAll = (obj, fn) =>
   Object.keys(obj).reduce((acc, key) => {
