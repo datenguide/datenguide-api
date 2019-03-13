@@ -28,8 +28,9 @@
   "scripts": {
     "test": "npm run eslint && npm run mocha",
     "lint": "eslint src/. --fix",
-    "clean": "rm -rf build && mkdir build",
+    "clean": "rm -rf ./build && mkdir build",
     "build": "npx babel -d ./build -D ./src",
+    "start": "node ./build/index.js",
     "prepublishOnly": "yarn clean && yarn build",
     "pretty-quick": "npx pretty-quick --staged",
     "prettier": "npx prettier **/*.js --write",
