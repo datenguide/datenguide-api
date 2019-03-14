@@ -6,6 +6,8 @@ import { UserInputError } from 'apollo-server-express'
 import getQuery from './query'
 import { GESAMT_VALUE } from '../schema'
 
+const MAX_STATISTICS_PER_REGION = 10
+
 export default app => {
   const attributeResolver = attribute => {
     return (obj, args, context) => {
@@ -70,10 +72,17 @@ export default app => {
     return postProcessResult(data)
   }
 
-  const getFieldsFromInfo = info =>
-    info.selectionSet.selections
+  const getFieldsFromInfo = info => {
+    const fields = info.selectionSet.selections
       .map(s => ({ name: s.name.value, args: s.arguments }))
       .filter(f => !['id', 'name'].includes(f.name))
+    if (fields.length > 10) {
+      throw new UserInputError(
+        `too many statistics selected per region, must be <= ${MAX_STATISTICS_PER_REGION}`
+      )
+    }
+    return fields
+  }
 
   return {
     Query: {
