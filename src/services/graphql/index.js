@@ -7,7 +7,9 @@ import genesApiResolvers from './resolvers'
 export default async app => {
   const server = new ApolloServer({
     typeDefs,
-    resolvers: genesApiResolvers(app)
+    resolvers: genesApiResolvers(app),
+    introspection: true,
+    playground: true
   })
 
   // apollo / apollo playground

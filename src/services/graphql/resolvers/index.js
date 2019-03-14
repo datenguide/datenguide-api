@@ -1,20 +1,35 @@
 /* eslint-disable */
 import _ from 'lodash'
+
 import genesApiSchema from '../schema/schema.json'
 import { UserInputError } from 'apollo-server-express'
 import getQuery from './query'
+import { GESAMT_VALUE } from '../schema'
 
 export default app => {
-  const attributeResolver = attribute => (obj, args, context) =>
-    context.data
-      .filter(doc => Object.keys(doc).includes(attribute))
-      .map(o => {
-        return _.merge(o, {
-          value: o[attribute].value,
-          id: o.fact_id,
-          source: genesApiSchema[attribute].source
+  const attributeResolver = attribute => {
+    return (obj, args, context) => {
+      return context.data
+        .filter(doc => Object.keys(doc).includes(attribute))
+        .filter(o => {
+          let matches = true
+          Object.keys(args).forEach(key => {
+            const attributeValue = o[key] || GESAMT_VALUE
+            if (!args[key].includes(attributeValue)) {
+              matches = false
+            }
+          })
+          return matches
         })
-      })
+        .map(o => {
+          return _.merge(o, {
+            value: o[attribute].value,
+            id: o.fact_id,
+            source: genesApiSchema[attribute].source
+          })
+        })
+    }
+  }
 
   const attributeResolvers = Object.assign(
     {},
