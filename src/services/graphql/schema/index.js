@@ -64,6 +64,8 @@ ${id}(year: [Int], ${mapAll(args, argumentToArgument)}): [${id}Value]
 `
 
 const schema = `
+scalar JSON
+
 type Source {
   title_de: String
   valid_from: String

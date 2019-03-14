@@ -1,8 +1,10 @@
 /* eslint-disable */
 import _ from 'lodash'
 
-import genesApiSchema from '../schema/schema.json'
 import { UserInputError } from 'apollo-server-express'
+import GraphQLJSON from 'graphql-type-json'
+
+import genesApiSchema from '../schema/schema.json'
 import getQuery from './query'
 import { GESAMT_VALUE } from '../schema'
 
@@ -134,6 +136,7 @@ export default app => {
         }
       }
     },
-    Region: attributeResolvers
+    Region: attributeResolvers,
+    JSON: GraphQLJSON
   }
 }
