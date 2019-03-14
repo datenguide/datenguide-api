@@ -85,9 +85,9 @@ type Region {
 }
 
 type RegionsResult {
-  data: [Region]
-  skip: Int
-  limit: Int
+  regions: [Region]
+  page: Int
+  itemsPerPage: Int
   total: Int
 }
 
@@ -99,7 +99,7 @@ type Query {
     id: String!
   ): Region
   "Listen-Endpunkt zur Abfrage mehrerer Regionen"
-  regions(
+  allRegions(
     """
     **Filter Regionen nach NUTS-Ebene.**
     *Optionen:*           
@@ -111,8 +111,8 @@ type Query {
     nuts: Int
     "Filter Regionen nach ID (Regionalschlüssel) der Elternregion"
     parent: String
-    _skip: Int
-    _limit: Int
+    page: Int
+    itemsPerPage: Int
   ): RegionsResult
 }
 `

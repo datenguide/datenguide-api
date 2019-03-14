@@ -85,14 +85,24 @@ export default app => {
 
         // statistics
         context.data = fields.length > 0 ? await fetchData(args, fields) : []
-        
+
         return region
       },
-      regions: async (obj, args, context, info) => {
-        const fields = getFieldsFromInfo(info.fieldNodes[0].selectionSet.selections[0])
+      allRegions: async (obj, args, context, info) => {
+        const regionSelections = info.fieldNodes[0].selectionSet.selections.find(
+          f => f.name.value === 'regions'
+        )
+
+        const fields = regionSelections
+          ? getFieldsFromInfo(regionSelections)
+          : []
 
         // regions
-        args = _.mapKeys(args, (value, key) => key.replace('_', '$'))
+        args = _.mapKeys(
+          args,
+          (value, key) =>
+            ({ page: '$skip', itemsPerPage: '$limit' }[key] || key)
+        )
         const regions = await app.service('regions').find({ query: args })
 
         // statistics
@@ -107,7 +117,12 @@ export default app => {
               )
             : []
 
-        return regions
+        return {
+          page: regions.skip,
+          itemsPerPage: regions.limit,
+          total: regions.total,
+          regions: regions.data
+        }
       }
     },
     Region: attributeResolvers
