@@ -2,7 +2,8 @@ import _ from 'lodash'
 
 import names from './names.json'
 
-const MAX_PAGE_SIZE = 10
+const MAX_PAGE_SIZE = 1000
+const DEFAULT_PAGE_SIZE = 10
 
 const regions = Object.keys(names).map(key => ({ id: key, name: names[key] }))
 
@@ -26,7 +27,7 @@ export default async app => {
           return r => r.filter(queryToFilters[key](params.query[key]))
         })
       const result = _.flow(...filters)(regions)
-      const limit = Math.min(params.query.$limit || MAX_PAGE_SIZE, MAX_PAGE_SIZE)
+      const limit = Math.min(params.query.$limit || DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE)
       const skip = params.query.$skip || 0
       return {
         total: result.length,
