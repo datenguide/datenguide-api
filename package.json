@@ -61,7 +61,8 @@
     "path": "^0.12.7",
     "pino": "^5.11.1",
     "pino-colada": "^1.4.4",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "sift": "^7.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.3.3",

@@ -5,7 +5,6 @@ import { UserInputError } from 'apollo-server-express'
 import GraphQLJSON from 'graphql-type-json'
 
 import genesApiSchema from '../schema/schema.json'
-import getQuery from './query'
 import { GESAMT_VALUE } from '../schema'
 
 const MAX_STATISTICS_PER_REGION = 10
@@ -17,12 +16,14 @@ export default app => {
         .filter(doc => Object.keys(doc).includes(attribute))
         .filter(o => {
           let matches = true
-          Object.keys(args).forEach(key => {
-            const attributeValue = o[key] || GESAMT_VALUE
-            if (!args[key].includes(attributeValue)) {
-              matches = false
-            }
-          })
+          Object.keys(args)
+            .filter(key => key !== 'filter')
+            .forEach(key => {
+              const attributeValue = o[key] || GESAMT_VALUE
+              if (!args[key].includes(attributeValue)) {
+                matches = false
+              }
+            })
           return matches
         })
         .map(o => {
@@ -41,38 +42,6 @@ export default app => {
       [key]: attributeResolver(key)
     }))
   )
-
-  const postProcessResult = data =>
-    data
-      .map(doc => doc._source)
-      .map(doc => {
-        doc.year = parseInt(doc.year)
-        return doc
-      })
-      .sort((docA, docB) => docA.year - docB.year)
-
-  const fetchData = async (args, fields) => {
-    const query = getQuery(args, fields)
-    app.debug('query', JSON.stringify(query, null, 2))
-
-    let { hits, _scroll_id: scrollId } = await app
-      .service('genesapi')
-      .raw('search', query)
-
-    const data = []
-    while (hits && hits.hits.length) {
-      data.push(...hits.hits)
-      const result = await app.service('genesapi').raw('scroll', {
-        scrollId,
-        scroll: '10s'
-      })
-      scrollId = result._scroll_id
-      hits = result.hits
-    }
-    app.debug(`retrieved ${data.length} documents`)
-
-    return postProcessResult(data)
-  }
 
   const getFieldsFromInfo = info => {
     const fields = info.selectionSet.selections
@@ -95,7 +64,10 @@ export default app => {
         const region = await app.service('regions').get(args.id)
 
         // statistics
-        context.data = fields.length > 0 ? await fetchData(args, fields) : []
+        context.data =
+          fields.length > 0
+            ? await app.service('genesapiQuery').find({ args, fields })
+            : []
 
         return region
       },
@@ -122,10 +94,10 @@ export default app => {
         )
         context.data =
           fields.length > 0
-            ? await fetchData(
-                { ...args, ids: regions.data.map(r => r.id) },
+            ? await app.service('genesapiQuery').find({
+                args: { ...args, ids: regions.data.map(r => r.id) },
                 fields
-              )
+              })
             : []
 
         return {

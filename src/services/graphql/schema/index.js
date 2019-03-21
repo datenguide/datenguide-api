@@ -38,7 +38,18 @@ const argumentToField = (id, { name }) => `
 ${id}: ${id}Enum
 `
 
+const argToFilter = arg => `${arg}: JSON`
+
+const argsToFilterType = (id, args) =>  Object.keys(args).length > 0 ? `
+  "Experimental complex filter"
+  input ${id}ValueFilter {
+   ${mapAll(args, argToFilter)}
+  }
+  ` : ''
+
 const attributeToType = (id, { args }) => `
+${argsToFilterType(id, args)}
+
 type ${id}Value {
   "Interne eindeutige ID"
   id: String
@@ -52,16 +63,28 @@ type ${id}Value {
 }
 `
 
+
 const argumentToArgument = arg => `${arg}: [${arg}Enum]`
 
-const attributeToField = (id, { name, description, source, args }) => `
-"""
-**${name}**
-*aus GENESIS-Statistik "${source.title_de}" ${source.name})*
-${description || ''}                                         
-"""
-${id}(year: [Int], ${mapAll(args, argumentToArgument)}): [${id}Value]
-`
+const attributeToField = (id, { name, description, source, args }) => {
+  const filterAttribute = Object.keys(args).length > 0 ? `
+  "Experimental complex filter"
+   filter: ${id}ValueFilter
+  ` : ''
+  return `
+  """
+  **${name}**
+  *aus GENESIS-Statistik "${source.title_de}" ${source.name})*
+  ${description || ''}
+  """
+  ${id}(
+  "Jahr des Stichtages"
+  year: [Int],
+  ${mapAll(args, argumentToArgument)},
+  ${filterAttribute}
+  ): [${id}Value]
+  `
+}
 
 const schema = `
 scalar JSON
@@ -104,7 +127,7 @@ type Query {
   allRegions(
     """
     **Filter Regionen nach NUTS-Ebene.**
-    *Optionen:*           
+    *Optionen:*
     1 – Bundesländer
     2 – Regierungsbezirke / statistische Regionen
     3 – Kreise / kreisfreie Städte
