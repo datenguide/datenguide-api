@@ -15,7 +15,7 @@ ${value}
 
 const argumentToEnum = (id, { name, values }) => `
 "${name}"
-enum ${id}Enum {
+enum ${id} {
  ${mapAll(values, argumentValueToEnumValue)}
  "Gesamt"
  ${GESAMT_VALUE}
@@ -35,14 +35,14 @@ const extractAllSchemaArguments = schema =>
 
 const argumentToField = (id, { name }) => `
 "${name}"
-${id}: ${id}Enum
+${id}: ${id}
 `
 
 const argToFilter = arg => `${arg}: JSON`
 
 const argsToFilterType = (id, args) =>  Object.keys(args).length > 0 ? `
   "Experimental complex filter"
-  input ${id}ValueFilter {
+  input ${id}Filter {
    ${mapAll(args, argToFilter)}
   }
   ` : ''
@@ -50,7 +50,7 @@ const argsToFilterType = (id, args) =>  Object.keys(args).length > 0 ? `
 const attributeToType = (id, { args }) => `
 ${argsToFilterType(id, args)}
 
-type ${id}Value {
+type ${id} {
   "Interne eindeutige ID"
   id: String
   "Jahr des Stichtages"
@@ -64,12 +64,12 @@ type ${id}Value {
 `
 
 
-const argumentToArgument = arg => `${arg}: [${arg}Enum]`
+const argumentToArgument = arg => `${arg}: [${arg}]`
 
 const attributeToField = (id, { name, description, source, args }) => {
   const filterAttribute = Object.keys(args).length > 0 ? `
   "Experimental complex filter"
-   filter: ${id}ValueFilter
+   filter: ${id}Filter
   ` : ''
   return `
   """
@@ -82,7 +82,7 @@ const attributeToField = (id, { name, description, source, args }) => {
   year: [Int],
   ${mapAll(args, argumentToArgument)},
   ${filterAttribute}
-  ): [${id}Value]
+  ): [${id}]
   `
 }
 
