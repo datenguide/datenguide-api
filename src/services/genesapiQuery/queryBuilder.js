@@ -85,7 +85,7 @@ const nonPresentArguments = field => {
 const fieldToQuery = field => ({
   bool: {
     must: [
-      mapAll(field.args, fieldArgumentToQuery),
+      ...mapAll(field.args, fieldArgumentToQuery),
       { exists: { field: field.name } }
     ],
     must_not: mapAll(nonPresentArguments(field), nonPresentFieldArgumentToQuery)
