@@ -6,26 +6,29 @@ import GraphQLJSON from 'graphql-type-json'
 
 import genesApiSchema from '../schema/schema.json'
 import { GESAMT_VALUE } from '../schema'
-import transformRegionArguments from '../argumentTransformers/regionArgumentTransformer'
-import transformValueAttributes from '../argumentTransformers/valueAttributeTransformer'
+import transformRegionArguments from '../argumentTransformers/regions'
+import transformValueAttributes from '../argumentTransformers/valueAttributes'
+import transformPaginationArguments from '../argumentTransformers/pagination'
 
 const MAX_STATISTICS_PER_REGION = 10
 
 export default app => {
   const valueAttributeResolver = attribute => {
     return (obj, args, context) => {
+      const valueAttributeArgs = context.valueAttributes.find(
+        args => args.name === attribute
+      ).args
+
       return context.data
         .filter(doc => Object.keys(doc).includes(attribute))
         .filter(o => {
           let matches = true
-          Object.keys(args)
-            .filter(key => key !== 'filter')
-            .forEach(key => {
-              const attributeValue = o[key] || GESAMT_VALUE
-              if (!args[key].includes(attributeValue)) {
-                matches = false
-              }
-            })
+          Object.keys(valueAttributeArgs).forEach(key => {
+            const attributeValue = o[key] || GESAMT_VALUE
+            if (!valueAttributeArgs[key].includes(attributeValue)) {
+              matches = false
+            }
+          })
           return matches
         })
         .map(o => {
@@ -96,15 +99,18 @@ export default app => {
         const transformedRegionArguments = transformRegionArguments(
           regionArguments
         )
-
-        // regions
-        const query = _.mapKeys(
-          Object.assign({}, transformedRegionArguments, args),
-          (value, key) =>
-            ({ page: '$skip', itemsPerPage: '$limit' }[key] || key)
+        const transformedPaginationArguments = transformPaginationArguments(
+          args
         )
 
-        const regions = await app.service('regions').find({ query })
+        // regions
+        const regions = await app.service('regions').find({
+          query: Object.assign(
+            {},
+            transformedRegionArguments,
+            transformedPaginationArguments
+          )
+        })
 
         // statistics
         context.data =
@@ -116,6 +122,9 @@ export default app => {
                 fields: transformedValueAttributes
               })
             : []
+
+        context.regionArguments = transformedRegionArguments
+        context.valueAttributes = transformedValueAttributes
 
         return {
           page: regions.skip,
