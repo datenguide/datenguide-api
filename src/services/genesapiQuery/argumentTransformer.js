@@ -5,7 +5,7 @@ import sift from 'sift'
 import genesApiSchema from '../graphql/schema/schema'
 
 const transformRegionArguments = args =>
-  _.mapKeys(args, (value, key) => (key === 'id' ? 'region_id' : key))
+  _.mapKeys(args, (value, key) => (key === 'id' || key === 'ids' ? 'region_id' : key))
 
 const transformFieldArgumentValue = value => {
   return value.values ? value.values.map(v => v.value) : [value.value]
