@@ -104,8 +104,8 @@ export default app => {
             : []
 
         return {
-          page: args.page,
-          itemsPerPage: args.itemsPerPage,
+          page: regions.skip,
+          itemsPerPage: regions.limit,
           total: regions.total,
           regions: regions.data
         }
