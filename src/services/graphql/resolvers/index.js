@@ -6,11 +6,13 @@ import GraphQLJSON from 'graphql-type-json'
 
 import genesApiSchema from '../schema/schema.json'
 import { GESAMT_VALUE } from '../schema'
+import transformRegionArguments from '../argumentTransformers/regionArgumentTransformer'
+import transformValueAttributes from '../argumentTransformers/valueAttributeTransformer'
 
 const MAX_STATISTICS_PER_REGION = 10
 
 export default app => {
-  const attributeResolver = attribute => {
+  const valueAttributeResolver = attribute => {
     return (obj, args, context) => {
       return context.data
         .filter(doc => Object.keys(doc).includes(attribute))
@@ -39,7 +41,7 @@ export default app => {
   const attributeResolvers = Object.assign(
     {},
     ...Object.keys(genesApiSchema).map(key => ({
-      [key]: attributeResolver(key)
+      [key]: valueAttributeResolver(key)
     }))
   )
 
@@ -76,30 +78,42 @@ export default app => {
           f => f.name.value === 'regions'
         )
 
-        const regionArguments = regionSelections.arguments.reduce((acc, curr) => {
-          acc[curr.name.value] = curr.value.value
-          return acc
-        }, {})
+        const regionArguments = regionSelections.arguments.reduce(
+          (acc, curr) => {
+            acc[curr.name.value] = curr.value.value
+            return acc
+          },
+          {}
+        )
 
-        const fields = regionSelections
+        const valueAttributes = regionSelections
           ? getFieldsFromInfo(regionSelections)
           : []
 
+        const transformedValueAttributes = transformValueAttributes(
+          valueAttributes
+        )
+        const transformedRegionArguments = transformRegionArguments(
+          regionArguments
+        )
+
         // regions
-        const regionAndPaginationArguments = Object.assign({}, regionArguments, args)
         const query = _.mapKeys(
-          regionAndPaginationArguments,
+          Object.assign({}, transformedRegionArguments, args),
           (value, key) =>
             ({ page: '$skip', itemsPerPage: '$limit' }[key] || key)
         )
+
         const regions = await app.service('regions').find({ query })
 
         // statistics
         context.data =
-          fields.length > 0
+          valueAttributes.length > 0
             ? await app.service('genesapiQuery').find({
-                args: { ...regionArguments, ids: regions.data.map(r => r.id) },
-                fields
+                args: {
+                  ...transformedRegionArguments
+                },
+                fields: transformedValueAttributes
               })
             : []
 

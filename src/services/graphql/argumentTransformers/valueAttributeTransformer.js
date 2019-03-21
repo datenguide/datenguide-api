@@ -2,21 +2,18 @@ import _ from 'lodash'
 import GraphQLJSON from 'graphql-type-json'
 import sift from 'sift'
 
-import genesApiSchema from '../graphql/schema/schema'
+import genesApiSchema from '../schema/schema'
 
-const transformRegionArguments = args =>
-  _.mapKeys(args, (value, key) => (key === 'id' || key === 'ids' ? 'region_id' : key))
-
-const transformFieldArgumentValue = value => {
+const transformValueAttributeValue = value => {
   return value.values ? value.values.map(v => v.value) : [value.value]
 }
 
-const transformFieldArgument = arg => ({
+const transformValueAttributeArgument = arg => ({
   name: arg.name.value,
-  values: transformFieldArgumentValue(arg.value)
+  values: transformValueAttributeValue(arg.value)
 })
 
-const transformFilter = (field, arg) => {
+const transformValueAttributeFilter = (attribute, arg) => {
   if (!arg) {
     return []
   }
@@ -33,7 +30,7 @@ const transformFilter = (field, arg) => {
   return Object.keys(siftifiedArgs).reduce((acc, curr) => {
     acc.push({
       name: curr,
-      values: genesApiSchema[field.name].args[curr].values
+      values: genesApiSchema[attribute.name].args[curr].values
         .map(v => v.value)
         .filter(sift(siftifiedArgs[curr]))
     })
@@ -58,25 +55,22 @@ const mergeArgumentLists = argumentLists => {
   return mergedArgs
 }
 
-export const transformField = field => {
-  const transformedArgs = field.args
+export const transformValueAttribute = attribute => {
+  const transformedArgs = attribute.args
     .filter(f => f.name.value !== 'filter')
-    .map(transformFieldArgument)
+    .map(transformValueAttributeArgument)
 
-  const transformedFilter = transformFilter(
-    field,
-    field.args.find(f => f.name.value === 'filter')
+  const transformedFilter = transformValueAttributeFilter(
+    attribute,
+    attribute.args.find(f => f.name.value === 'filter')
   )
 
   return {
-    name: field.name,
+    name: attribute.name,
     args: mergeArgumentLists([transformedArgs, transformedFilter])
   }
 }
 
-const transformArguments = ({ args, fields }) => ({
-  args: transformRegionArguments(args),
-  fields: fields.map(transformField)
-})
+const transformValueAttributes = fields => fields.map(transformValueAttribute)
 
-export default transformArguments
+export default transformValueAttributes

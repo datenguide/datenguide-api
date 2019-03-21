@@ -92,27 +92,33 @@ const fieldToQuery = field => ({
   }
 })
 
-const buildQuery = ({ args, fields }) => ({
-  index: 'genesapi',
-  size: 10,
-  type: 'doc',
-  scroll: '10s',
-  body: {
-    query: {
-      constant_score: {
-        filter: {
-          bool: {
-            ...(Object.keys(args).length > 0
-              ? { must: mapAll(args, regionArgumentToQuery) }
-              : {}),
-            ...(fields.length > 0
-              ? { should: mapAll(fields, fieldToQuery) }
-              : {})
+const buildQuery = ({ args, fields }) => {
+  console.log("args", args);
+  console.log("fields", fields);
+
+
+  return ({
+    index: 'genesapi',
+    size: 10,
+    type: 'doc',
+    scroll: '10s',
+    body: {
+      query: {
+        constant_score: {
+          filter: {
+            bool: {
+              ...(Object.keys(args).length > 0
+                ? { must: mapAll(args, regionArgumentToQuery) }
+                : {}),
+              ...(fields.length > 0
+                ? { should: mapAll(fields, fieldToQuery) }
+                : {})
+            }
           }
         }
       }
     }
-  }
-})
+  })
+}
 
 export default buildQuery

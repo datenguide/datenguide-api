@@ -1,9 +1,6 @@
 /* eslint-disable no-underscore-dangle,no-param-reassign,prefer-destructuring,no-await-in-loop */
 
 import buildQuery from './queryBuilder'
-import transformArguments from './argumentTransformer'
-
-const getQuery = params => buildQuery(transformArguments(params))
 
 const postProcess = data =>
   data
@@ -17,7 +14,7 @@ const postProcess = data =>
 export default async app => {
   const service = {
     find: async params => {
-      const query = getQuery(params)
+      const query = buildQuery(params)
       app.debug('query', JSON.stringify(query, null, 2))
 
       let { hits, _scroll_id: scrollId } = await app
