@@ -18,14 +18,14 @@ export default app => {
       const valueAttributeArgs = context.valueAttributes.find(
         args => args.name === attribute
       ).args
-
       return context.data
+        .filter(doc => doc.region_id === obj.id)
         .filter(doc => Object.keys(doc).includes(attribute))
         .filter(o => {
           let matches = true
           Object.keys(valueAttributeArgs).forEach(key => {
             const attributeValue = o[key] || GESAMT_VALUE
-            if (!valueAttributeArgs[key].includes(attributeValue)) {
+            if (!valueAttributeArgs[key].includes(attributeValue.toString())) {
               matches = false
             }
           })
