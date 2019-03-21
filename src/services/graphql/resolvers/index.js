@@ -76,33 +76,36 @@ export default app => {
           f => f.name.value === 'regions'
         )
 
+        const regionArguments = regionSelections.arguments.reduce((acc, curr) => {
+          acc[curr.name.value] = curr.value.value
+          return acc
+        }, {})
+
         const fields = regionSelections
           ? getFieldsFromInfo(regionSelections)
           : []
 
         // regions
-        args = _.mapKeys(
-          args,
+        const regionAndPaginationArguments = Object.assign({}, regionArguments, args)
+        const query = _.mapKeys(
+          regionAndPaginationArguments,
           (value, key) =>
             ({ page: '$skip', itemsPerPage: '$limit' }[key] || key)
         )
-        const regions = await app.service('regions').find({ query: args })
+        const regions = await app.service('regions').find({ query })
 
         // statistics
-        args = _.fromPairs(
-          _.toPairs(args).filter(([key]) => !key.startsWith('$'))
-        )
         context.data =
           fields.length > 0
             ? await app.service('genesapiQuery').find({
-                args: { ...args, ids: regions.data.map(r => r.id) },
+                args: { ...regionArguments, ids: regions.data.map(r => r.id) },
                 fields
               })
             : []
 
         return {
-          page: regions.skip,
-          itemsPerPage: regions.limit,
+          page: args.page,
+          itemsPerPage: args.itemsPerPage,
           total: regions.total,
           regions: regions.data
         }

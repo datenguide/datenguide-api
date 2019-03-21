@@ -110,7 +110,19 @@ type Region {
 }
 
 type RegionsResult {
-  regions: [Region]
+  regions(
+    """
+    **Filter Regionen nach NUTS-Ebene.**
+    *Optionen:*
+    1 – Bundesländer
+    2 – Regierungsbezirke / statistische Regionen
+    3 – Kreise / kreisfreie Städte
+    4 – Gemeinden (LAU 1 / LAU 2)
+    """
+    nuts: Int
+    "Filter Regionen nach ID (Regionalschlüssel) der Elternregion"
+    parent: String
+  ): [Region]
   page: Int
   itemsPerPage: Int
   total: Int
@@ -125,17 +137,6 @@ type Query {
   ): Region
   "Listen-Endpunkt zur Abfrage mehrerer Regionen"
   allRegions(
-    """
-    **Filter Regionen nach NUTS-Ebene.**
-    *Optionen:*
-    1 – Bundesländer
-    2 – Regierungsbezirke / statistische Regionen
-    3 – Kreise / kreisfreie Städte
-    4 – Gemeinden (LAU 1 / LAU 2)
-    """
-    nuts: Int
-    "Filter Regionen nach ID (Regionalschlüssel) der Elternregion"
-    parent: String
     page: Int
     itemsPerPage: Int
   ): RegionsResult
