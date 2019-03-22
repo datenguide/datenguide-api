@@ -56,7 +56,7 @@ type ${id} {
   "Jahr des Stichtages"
   year: Int
   "Wert"
-  value: String
+  value: Float
   "Quellenverweis zur GENESIS Regionaldatenbank"
   source: Source
   ${mapAll(args, argumentToField)}

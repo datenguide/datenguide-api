@@ -126,12 +126,14 @@ export default app => {
           )
         })
 
+        const region_id = regions.data.map(r => r.id)
+
         // statistics
         context.data =
           valueAttributes.length > 0
             ? await app.service('genesapiQuery').find({
                 index: elasticSearchIndex,
-                args: transformedRegionArguments,
+                args: { ...transformedRegionArguments, region_id},
                 fields: transformedValueAttributes
               })
             : []
