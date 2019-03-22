@@ -2,21 +2,26 @@ import service from 'feathers-elasticsearch'
 import { Client } from 'elasticsearch'
 
 export default app => {
+  const { auth, host, version, index } = app.get('elasticsearch')
+
   app.info(`
-  initializing elasticsearch on host ${app.get('elasticsearch').host}, 
-  version ${app.get('elasticsearch').version}, 
-  index ${app.get('elasticsearch').index}
+  initializing elasticsearch on host ${host}, 
+  version ${version}, 
+  index ${index}
   `)
+
+
   const genesapiService = service({
     Model: new Client({
-      host: app.get('elasticsearch').host,
-      apiVersion: app.get('elasticsearch').version
+      host,
+      apiVersion: version,
+      ...(auth ? { auth } : {})
     }),
     paginate: {
       default: 10
     },
     elasticsearch: {
-      index: app.get('elasticsearch').index,
+      index,
       type: 'doc'
     },
     esVersion: '6.0'

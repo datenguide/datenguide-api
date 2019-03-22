@@ -21,9 +21,11 @@ const regionArgumentToQuery = (value, key) => {
         nuts: val
       }
     }),
+    // eslint-disable-next-line no-unused-vars
     lau: val => ({
       terms: {
-        lau: val
+        // TODO properly implement lau level 1
+        lau: [1, 2]
       }
     }),
     parent: val => ({

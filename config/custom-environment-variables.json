@@ -3,7 +3,8 @@
   "port": "PORT",
   "elasticsearch": {
     "host": "ELASTICSEARCH_HOST",
-    "version": "ELASTICSEARCH_VERSION"
-  },
-  "genesisIndex": "GENESIS_INDEX"
+    "version": "ELASTICSEARCH_VERSION",
+    "index": "ELASTICSEARCH_INDEX",
+    "auth": "ELASTICSEARCH_AUTH"
+  }
 }
