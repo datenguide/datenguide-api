@@ -3,6 +3,7 @@ import GraphQLJSON from 'graphql-type-json'
 import sift from 'sift'
 
 import genesApiSchema from '../schema/schema'
+import { GESAMT_VALUE } from '../schema'
 
 const transformValueAttributeValue = value => {
   return value.values ? value.values.map(v => v.value) : [value.value]
@@ -32,6 +33,7 @@ const transformValueAttributeFilter = (attribute, arg) => {
       name: curr,
       values: genesApiSchema[attribute.name].args[curr].values
         .map(v => v.value)
+        .concat(GESAMT_VALUE)
         .filter(sift(siftifiedArgs[curr]))
     })
     return acc
