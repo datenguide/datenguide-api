@@ -63,16 +63,27 @@ export default app => {
   return {
     Query: {
       region: async (obj, args, context, info) => {
-        const fields = getFieldsFromInfo(info.fieldNodes[0])
+        const valueAttributes = getFieldsFromInfo(info.fieldNodes[0])
+
+        const transformedRegionArguments = transformRegionArguments(args)
+
+        const transformedValueAttributes = transformValueAttributes(
+          valueAttributes
+        )
 
         // regions
         const region = await app.service('regions').get(args.id)
 
         // statistics
         context.data =
-          fields.length > 0
-            ? await app.service('genesapiQuery').find({ args, fields })
+          transformedValueAttributes.length > 0
+            ? await app.service('genesapiQuery').find({
+                args: transformedRegionArguments,
+                fields: transformedValueAttributes
+              })
             : []
+        context.regionArguments = transformedRegionArguments
+        context.valueAttributes = transformedValueAttributes
 
         return region
       },
@@ -116,9 +127,7 @@ export default app => {
         context.data =
           valueAttributes.length > 0
             ? await app.service('genesapiQuery').find({
-                args: {
-                  ...transformedRegionArguments
-                },
+                args: transformedRegionArguments,
                 fields: transformedValueAttributes
               })
             : []

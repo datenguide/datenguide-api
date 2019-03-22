@@ -92,12 +92,8 @@ const fieldToQuery = field => ({
   }
 })
 
-const buildQuery = ({ args, fields }) => {
-  console.log("args", args);
-  console.log("fields", fields);
-
-
-  return ({
+const buildQuery = ({ args, fields }) =>
+  ({
     index: 'genesapi',
     size: 10,
     type: 'doc',
@@ -119,6 +115,5 @@ const buildQuery = ({ args, fields }) => {
       }
     }
   })
-}
 
 export default buildQuery
