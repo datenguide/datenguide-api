@@ -5,7 +5,7 @@ export default app => {
   app.info(`
   initializing elasticsearch on host ${app.get('elasticsearch').host}, 
   version ${app.get('elasticsearch').version}, 
-  index ${app.get('genesisIndex')}
+  index ${app.get('elasticsearch').index}
   `)
   const genesapiService = service({
     Model: new Client({
@@ -16,7 +16,7 @@ export default app => {
       default: 10
     },
     elasticsearch: {
-      index: app.get('genesisIndex'),
+      index: app.get('elasticsearch').index,
       type: 'doc'
     },
     esVersion: '6.0'

@@ -13,6 +13,8 @@ import transformPaginationArguments from '../argumentTransformers/pagination'
 const MAX_STATISTICS_PER_REGION = 10
 
 export default app => {
+  const elasticSearchIndex = app.get('elasticsearch').index
+
   const valueAttributeResolver = attribute => {
     return (obj, args, context) => {
       const valueAttributeArgs = context.valueAttributes.find(
@@ -78,6 +80,7 @@ export default app => {
         context.data =
           transformedValueAttributes.length > 0
             ? await app.service('genesapiQuery').find({
+                index: elasticSearchIndex,
                 args: transformedRegionArguments,
                 fields: transformedValueAttributes
               })
@@ -127,6 +130,7 @@ export default app => {
         context.data =
           valueAttributes.length > 0
             ? await app.service('genesapiQuery').find({
+                index: elasticSearchIndex,
                 args: transformedRegionArguments,
                 fields: transformedValueAttributes
               })

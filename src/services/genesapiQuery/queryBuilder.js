@@ -92,9 +92,9 @@ const fieldToQuery = field => ({
   }
 })
 
-const buildQuery = ({ args, fields }) =>
+const buildQuery = ({ index, args, fields }) =>
   ({
-    index: 'genesapi',
+    index,
     size: 10,
     type: 'doc',
     scroll: '10s',
