@@ -10,8 +10,17 @@ const regions = Object.keys(names).map(key => ({ id: key, name: names[key] }))
 const queryToFilters = {
   nuts: value => region => {
     return (
-      region.id.length === [null, 2, 3, 5, 8][value] &&
-      value < 5 &&
+      value >= 1 &&
+      value <= 3 &&
+      region.id.length === [null, 2, 3, 5][value] &&
+      region.id !== 'DG'
+    )
+  },
+  lau: value => region => {
+    return (
+      value >= 1 &&
+      value <= 2 &&
+      region.id.length >= 8 &&
       region.id !== 'DG'
     )
   },

@@ -117,10 +117,19 @@ type RegionsResult {
     1 – Bundesländer
     2 – Regierungsbezirke / statistische Regionen
     3 – Kreise / kreisfreie Städte
-    4 – Gemeinden (LAU 1 / LAU 2)
     """
     nuts: Int
-    "Filter Regionen nach ID (Regionalschlüssel) der Elternregion"
+    """
+    **Filter Regionen nach LAU-Ebene.**
+    *Optionen:*
+    1 - Verwaltungsgemeinschaften
+    2 - Gemeinden
+    """
+    lau: Int
+    """
+    **Filter Regionen nach ID**
+    (Regionalschlüssel) der Elternregion
+    """
     parent: String
   ): [Region]
   page: Int

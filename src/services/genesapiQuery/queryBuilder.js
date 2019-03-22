@@ -17,8 +17,13 @@ const regionArgumentToQuery = (value, key) => {
         : { term: { region_id: val } }
     },
     nuts: val => ({
+      term: {
+        nuts: val
+      }
+    }),
+    lau: val => ({
       terms: {
-        nuts: [val]
+        lau: val
       }
     }),
     parent: val => ({
@@ -92,28 +97,27 @@ const fieldToQuery = field => ({
   }
 })
 
-const buildQuery = ({ index, args, fields }) =>
-  ({
-    index,
-    size: 10,
-    type: 'doc',
-    scroll: '10s',
-    body: {
-      query: {
-        constant_score: {
-          filter: {
-            bool: {
-              ...(Object.keys(args).length > 0
-                ? { must: mapAll(args, regionArgumentToQuery) }
-                : {}),
-              ...(fields.length > 0
-                ? { should: mapAll(fields, fieldToQuery) }
-                : {})
-            }
+const buildQuery = ({ index, args, fields }) => ({
+  index,
+  size: 10,
+  type: 'doc',
+  scroll: '10s',
+  body: {
+    query: {
+      constant_score: {
+        filter: {
+          bool: {
+            ...(Object.keys(args).length > 0
+              ? { must: mapAll(args, regionArgumentToQuery) }
+              : {}),
+            ...(fields.length > 0
+              ? { should: mapAll(fields, fieldToQuery) }
+              : {})
           }
         }
       }
     }
-  })
+  }
+})
 
 export default buildQuery
