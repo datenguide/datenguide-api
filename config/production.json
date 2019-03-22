@@ -4,5 +4,6 @@
   "elasticsearch": {
     "host": "ELASTICSEARCH_HOST",
     "version": "ELASTICSEARCH_VERSION"
-  }
+  },
+  "genesisIndex": "GENESIS_INDEX"
 }
