@@ -73,6 +73,10 @@ export const transformValueAttribute = attribute => {
   }
 }
 
-const transformValueAttributes = fields => fields.map(transformValueAttribute)
+const transformValueAttributes = fields => {
+  return fields
+    .filter(f => !f.name.startsWith('__'))
+    .map(transformValueAttribute)
+}
 
 export default transformValueAttributes
