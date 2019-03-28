@@ -9,29 +9,31 @@ const transformValueAttributeValue = value => {
   return value.values ? value.values.map(v => v.value) : [value.value]
 }
 
-const transformValueAttributeArgument = arg => ({
+const parseValueAttributeArgument = arg => ({
   name: arg.name.value,
   values: transformValueAttributeValue(arg.value)
 })
 
-const transformValueAttributeFilter = (attribute, arg) => {
+const parseValueAttributeFilter = arg => {
   if (!arg) {
     return []
   }
 
-  const parsedArgs = arg.value.fields.reduce((acc, curr) => {
+  return arg.value.fields.reduce((acc, curr) => {
     acc[curr.name.value] = GraphQLJSON.parseLiteral(curr.value)
     return acc
   }, {})
+}
 
-  const siftifiedArgs = _.mapValues(parsedArgs, value =>
+const resolveValueAttributeFilter = (attribute, args) => {
+  const siftifiedArgs = _.mapValues(args, value =>
     _.mapKeys(value, (__, key) => `$${key}`)
   )
 
   return Object.keys(siftifiedArgs).reduce((acc, curr) => {
     acc.push({
       name: curr,
-      values: genesApiSchema[attribute.name].args[curr].values
+      values: genesApiSchema[attribute].args[curr].values
         .map(v => v.value)
         .concat(GESAMT_VALUE)
         .filter(sift(siftifiedArgs[curr]))
@@ -57,26 +59,44 @@ const mergeArgumentLists = argumentLists => {
   return mergedArgs
 }
 
-export const transformValueAttribute = attribute => {
-  const transformedArgs = attribute.args
+const transformValueAttributeArguments = (attribute, args) => {
+  const parsedArgs = args
     .filter(f => f.name.value !== 'filter')
-    .map(transformValueAttributeArgument)
+    .map(parseValueAttributeArgument)
 
-  const transformedFilter = transformValueAttributeFilter(
-    attribute,
-    attribute.args.find(f => f.name.value === 'filter')
+  const parsedFilter = parseValueAttributeFilter(
+    args.find(f => f.name.value === 'filter')
   )
 
+  const transformedFilter = resolveValueAttributeFilter(attribute, parsedFilter)
+
+  return mergeArgumentLists([parsedArgs, transformedFilter])
+}
+
+export const transformValueAttributeResolverArguments = (attribute, args) => {
+  const parsedArgs = _.pickBy(args, (value, key) => key !== 'filter')
+
+  const transformedArgs = Object.keys(parsedArgs).map(key => ({
+    name: key,
+    values: parsedArgs[key].map(v => v.toString())
+  }))
+
+  const transformedFilter = args.filter
+    ? resolveValueAttributeFilter(attribute, args.filter)
+    : []
+
+  return mergeArgumentLists([transformedArgs, transformedFilter])
+}
+
+const transformValueAttribute = attribute => {
   return {
     name: attribute.name,
-    args: mergeArgumentLists([transformedArgs, transformedFilter])
+    args: transformValueAttributeArguments(attribute.name, attribute.args)
   }
 }
 
-const transformValueAttributes = fields => {
-  return fields
+export const transformValueAttributes = attributes => {
+  return attributes
     .filter(f => !f.name.startsWith('__'))
     .map(transformValueAttribute)
 }
-
-export default transformValueAttributes

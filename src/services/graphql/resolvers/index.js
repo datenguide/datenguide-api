@@ -7,7 +7,10 @@ import GraphQLJSON from 'graphql-type-json'
 import genesApiSchema from '../schema/schema.json'
 import { GESAMT_VALUE } from '../schema'
 import transformRegionArguments from '../argumentTransformers/regions'
-import transformValueAttributes from '../argumentTransformers/valueAttributes'
+import {
+  transformValueAttributes,
+  transformValueAttributeResolverArguments
+} from '../argumentTransformers/valueAttributes'
 import transformPaginationArguments from '../argumentTransformers/pagination'
 
 const MAX_STATISTICS_PER_REGION = 10
@@ -17,9 +20,10 @@ export default app => {
 
   const valueAttributeResolver = attribute => {
     return (obj, args, context) => {
-      const valueAttributeArgs = context.valueAttributes.find(
-        args => args.name === attribute
-      ).args
+      const valueAttributeArgs = transformValueAttributeResolverArguments(
+        attribute,
+        args
+      )
       return context.data
         .filter(doc => doc.region_id === obj.id)
         .filter(doc => Object.keys(doc).includes(attribute))
@@ -86,7 +90,6 @@ export default app => {
               })
             : []
         context.regionArguments = transformedRegionArguments
-        context.valueAttributes = transformedValueAttributes
 
         return region
       },
@@ -133,13 +136,12 @@ export default app => {
           valueAttributes.length > 0
             ? await app.service('genesapiQuery').find({
                 index: elasticSearchIndex,
-                args: { ...transformedRegionArguments, region_id},
+                args: { ...transformedRegionArguments, region_id },
                 fields: transformedValueAttributes
               })
             : []
 
         context.regionArguments = transformedRegionArguments
-        context.valueAttributes = transformedValueAttributes
 
         return {
           page: regions.skip,
