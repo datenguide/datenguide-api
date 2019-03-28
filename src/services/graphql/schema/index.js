@@ -40,12 +40,15 @@ ${id}: ${id}
 
 const argToFilter = arg => `${arg}: JSON`
 
-const argsToFilterType = (id, args) =>  Object.keys(args).length > 0 ? `
+const argsToFilterType = (id, args) =>
+  Object.keys(args).length > 0
+    ? `
   "Experimental complex filter"
   input ${id}Filter {
    ${mapAll(args, argToFilter)}
   }
-  ` : ''
+  `
+    : ''
 
 const attributeToType = (id, { args }) => `
 ${argsToFilterType(id, args)}
@@ -63,14 +66,16 @@ type ${id} {
 }
 `
 
-
 const argumentToArgument = arg => `${arg}: [${arg}]`
 
 const attributeToField = (id, { name, description, source, args }) => {
-  const filterAttribute = Object.keys(args).length > 0 ? `
+  const filterAttribute =
+    Object.keys(args).length > 0
+      ? `
   "Experimental complex filter"
    filter: ${id}Filter
-  ` : ''
+  `
+      : ''
   return `
   """
   **${name}**
