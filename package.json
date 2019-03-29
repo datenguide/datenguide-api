@@ -66,6 +66,7 @@
     "path": "^0.12.7",
     "pino": "^5.11.1",
     "pino-colada": "^1.4.4",
+    "quick-pivot": "^2.7.0",
     "serve-favicon": "^2.5.0",
     "sift": "^7.0.1"
   },

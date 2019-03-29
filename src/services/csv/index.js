@@ -4,6 +4,8 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { makeExecutableSchema } from 'graphql-tools'
 import { gql } from 'apollo-server-express'
 import { parse } from 'json2csv'
+import Pivot from 'quick-pivot'
+import _ from 'lodash'
 
 import typeDefs from '../graphql/schema'
 import schema from '../graphql/schema/schema.json'
@@ -50,15 +52,36 @@ export default async app => {
 
   const service = {
     find: async params => {
-      const { region, statistics } = params.query
+      const { region, statistics, narrow } = params.query
       const apolloQueryResult = await client.query({
         query: gql`
           ${getQuery(region, statistics)}
         `,
         variables: { region, statistics }
       })
+      const queryResult = apolloQueryResult.data.region[statistics]
+      
+      if (narrow) {
+        const attributes = Object.keys(getSchemaArgs(statistics))
+        const pivot = new Pivot(
+          queryResult,
+          ['year'],
+          attributes,
+          'value',
+          'sum'
+        )
+        const fields = pivot.data.table[0].value
+        return {
+          queryResult: pivot.data.table
+            .slice(1)
+            .map(v => v.value)
+            .map(values => _.zipObject(fields, values)),
+          fields
+        }
+      }
+
       return {
-        queryResult: apolloQueryResult.data.region[statistics],
+        queryResult,
         fields: ['value', 'year'].concat(Object.keys(getSchemaArgs(statistics)))
       }
     }
@@ -70,7 +93,7 @@ export default async app => {
     })
     res.writeHead(200, {
       'Content-Type': 'text/csv',
-      'Content-Disposition': 'attachment; filename=*custom_name*.csv'
+      'Content-Disposition': 'attachment; filename=*datenguide*.csv'
     })
     res.end(csv)
   }

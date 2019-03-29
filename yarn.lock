@@ -4690,6 +4690,11 @@ quick-format-unescaped@^3.0.0:
   resolved "https://registry.npmjs.org/quick-format-unescaped/-/quick-format-unescaped-3.0.2.tgz#0137e94d8fb37ffeb70040535111c378e75396fb"
   integrity sha512-FXTaCkwvpIlkdKeGDNgcq07SXWS383noQUuZjvdE1QcTt+eLuqof6/BDiEPqB59FWLie/l91+HtlJSw7iCViSA==
 
+quick-pivot@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.npmjs.org/quick-pivot/-/quick-pivot-2.7.0.tgz#c9055022ff998a4be0e9c43c011d8a0b989c3939"
+  integrity sha512-HoWeNQ4G6nvy5nhLiOQlUI5SfHbSWR4ecivyOMbj9rg1ia+be92S2LCN90xpkKo4BfobFGjYAFtlH+XqedHR4g==
+
 randomatic@^3.0.0:
   version "3.1.1"
   resolved "https://registry.npmjs.org/randomatic/-/randomatic-3.1.1.tgz#b776efc59375984e36c537b2f51a1f0aff0da1ed"
