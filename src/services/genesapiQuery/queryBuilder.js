@@ -36,7 +36,7 @@ const regionArgumentToQuery = (value, key) => {
   }[key](value)
 }
 
-const fieldArgumentToQuery = (values, fieldName) => {
+const valueAttributeArgumentToQuery = (values, fieldName) => {
   const gesamtValueToQuery = () => ({
     bool: {
       must_not: {
@@ -75,6 +75,23 @@ const fieldArgumentToQuery = (values, fieldName) => {
   }
 
   return valuesToQuery(enumValues)
+}
+
+const statisticsArgumentToQuery = values => ({
+  bool: {
+    should: values.map(v => ({
+      prefix: {
+        cube: v.substr(1)
+      }
+    }))
+  }
+})
+
+const fieldArgumentToQuery = (values, fieldName) => {
+  if (fieldName === 'statistics') {
+    return statisticsArgumentToQuery(values)
+  }
+  return valueAttributeArgumentToQuery(values, fieldName)
 }
 
 const nonPresentFieldArgumentToQuery = arg => ({
