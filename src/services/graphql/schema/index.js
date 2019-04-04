@@ -1,5 +1,6 @@
 import { gql } from 'apollo-server-express'
 import genesApiSchema from './schema.json'
+import genesApiMappings from './mappings.json'
 
 export const GESAMT_VALUE = 'GESAMT'
 
@@ -66,6 +67,18 @@ type ${id} {
 }
 `
 
+// eslint-disable-next-line camelcase
+const statisticsToEnumValue = (id, {title_de: title, name}) => `
+"${title}"
+R${name}
+`
+
+const attributeToStatisticsEnum = (id) => `
+enum ${id}Statistics {
+  ${mapAll(genesApiMappings[id], statisticsToEnumValue)}
+}
+`
+
 const argumentToArgument = arg => `${arg}: [${arg}]`
 
 const attributeToField = (id, { name, description, source, args }) => {
@@ -85,6 +98,8 @@ const attributeToField = (id, { name, description, source, args }) => {
   ${id}(
   "Jahr des Stichtages"
   year: [Int],
+  "Statistik"
+  statistics: [${id}Statistics],
   ${mapAll(args, argumentToArgument)},
   ${filterAttribute}
   ): [${id}]
@@ -103,8 +118,8 @@ type Source {
 }
 
 ${mapAll(extractAllSchemaArguments(genesApiSchema), argumentToEnum)}
-
 ${mapAll(genesApiSchema, attributeToType)}
+${mapAll(genesApiSchema, attributeToStatisticsEnum)}
 
 type Region {
   "Regionalschlüssel"
