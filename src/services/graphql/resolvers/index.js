@@ -5,11 +5,12 @@ import { UserInputError } from 'apollo-server-express'
 import GraphQLJSON from 'graphql-type-json'
 
 import genesApiSchema from '../schema/schema.json'
+import genesApiMappings from '../schema/mappings.json'
 import { GESAMT_VALUE } from '../schema'
 import transformRegionArguments from '../argumentTransformers/regions'
 import {
-  transformValueAttributes,
-  transformValueAttributeResolverArguments
+  transformValueAttributeResolverArguments,
+  transformValueAttributes
 } from '../argumentTransformers/valueAttributes'
 import transformPaginationArguments from '../argumentTransformers/pagination'
 
@@ -41,7 +42,9 @@ export default app => {
           return _.merge(o, {
             value: o[attribute].value,
             id: o.fact_id,
-            source: genesApiSchema[attribute].source
+            source: genesApiMappings[attribute].find(
+              source => source.name === o.cube.substr(0, 5)
+            )
           })
         })
     }
