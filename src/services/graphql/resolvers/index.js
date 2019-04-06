@@ -28,12 +28,19 @@ export default app => {
       return context.data
         .filter(doc => doc.region_id === obj.id)
         .filter(doc => Object.keys(doc).includes(attribute))
-        .filter(o => {
+        .filter(doc => {
           let matches = true
           Object.keys(valueAttributeArgs).forEach(key => {
-            const attributeValue = o[key] || GESAMT_VALUE
-            if (!valueAttributeArgs[key].includes(attributeValue.toString())) {
-              matches = false
+            if (key === 'statistics') {
+              const statistics = valueAttributeArgs[key].map(v => v.substr(1))
+              matches = _.some(statistics, value => doc.cube.startsWith(value))
+            } else {
+              const attributeValue = doc[key] || GESAMT_VALUE
+              if (
+                !valueAttributeArgs[key].includes(attributeValue.toString())
+              ) {
+                matches = false
+              }
             }
           })
           return matches

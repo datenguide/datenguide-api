@@ -76,7 +76,7 @@ const transformValueAttributeArguments = (attribute, args) => {
 export const transformValueAttributeResolverArguments = (attribute, args) => {
   const parsedArgs = _.pickBy(
     args,
-    (value, key) => !['filter', 'statistics'].includes(key)
+    (value, key) => !['filter'].includes(key)
   )
 
   const transformedArgs = Object.keys(parsedArgs).map(key => ({
