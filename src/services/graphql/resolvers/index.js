@@ -21,6 +21,12 @@ export default app => {
 
   const valueAttributeResolver = attribute => {
     return (obj, args, context) => {
+      // TODO use data loader
+      // return context.attributeLoader.load({
+      //   obj: obj,
+      //   attribute: attribute,
+      //   args: args
+      // })
       const valueAttributeArgs = transformValueAttributeResolverArguments(
         attribute,
         args
@@ -79,27 +85,27 @@ export default app => {
   return {
     Query: {
       region: async (obj, args, context, info) => {
-        const valueAttributes = getFieldsFromInfo(info.fieldNodes[0])
-
-        const transformedRegionArguments = transformRegionArguments(args)
-
-        const transformedValueAttributes = transformValueAttributes(
-          valueAttributes
-        )
+        // const valueAttributes = getFieldsFromInfo(info.fieldNodes[0])
+        //
+        // const transformedRegionArguments = transformRegionArguments(args)
+        //
+        // const transformedValueAttributes = transformValueAttributes(
+        //   valueAttributes
+        // )
 
         // regions
         const region = await app.service('regions').get(args.id)
 
-        // statistics
-        context.data =
-          transformedValueAttributes.length > 0
-            ? await app.service('genesapiQuery').find({
-                index: elasticSearchIndex,
-                args: transformedRegionArguments,
-                fields: transformedValueAttributes
-              })
-            : []
-        context.regionArguments = transformedRegionArguments
+        // // statistics
+        // context.data =
+        //   transformedValueAttributes.length > 0
+        //     ? await app.service('genesapiQuery').find({
+        //         index: elasticSearchIndex,
+        //         args: transformedRegionArguments,
+        //         fields: transformedValueAttributes
+        //       })
+        //     : []
+        // context.regionArguments = transformedRegionArguments
 
         return region
       },

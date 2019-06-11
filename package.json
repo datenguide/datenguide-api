@@ -50,6 +50,7 @@
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
     "cors": "^2.8.5",
+    "dataloader": "^1.4.0",
     "dotenv": "^6.2.0",
     "elasticsearch": "^15.4.1",
     "feathers-elasticsearch": "^1.4.0",
