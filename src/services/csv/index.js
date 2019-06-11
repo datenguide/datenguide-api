@@ -60,28 +60,42 @@ export default async app => {
         variables: { region, statistics }
       })
       const queryResult = apolloQueryResult.data.region[statistics]
-      
-      if (narrow) {
+
+      // replace null values with 'gesamt'
+      const queryResultWithGesamtValues = queryResult.map(row => {
+        return _.mapValues(row, (value, key) => {
+          return !['value', 'year'].includes(key) && value === null
+            ? 'Gesamt'
+            : value
+        })
+      })
+
+      if (narrow === 'true') {
         const attributes = Object.keys(getSchemaArgs(statistics))
         const pivot = new Pivot(
-          queryResult,
+          queryResultWithGesamtValues,
           ['year'],
           attributes,
           'value',
           'sum'
         )
         const fields = pivot.data.table[0].value
+          .filter(f => f !== 'Totals')
+          .map(f => (f === 'sum value' ? 'year' : f))
+
         return {
           queryResult: pivot.data.table
+            .filter(obj => obj.type !== 'aggregated')
             .slice(1)
             .map(v => v.value)
-            .map(values => _.zipObject(fields, values)),
+            .map(values => _.zipObject(fields, values))
+            .map(o => _.omit(o, 'Totals')),
           fields
         }
       }
 
       return {
-        queryResult,
+        queryResult: queryResultWithGesamtValues,
         fields: ['value', 'year'].concat(Object.keys(getSchemaArgs(statistics)))
       }
     }
