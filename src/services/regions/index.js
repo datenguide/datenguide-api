@@ -18,10 +18,7 @@ const queryToFilters = {
   },
   lau: value => region => {
     return (
-      value >= 1 &&
-      value <= 2 &&
-      region.id.length >= 8 &&
-      region.id !== 'DG'
+      value >= 1 && value <= 2 && region.id.length >= 8 && region.id !== 'DG'
     )
   },
   parent: value => region => region.id !== value && region.id.startsWith(value)
@@ -32,11 +29,12 @@ export default async app => {
     find: async params => {
       const filters = Object.keys(params.query)
         .filter(key => !key.startsWith('$'))
-        .map(key => {
-          return r => r.filter(queryToFilters[key](params.query[key]))
-        })
+        .map(key => r => r.filter(queryToFilters[key](params.query[key])))
       const result = _.flow(...filters)(regions)
-      const limit = Math.min(params.query.$limit || DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE)
+      const limit = Math.min(
+        params.query.$limit || DEFAULT_PAGE_SIZE,
+        MAX_PAGE_SIZE
+      )
       const skip = params.query.$skip || 0
       return {
         total: result.length,

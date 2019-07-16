@@ -1,15 +1,6 @@
 /* eslint-disable no-underscore-dangle,no-param-reassign,prefer-destructuring,no-await-in-loop */
 
-import buildQuery from './queryBuilder'
-
-const postProcess = data =>
-  data
-    .map(doc => doc._source)
-    .map(doc => {
-      doc.year = parseInt(doc.year, 10)
-      return doc
-    })
-    .sort((docA, docB) => docA.year - docB.year)
+import buildQuery from './queryBuilderDataloader'
 
 export default async app => {
   const service = {
@@ -32,8 +23,7 @@ export default async app => {
         hits = result.hits
       }
       app.debug(`retrieved ${data.length} documents`)
-
-      return postProcess(data)
+      return data
     }
   }
 

@@ -50,11 +50,11 @@ const valueAttributeArgumentToQuery = (values, fieldName) => {
   const valuesToQuery = v =>
     _.isArray(v)
       ? {
-          terms: { [fieldName]: v }
-        }
+        terms: { [fieldName]: v }
+      }
       : {
-          term: { [fieldName]: v }
-        }
+        term: { [fieldName]: v }
+      }
 
   if (values.length === 1) {
     if (values[0] === GESAMT_VALUE) {
