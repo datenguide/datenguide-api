@@ -14,12 +14,12 @@ export default async app => {
       const data = []
       while (hits && hits.hits.length) {
         data.push(...hits.hits)
-        const result = await app.service('genesapi').raw('scroll', {
+        const scrollResult = await app.service('genesapi').raw('scroll', {
           scrollId,
           scroll: '10s'
         })
-        scrollId = result._scroll_id
-        hits = result.hits
+        scrollId = scrollResult._scroll_id
+        hits = scrollResult.hits
       }
       app.debug(`retrieved ${data.length} documents`)
       return data
