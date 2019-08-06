@@ -7,6 +7,7 @@ import genesApiMappings from '../schema/mappings.json'
 import transformPaginationArguments from '../argumentTransformers/pagination'
 import transformRegionArguments from '../argumentTransformers/regions'
 import { GESAMT_VALUE } from '../schema'
+import buildQuery from './queryBuilder'
 
 const MAX_STATISTICS_PER_REGION = 10
 
@@ -15,9 +16,11 @@ export default app => {
 
   const valueAttributeResolver = attribute => {
     return async (obj, args) => {
-      const data = await app.service('genesapiQuery').find({
-        index: elasticSearchIndex,
-        params: { obj, attribute, args }
+      const query = buildQuery(elasticSearchIndex, { obj, attribute, args })
+      app.debug('query', JSON.stringify(query, null, 2))
+
+      const data = await app.service('genesapiRawQuery').find({
+        query
       })
 
       return data
@@ -72,11 +75,10 @@ export default app => {
 
     // get total number of results (count query)
     const regions = await app.service('regions').find({
-      query: Object.assign(
-        {},
-        transformRegionArguments(regionArguments),
-        { '$skip': 0, '$limit': 0 }
-      )
+      query: Object.assign({}, transformRegionArguments(regionArguments), {
+        $skip: 0,
+        $limit: 0
+      })
     })
 
     return {

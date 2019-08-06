@@ -1,5 +1,6 @@
 import _ from 'lodash'
-import { GESAMT_VALUE } from '../graphql/schema'
+import { GESAMT_VALUE } from '../schema'
+import transformFilterArgument from '../argumentTransformers/filter'
 
 const regionQuery = val => {
   return _.isArray(val)
@@ -7,7 +8,7 @@ const regionQuery = val => {
     : { term: { region_id: val } }
 }
 
-const statisticsArgsQuery = (arg, values) => ({
+const statisticsArgQuery = values => ({
   bool: {
     should: values.map(a => ({
       prefix: {
@@ -61,27 +62,23 @@ const valueAttributeQuery = (attribute, args) => [
     }
   },
   ...Object.keys(args).map(arg => {
-    return arg === 'statistics'
-      ? statisticsArgsQuery(arg, args[arg])
-      : {
-          bool: {
-            should: [
-              ...valueArgsQuery(
-                arg,
-                args[arg].filter(v => v !== GESAMT_VALUE)
-              ),
-              ...gesamtValueArgQuery(
-                arg,
-                args[arg].filter(v => v === GESAMT_VALUE)
-              )
-            ]
-          }
-        }
+    if (arg === 'statistics') {
+      return statisticsArgQuery(args[arg])
+    }
+    return {
+      bool: {
+        should: [
+          ...valueArgsQuery(arg, args[arg].filter(v => v !== GESAMT_VALUE)),
+          ...gesamtValueArgQuery(arg, args[arg].filter(v => v === GESAMT_VALUE))
+        ]
+      }
+    }
   })
 ]
 
-const buildQuery = ({ index, params }) => {
-  const { obj, attribute, args } = params
+const buildQuery = (index, params) => {
+  const { obj, attribute, args } = transformFilterArgument(params)
+
   return {
     index,
     size: 10,

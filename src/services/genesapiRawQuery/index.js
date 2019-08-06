@@ -1,16 +1,15 @@
 /* eslint-disable no-underscore-dangle,no-param-reassign,prefer-destructuring,no-await-in-loop */
 
-import buildQuery from './queryBuilderDataloader'
-
 export default async app => {
   const service = {
     find: async params => {
-      const query = buildQuery(params)
-      app.debug('query', JSON.stringify(query, null, 2))
+      if (!params.query) {
+        app.debug('no query passed, returning empty set')
+        return []
+      }
+      const result = await app.service('genesapi').raw('search', params.query)
 
-      let { hits, _scroll_id: scrollId } = await app
-        .service('genesapi')
-        .raw('search', query)
+      let { hits, _scroll_id: scrollId } = result
 
       const data = []
       while (hits && hits.hits.length) {
@@ -27,9 +26,9 @@ export default async app => {
     }
   }
 
-  app.use('/genesapiQuery', service)
+  app.use('/genesapiRawQuery', service)
   app
-    .service('genesapiQuery')
+    .service('genesapiRawQuery')
     .hooks({
       before: {
         all: [],
