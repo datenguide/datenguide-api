@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { GESAMT_VALUE } from '../schema'
+import genesApiSchema from '../schema/schema.json'
 import transformFilterArgument from '../argumentTransformers/filter'
 
 const regionQuery = val => {
@@ -55,7 +56,7 @@ const gesamtValueArgQuery = (arg, values) =>
       ]
     : []
 
-const valueAttributeQuery = (attribute, args) => [
+const attributeQuery = (attribute, args) => [
   {
     exists: {
       field: attribute
@@ -76,6 +77,17 @@ const valueAttributeQuery = (attribute, args) => [
   })
 ]
 
+const nonPresentArgumentQuery = (attibute, args) => {
+  const presentArgs = Object.keys(args)
+  const allFieldArgs = Object.keys(genesApiSchema[attibute].args)
+  const nonPresentArgs = allFieldArgs.filter(arg => !presentArgs.includes(arg))
+  return nonPresentArgs.map(arg => ({
+    exists: {
+      field: arg
+    }
+  }))
+}
+
 const buildQuery = (index, params) => {
   const { obj, attribute, args } = transformFilterArgument(params)
 
@@ -91,8 +103,9 @@ const buildQuery = (index, params) => {
             bool: {
               must: [
                 regionQuery(obj.id),
-                ...valueAttributeQuery(attribute, args)
-              ]
+                ...attributeQuery(attribute, args)
+              ],
+              must_not: nonPresentArgumentQuery(attribute, args)
             }
           }
         }
