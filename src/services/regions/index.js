@@ -3,7 +3,7 @@ import _ from 'lodash'
 import names from './names.json'
 
 const MAX_PAGE_SIZE = 1000
-const DEFAULT_PAGE_SIZE = 10
+export const DEFAULT_PAGE_SIZE = 10
 
 const regions = Object.keys(names).map(key => ({ id: key, name: names[key] }))
 
