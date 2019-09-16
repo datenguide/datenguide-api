@@ -65,7 +65,7 @@
     "json2csv": "4.5.3",
     "lodash": "4.17.15",
     "path": "0.12.7",
-    "pino": "5.13.2",
+    "pino": "5.13.3",
     "pino-colada": "1.4.5",
     "quick-pivot": "2.7.0",
     "serve-favicon": "2.5.0",
