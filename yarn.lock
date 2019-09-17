@@ -795,12 +795,7 @@
   resolved "https://registry.npmjs.org/@feathersjs/commons/-/commons-1.4.4.tgz#cd8c0a4dfc7ba1027d359ae80542381241564728"
   integrity sha512-ZPpzyZA3CPfoa9AuFv3BJUI/ubzaaXixp8T/pqeMFPT6DOaU/6oF7lz1RxwimzfJNna4gy/HByt0EoLSI3BKWg==
 
-"@feathersjs/commons@^4.0.0", "@feathersjs/commons@^4.0.0-pre.5":
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/@feathersjs/commons/-/commons-4.0.0.tgz#ae49bae4025c35aaeb9aacb6a0c27a3d1def5062"
-  integrity sha512-hyCLse4RiNt7WLPQ0KSudjoVnwiRykhYzIZdtDon9i2usPaoYkFw/fEYZrkE5HVB+sUTwphZoZ1oOntRk1MShg==
-
-"@feathersjs/commons@^4.3.0":
+"@feathersjs/commons@^4.0.0", "@feathersjs/commons@^4.0.0-pre.5", "@feathersjs/commons@^4.3.0":
   version "4.3.0"
   resolved "https://registry.npmjs.org/@feathersjs/commons/-/commons-4.3.0.tgz#6b0993ac790382aa28ec8a138f3e91501973b418"
   integrity sha512-N3CDavCNRp+usgyfDSFXCwETnp4nIEevl5v1nqULGhPYco0SjF15zu4hYyd3GCn0aAwzaIehYyaMcdee9Eo1KQ==
@@ -847,10 +842,10 @@
     lodash "^4.17.15"
     uberproto "^2.0.4"
 
-"@feathersjs/feathers@4.3.1":
-  version "4.3.1"
-  resolved "https://registry.npmjs.org/@feathersjs/feathers/-/feathers-4.3.1.tgz#6f490c24dd93925c7827e9885452ed061f71e28a"
-  integrity sha512-jDeMwSaVH8BkejFknFTqFYdC5oH6b8QAgI0hHSRW58B/unLbXNYvmwif6XP8N8DVlW3WZWZSSeKFsGXmyfkeKQ==
+"@feathersjs/feathers@4.3.2", "@feathersjs/feathers@^4.0.0-pre.5":
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@feathersjs/feathers/-/feathers-4.3.2.tgz#191fdae84b79a23c610ea56a65b83957c46e403f"
+  integrity sha512-hrj8nzdJk0qd7sz5ObmHGoYAdh57sGpD+scHeggPmIXY3LlkJNq4riyYitKeGSYs2cU4CMsq4JHfCb1Qq6Rdeg==
   dependencies:
     "@feathersjs/commons" "^4.3.0"
     debug "^4.1.1"
@@ -866,16 +861,6 @@
     debug "^4.0.0"
     events "^3.0.0"
     uberproto "^2.0.2"
-
-"@feathersjs/feathers@^4.0.0-pre.5":
-  version "4.0.0-pre.5"
-  resolved "https://registry.npmjs.org/@feathersjs/feathers/-/feathers-4.0.0-pre.5.tgz#0501767fa88d6757fefd7686b998b8c0c6a1e517"
-  integrity sha512-oyDPjvFO99pNbN16TcehWFswLiiuc/yNP7JwVtcTbh1gcxEJQABKTvKO547Ts1qdolKEBQBP4u+R8l1hdIx83w==
-  dependencies:
-    "@feathersjs/commons" "^4.0.0-pre.5"
-    debug "^4.1.1"
-    events "^3.0.0"
-    uberproto "^2.0.4"
 
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
