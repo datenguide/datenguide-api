@@ -41,7 +41,7 @@
     "@babel/cli": "7.6.0",
     "@feathersjs/configuration": "4.3.1",
     "@feathersjs/errors": "4.3.2",
-    "@feathersjs/express": "4.3.1",
+    "@feathersjs/express": "4.3.2",
     "@feathersjs/feathers": "4.3.2",
     "apollo-cache-inmemory": "1.6.3",
     "apollo-client": "2.6.4",
