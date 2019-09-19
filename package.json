@@ -52,7 +52,7 @@
     "cors": "2.8.5",
     "dataloader": "^1.4.0",
     "dotenv": "8.1.0",
-    "elasticsearch": "16.3.0",
+    "elasticsearch": "16.4.0",
     "feathers-elasticsearch": "3.0.0",
     "feathers-envhelpers": "0.6.0",
     "feathers-hooks-common": "4.20.7",
