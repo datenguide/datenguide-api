@@ -835,10 +835,10 @@
     lodash "^4.17.15"
     uberproto "^2.0.4"
 
-"@feathersjs/feathers@4.3.2", "@feathersjs/feathers@^4.0.0-pre.5":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@feathersjs/feathers/-/feathers-4.3.2.tgz#191fdae84b79a23c610ea56a65b83957c46e403f"
-  integrity sha512-hrj8nzdJk0qd7sz5ObmHGoYAdh57sGpD+scHeggPmIXY3LlkJNq4riyYitKeGSYs2cU4CMsq4JHfCb1Qq6Rdeg==
+"@feathersjs/feathers@4.3.3", "@feathersjs/feathers@^4.0.0-pre.5":
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/@feathersjs/feathers/-/feathers-4.3.3.tgz#6870a6400e3ccaf8d8611168b28eff6631c2ef5d"
+  integrity sha512-FHbKn9XdUjZlXUvszn1sVamPWk2X/UBEpPHD6XyGq9kXa66fm9rqbEFueZ3MXc6Jsva+uW1m+CLQBYUvaTJhLQ==
   dependencies:
     "@feathersjs/commons" "^4.3.0"
     debug "^4.1.1"
