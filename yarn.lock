@@ -808,7 +808,7 @@
     config "^3.2.2"
     debug "^4.1.1"
 
-"@feathersjs/errors@4.3.2", "@feathersjs/errors@^4.0.0-pre.4", "@feathersjs/errors@^4.0.0-pre.5", "@feathersjs/errors@^4.3.2":
+"@feathersjs/errors@4.3.2":
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/@feathersjs/errors/-/errors-4.3.2.tgz#409dd433862047aae864b71c3d9352379c7a6b67"
   integrity sha512-rfwBrtXejz1qLSsw6NtwfeXOAyAHu6D2rRCaWCsa6paPmhbArifHIDuEVaTCJqRySzGnwiuG+pQfQ5wMPXvOyA==
@@ -822,13 +822,20 @@
   dependencies:
     debug "^4.0.0"
 
-"@feathersjs/express@4.3.2":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@feathersjs/express/-/express-4.3.2.tgz#078baef632b787adf34aa7c7326cbce366aca7ce"
-  integrity sha512-PKxkcckgb2dMp9Sa9UroEpIlM5qNlPkE0p6oZs0UztqWsR19tBew1PC9lv2FoKdT6JrQqSlO8jcmXBPpKyL8Cg==
+"@feathersjs/errors@^4.0.0-pre.4", "@feathersjs/errors@^4.0.0-pre.5", "@feathersjs/errors@^4.3.3":
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/@feathersjs/errors/-/errors-4.3.3.tgz#4fc2956013e3599999fd8a14d5b61deb61a21476"
+  integrity sha512-vqW6TDZIj7x77qenghGrWVhURN/SRYg9DjnE9aWoR4TPv9z+w3UzDl5luUW/KhHa7+2wh/TDGIdfUF5PTv8Mpg==
+  dependencies:
+    debug "^4.1.1"
+
+"@feathersjs/express@4.3.3":
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/@feathersjs/express/-/express-4.3.3.tgz#c8e57ed7a900d2ba4f43c08fe642eab2c53af5e4"
+  integrity sha512-ad37G2X+GimDuH7E3tOMi+u1szlK9xrmgfvoQXKyHosAxtkq2i2eq9mv1IfuKSyU85Y7DT2KlUE+5ostUBjTWg==
   dependencies:
     "@feathersjs/commons" "^4.3.0"
-    "@feathersjs/errors" "^4.3.2"
+    "@feathersjs/errors" "^4.3.3"
     "@types/express" "^4.17.1"
     debug "^4.1.1"
     express "^4.17.1"
