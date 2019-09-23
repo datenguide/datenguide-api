@@ -61,7 +61,7 @@
     "graphql-server-express": "1.4.1",
     "graphql-tools": "4.0.5",
     "graphql-type-json": "0.3.0",
-    "helmet": "3.21.0",
+    "helmet": "3.21.1",
     "json2csv": "4.5.3",
     "lodash": "4.17.15",
     "path": "0.12.7",
