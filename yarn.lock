@@ -800,11 +800,12 @@
   resolved "https://registry.npmjs.org/@feathersjs/commons/-/commons-4.3.0.tgz#6b0993ac790382aa28ec8a138f3e91501973b418"
   integrity sha512-N3CDavCNRp+usgyfDSFXCwETnp4nIEevl5v1nqULGhPYco0SjF15zu4hYyd3GCn0aAwzaIehYyaMcdee9Eo1KQ==
 
-"@feathersjs/configuration@4.3.2":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@feathersjs/configuration/-/configuration-4.3.2.tgz#30d79fd24ee0b8cc2d635267aa703d0235d2a9d6"
-  integrity sha512-2MuExqWLyr0JF1MXOdKHeeGPlHX/EOQAvq3GgrLStnGOyhZVVNeVdYcbEHm8GKlgaI3T55Ghb+973GjGZX/vfQ==
+"@feathersjs/configuration@4.3.4":
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/@feathersjs/configuration/-/configuration-4.3.4.tgz#7ee824a92f5123c14cb77578b39cad804066ea57"
+  integrity sha512-8EDMVudgQBwFxjHnP9WUPqLUHE7PjyhLOTzQtUWU8XjL6h0GH73xJ3RJ6axwb8Sq+pQZLxgv986i6QRxAyKhGg==
   dependencies:
+    "@feathersjs/feathers" "^4.3.4"
     config "^3.2.2"
     debug "^4.1.1"
 
@@ -835,7 +836,7 @@
     lodash "^4.17.15"
     uberproto "^2.0.4"
 
-"@feathersjs/feathers@4.3.2", "@feathersjs/feathers@^4.0.0-pre.5":
+"@feathersjs/feathers@4.3.2":
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/@feathersjs/feathers/-/feathers-4.3.2.tgz#191fdae84b79a23c610ea56a65b83957c46e403f"
   integrity sha512-hrj8nzdJk0qd7sz5ObmHGoYAdh57sGpD+scHeggPmIXY3LlkJNq4riyYitKeGSYs2cU4CMsq4JHfCb1Qq6Rdeg==
@@ -854,6 +855,16 @@
     debug "^4.0.0"
     events "^3.0.0"
     uberproto "^2.0.2"
+
+"@feathersjs/feathers@^4.0.0-pre.5", "@feathersjs/feathers@^4.3.4":
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/@feathersjs/feathers/-/feathers-4.3.4.tgz#06791dd39408d8dd7948d54c5596f2f91aa8eb09"
+  integrity sha512-2qe8+rkTn7YGFKv7vU0uh367F7SfyYUJuQh+BBmWjupCSH3xsCD5U+sACMZ16442fugWhcIo+41aUnj7e1IQAA==
+  dependencies:
+    "@feathersjs/commons" "^4.3.0"
+    debug "^4.1.1"
+    events "^3.0.0"
+    uberproto "^2.0.4"
 
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
