@@ -7,21 +7,48 @@ export const DEFAULT_PAGE_SIZE = 10
 
 const regions = Object.keys(names).map(key => ({ id: key, name: names[key] }))
 
-const queryToFilters = {
-  nuts: value => region => {
-    return (
-      value >= 1 &&
-      value <= 3 &&
-      region.id.length === [null, 2, 3, 5][value] &&
-      region.id !== 'DG'
-    )
-  },
-  lau: value => region => {
-    return (
-      value >= 1 && value <= 2 && region.id.length >= 8 && region.id !== 'DG'
-    )
-  },
-  parent: value => region => region.id !== value && region.id.startsWith(value)
+const getNuts = region => ({ 2: 1, 3: 2, 5: 3 }[region.id.length])
+
+const isNuts = (region, nuts) =>
+  nuts >= 1 &&
+  nuts <= 3 &&
+  region.id.length === { 1: 2, 2: 3, 3: 5 }[nuts] &&
+  region.id !== 'DG'
+
+const isLau = (region, lau) =>
+  lau >= 1 && lau <= 2 && region.id.length >= 8 && region.id !== 'DG'
+
+const hasParent = (region, parentId) =>
+  region.id !== parentId && region.id.startsWith(parentId)
+
+const selectRegions = (parent, nuts) => [
+  ...regions
+    .filter(r => hasParent(r, parent.id) && isNuts(r, nuts))
+    .map(r => {
+      const result = r
+      result.nuts = getNuts(r)
+      return result
+    })
+]
+
+const argumentToFilter = {
+  nuts: value => region => isNuts(region, value),
+  lau: value => region => isLau(region, value),
+  parent: value => region => hasParent(region, value)
+}
+
+const fetchChildren = region => {
+  const result = { ...region, nuts: getNuts(region) }
+  if (result.nuts === 1) {
+    let children = selectRegions(result, 2).map(c => fetchChildren(c))
+    if (children.length === 0) {
+      children = selectRegions(result, 3)
+    }
+    result.children = children
+  } else if (result.nuts === 2) {
+    result.children = selectRegions(result, 3)
+  }
+  return result
 }
 
 export default async app => {
@@ -29,13 +56,25 @@ export default async app => {
     find: async params => {
       const filters = Object.keys(params.query)
         .filter(key => !key.startsWith('$'))
-        .map(key => r => r.filter(queryToFilters[key](params.query[key])))
-      const result = _.flow(...filters)(regions)
+        .map(key => r => {
+          const filter = argumentToFilter[key]
+          if (!filter) {
+            throw new Error(`unknown argument ${key}`)
+          }
+          return r.filter(argumentToFilter[key](params.query[key]))
+        })
+      const selectedRegions = _.flow(...filters)(regions)
+
       const limit = Math.min(
         params.query.$limit || DEFAULT_PAGE_SIZE,
         MAX_PAGE_SIZE
       )
       const skip = params.query.$skip || 0
+      const result =
+        params.query.$children === 'true'
+          ? selectedRegions.map(r => fetchChildren(r))
+          : selectedRegions
+
       return {
         total: result.length,
         limit,
