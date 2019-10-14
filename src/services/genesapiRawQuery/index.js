@@ -4,7 +4,7 @@ export default async app => {
   const service = {
     find: async params => {
       if (!params.query) {
-        app.debug('no query passed, returning empty set')
+        app.logger.debug('no query passed, returning empty set')
         return []
       }
       const result = await app.service('genesapi').raw('search', params.query)
@@ -21,7 +21,7 @@ export default async app => {
         scrollId = scrollResult._scroll_id
         hits = scrollResult.hits
       }
-      app.debug(`retrieved ${data.length} documents`)
+      app.logger.debug(`retrieved ${data.length} documents`)
       return data
     }
   }

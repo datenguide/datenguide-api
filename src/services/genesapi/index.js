@@ -4,7 +4,7 @@ import { Client } from 'elasticsearch'
 export default app => {
   const { auth, host, protocol, port, version, index } = app.get('elasticsearch')
 
-  app.info(`
+  app.logger.info(`
   initializing elasticsearch on host ${host}, 
   protocol ${protocol}, 
   port ${port}, 

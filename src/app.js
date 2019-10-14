@@ -8,7 +8,7 @@ import configuration from '@feathersjs/configuration'
 import express from '@feathersjs/express'
 import envHelpers from 'feathers-envhelpers'
 
-import logger, { loggerHook } from './hooks/logger'
+import { logger, loggerHook } from './hooks/logger'
 import middleware from './middleware'
 import services from './services'
 
@@ -19,11 +19,13 @@ app.disable('x-powered-by')
 app.configure(express.rest())
 
 app.configure(envHelpers())
-app.configure(logger)
+
+logger.level = app.isDevelopment() ? 'debug' : 'info'
+app.logger = logger
 
 const conf = configuration()
 app.configure(conf)
-app.info(conf(), 'App configuration')
+app.logger.info(conf(), 'App configuration')
 
 app.use(helmet())
 app.use(compress())

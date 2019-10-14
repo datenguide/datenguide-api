@@ -18,7 +18,7 @@ export default app => {
   const valueAttributeResolver = attribute => {
     return async (obj, args) => {
       const query = buildQuery(elasticSearchIndex, { obj, attribute, args })
-      app.debug('query', JSON.stringify(query, null, 2))
+      app.logger.debug('query', JSON.stringify(query, null, 2))
 
       const data = await app.service('genesapiRawQuery').find({
         query
