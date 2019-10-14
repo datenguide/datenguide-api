@@ -1,0 +1,13 @@
+{
+  "host": "HOST",
+  "port": "PORT",
+  "public": "../public/",
+  "elasticsearch": {
+    "host": "ELASTICSEARCH_HOST",
+    "version": "ELASTICSEARCH_VERSION",
+    "index": "ELASTICSEARCH_INDEX",
+    "auth": "ELASTICSEARCH_AUTH",
+    "protocol": "ELASTICSEARCH_PROTOCOL",
+    "port": "ELASTICSEARCH_PORT"
+  }
+}
