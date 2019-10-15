@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server-express'
-import genesApiSchema from './schema.json'
-import genesApiMappings from './mappings.json'
+import genesApiSchema from '../../data/schema.json'
+import genesApiMappings from '../../data/mappings.json'
 
 export const GESAMT_VALUE = 'GESAMT'
 

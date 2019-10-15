@@ -11,6 +11,7 @@ import envHelpers from 'feathers-envhelpers'
 import { logger, loggerHook } from './hooks/logger'
 import middleware from './middleware'
 import services from './services'
+import graphql from './graphql'
 
 dotenv.config({ path: path.resolve(__dirname, '..', '.env') })
 
@@ -34,6 +35,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.configure(middleware)
 app.configure(services)
+app.configure(graphql)
 
 // app.use(favicon(path.join(app.get('public'), 'favicon.ico')))
 app.use('/', express.static(app.get('public')))

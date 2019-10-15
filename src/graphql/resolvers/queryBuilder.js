@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { GESAMT_VALUE } from '../schema'
-import genesApiSchema from '../schema/schema.json'
+import genesApiSchema from '../../data/schema.json'
 import transformFilterArgument from '../argumentTransformers/filter'
 
 const regionQuery = val => {

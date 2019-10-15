@@ -2,12 +2,12 @@
 import GraphQLJSON from 'graphql-type-json'
 import { UserInputError } from 'apollo-server-express'
 
-import genesApiSchema from '../schema/schema.json'
-import genesApiMappings from '../schema/mappings.json'
+import genesApiSchema from '../../data/schema.json'
+import genesApiMappings from '../../data/mappings.json'
 import transformPaginationArguments from '../argumentTransformers/pagination'
 import transformRegionArguments from '../argumentTransformers/regions'
 import { GESAMT_VALUE } from '../schema'
-import { DEFAULT_PAGE_SIZE } from '../../regions'
+import { DEFAULT_PAGE_SIZE } from '../../services/regions'
 import buildQuery from './queryBuilder'
 
 const MAX_STATISTICS_PER_REGION = 10

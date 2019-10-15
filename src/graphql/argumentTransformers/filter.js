@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import sift from 'sift'
 
-import genesApiSchema from '../schema/schema'
+import genesApiSchema from '../../data/schema'
 import { GESAMT_VALUE } from '../schema'
 
 const mergeArgs = argumentLists => {

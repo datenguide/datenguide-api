@@ -7,9 +7,9 @@ import { parse } from 'json2csv'
 import Pivot from 'quick-pivot'
 import _ from 'lodash'
 
-import typeDefs from '../graphql/schema'
-import schema from '../graphql/schema/schema.json'
-import resolvers from '../graphql/resolvers'
+import typeDefs from '../../graphql/schema'
+import schema from '../../data/schema.json'
+import resolvers from '../../graphql/resolvers'
 
 // TODO same code exists in web connector, should be merged
 const getSchemaArgs = statistics => {

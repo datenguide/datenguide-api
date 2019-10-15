@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import names from './names.json'
+import names from '../../data/names.json'
 
 const MAX_PAGE_SIZE = 1000
 export const DEFAULT_PAGE_SIZE = 10
