@@ -94,7 +94,6 @@ const buildQuery = (index, params) => {
   return {
     index,
     size: 10,
-    type: 'doc',
     scroll: '10s',
     body: {
       query: {
