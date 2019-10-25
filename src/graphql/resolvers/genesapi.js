@@ -6,8 +6,8 @@ import genesApiSchema from '../../data/schema.json'
 import genesApiMappings from '../../data/mappings.json'
 import transformPaginationArguments from '../argumentTransformers/pagination'
 import transformRegionArguments from '../argumentTransformers/regions'
-import { GESAMT_VALUE } from '../schema'
-import { DEFAULT_PAGE_SIZE } from '../../services/regions'
+import { GESAMT_VALUE } from '../schema/genesapi'
+import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '../../services/regions'
 import buildQuery from './queryBuilder'
 
 const MAX_STATISTICS_PER_REGION = 10
@@ -86,7 +86,7 @@ export default app => {
 
     return {
       page,
-      itemsPerPage,
+      itemsPerPage: itemsPerPage > MAX_PAGE_SIZE ? MAX_PAGE_SIZE : itemsPerPage,
       total: regions.total
     }
   }
