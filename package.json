@@ -59,7 +59,7 @@
     "feathers-logger": "0.3.2",
     "graphql": "14.5.8",
     "graphql-server-express": "1.4.1",
-    "graphql-tools": "4.0.5",
+    "graphql-tools": "4.0.6",
     "graphql-type-json": "0.3.0",
     "helmet": "3.21.2",
     "jest": "^24.9.0",
