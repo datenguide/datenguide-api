@@ -38,8 +38,12 @@ export default gql`
     }
 
     type Measure {
+        id: String!
         name: String!
         title_de: String!
+        statistic_name: String!
+        statistic_title_de: String!
+        statistic_title_en: String!
         measure_type:String!
         atemporal: Boolean!
         meta_variable: Boolean!
@@ -65,7 +69,7 @@ export default gql`
     }
 
     input MeasureDescription {
-        statisticsId: String!
+        statisticId: String!
         measureId: String!
     }
 

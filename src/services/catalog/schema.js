@@ -3,7 +3,11 @@ import { GeneralError } from '@feathersjs/errors'
 
 const RAW_SCHEMA = 'RAW_SCHEMA'
 
-export const flattenMeasure = measure => ({
+export const flattenMeasure = (measure, statistic) => ({
+  id: `${statistic.name}:${measure.name}`,
+  statistic_name: statistic.name,
+  statistic_title_de: statistic.title_de,
+  statistic_title_end: statistic.title_en,
   ...measure,
   dimensions: Object.values(measure.dimensions)
 })
@@ -11,7 +15,7 @@ export const flattenMeasure = measure => ({
 export const flattenStatistic = statistic => ({
   ...statistic,
   measures: Object.values(statistic.measures).map(measure =>
-    flattenMeasure(measure)
+    flattenMeasure(measure, statistic)
   )
 })
 

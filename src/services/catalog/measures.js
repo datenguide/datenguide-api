@@ -11,7 +11,12 @@ const getAllMeasures = async app => {
   }
   const raw = await app.service('schema').find()
   const result = Object.values(raw).reduce(
-    (acc, curr) => acc.concat(Object.values(curr.measures)),
+    (acc, curr) =>
+      acc.concat(
+        Object.values(curr.measures).map(measure =>
+          flattenMeasure(measure, curr)
+        )
+      ),
     []
   )
   app.cache.set(ALL_MEASURES, result)
@@ -25,23 +30,23 @@ export default async app => {
         const { ids } = query
         const raw = await app.service('schema').find()
         return _.uniq(ids).map(id => {
-          const { statisticsId, measureId } = id
-          if (!statisticsId || !measureId) {
+          const { statisticId, measureId } = id
+          if (!statisticId || !measureId) {
             return new BadRequest(`invalid measure ${JSON.stringify(id)}`)
           }
-          const statistic = raw[statisticsId]
+          const statistic = raw[statisticId]
           if (!statistic) {
-            return new NotFound(`statistic with ID ${statisticsId} not found`)
+            return new NotFound(`statistic with ID ${statisticId} not found`)
           }
           const measure = statistic.measures[measureId]
           if (!measure) {
             return new NotFound(
-              `measure with ID ${measureId} not found in statistic ${statisticsId}, available measures are: ${Object.keys(
+              `measure with ID ${measureId} not found in statistic ${statisticId}, available measures are: ${Object.keys(
                 statistic.measures
               )}`
             )
           }
-          return flattenMeasure(measure)
+          return flattenMeasure(measure, statistic)
         })
       }
       return getAllMeasures(app)
