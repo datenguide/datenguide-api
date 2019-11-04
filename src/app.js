@@ -7,9 +7,9 @@ import feathers from '@feathersjs/feathers'
 import configuration from '@feathersjs/configuration'
 import express from '@feathersjs/express'
 import envHelpers from 'feathers-envhelpers'
+import LRU from 'lru-cache'
 
 import { logger, loggerHook } from './hooks/logger'
-import middleware from './middleware'
 import services from './services'
 import graphql from './graphql'
 
@@ -24,6 +24,8 @@ app.configure(envHelpers())
 logger.level = app.isDevelopment() ? 'debug' : 'info'
 app.logger = logger
 
+app.cache = new LRU()
+
 const conf = configuration()
 app.configure(conf)
 app.logger.info(conf(), 'App configuration')
@@ -33,16 +35,13 @@ app.use(compress())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.configure(middleware)
 app.configure(services)
 app.configure(graphql)
 
 // app.use(favicon(path.join(app.get('public'), 'favicon.ico')))
 app.use('/', express.static(app.get('public')))
+app.use(express.errorHandler(app.get('errorhandler')))
 app.use(express.notFound())
-if (app.isProduction()) {
-  app.use(express.errorHandler(app.get('errorhandler')))
-}
 
 app.hooks({
   before: {

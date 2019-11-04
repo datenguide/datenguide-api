@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { GESAMT_VALUE } from '../schema'
+import { GESAMT_VALUE } from '../schema/genesapi'
 import genesApiSchema from '../../data/schema.json'
 import transformFilterArgument from '../argumentTransformers/filter'
 
@@ -94,7 +94,6 @@ const buildQuery = (index, params) => {
   return {
     index,
     size: 10,
-    type: 'doc',
     scroll: '10s',
     body: {
       query: {
