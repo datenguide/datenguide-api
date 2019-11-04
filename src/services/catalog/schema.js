@@ -8,6 +8,7 @@ export const flattenMeasure = (measure, statistic) => ({
   statistic_name: statistic.name,
   statistic_title_de: statistic.title_de,
   statistic_title_end: statistic.title_en,
+  statistic_description_de: statistic.description_de,
   ...measure,
   dimensions: Object.values(measure.dimensions)
 })

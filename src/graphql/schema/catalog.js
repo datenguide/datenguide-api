@@ -44,13 +44,14 @@ export default gql`
         statistic_name: String!
         statistic_title_de: String!
         statistic_title_en: String!
+        statistic_description_de: String
+        definition_de: String
         measure_type:String!
         atemporal: Boolean!
         meta_variable: Boolean!
         valid_from: String!
         summable: Boolean!
         title_en: String!
-        definition_de: String!
         # values ?
         units: [Unit]!
         dimensions: [Dimension]
