@@ -5,7 +5,6 @@ import { UserInputError } from 'apollo-server-express'
 import genesApiSchema from '../../data/schema.json'
 import genesApiMappings from '../../data/mappings.json'
 import transformPaginationArguments from '../argumentTransformers/pagination'
-import transformRegionArguments from '../argumentTransformers/regions'
 import { GESAMT_VALUE } from '../schema/genesapi'
 import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '../../services/regions'
 import buildQuery from './queryBuilder'
@@ -49,8 +48,15 @@ export default app => {
     }))
   )
 
-  const regionResolver = async (obj, args) => {
-    return app.service('regions').get(args.id)
+  const regionResolver = async (obj, args, context, info) => {
+    // use introspection to find out if we need to fetch children
+    const children = info.fieldNodes[0].selectionSet.selections.find(
+      f => f.name.value === 'children'
+    )
+
+    return app.service('regions').get(args.id, {
+      query: { $children: children !== null ? 'true' : 'false' }
+    })
   }
 
   const allRegionsResolver = async (obj, args, context, info) => {
@@ -67,7 +73,12 @@ export default app => {
     // make sure the query includes <= MAX_STATISTICS_PER_REGION fields
     const fields = regionSelections.selectionSet.selections
       .map(s => ({ name: s.name.value, args: s.arguments }))
-      .filter(f => !['id', 'name'].includes(f.name))
+      .filter(
+        f =>
+          !['id', 'name', 'nuts', 'children'].includes(
+            f.name
+          )
+      )
     if (fields.length > 10) {
       throw new UserInputError(
         `too many statistics selected per region, must be <= ${MAX_STATISTICS_PER_REGION}`
@@ -76,7 +87,7 @@ export default app => {
 
     // get total number of results (count query)
     const regions = await app.service('regions').find({
-      query: Object.assign({}, transformRegionArguments(regionArguments), {
+      query: Object.assign({}, regionArguments, {
         $skip: 0,
         $limit: 0
       })
@@ -91,14 +102,22 @@ export default app => {
     }
   }
 
-  const regionResultResolver = async (obj, args) => {
+  const regionResultResolver = async (obj, args, context, info) => {
+    // use introspection to find out if we need to fetch children
+    const children = info.fieldNodes[0].selectionSet.selections.find(
+      f => f.name.value === 'children'
+    )
+
     const regions = await app.service('regions').find({
       query: Object.assign(
-        {},
-        transformRegionArguments(args),
+        { $children: children !== null ? 'true' : 'false' },
+        args,
         transformPaginationArguments(obj)
       )
     })
+    console.log(regions.data);
+
+
     return regions.data
   }
 

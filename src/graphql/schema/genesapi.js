@@ -126,8 +126,24 @@ type Region {
   id: String
   "Name"
   name: String
+  "NUTS-Ebene der Region"
+  nuts: Int
+  "Unter-Regionen (bis NUTS-Ebene 3)"
+  children: [SubRegion]
   ${mapAll(genesApiSchema, attributeToField)}
 }
+
+type SubRegion {
+  "Regionalschlüssel"
+  id: String
+  "Name"
+  name: String
+  "NUTS-Ebene der Region"
+  nuts: Int
+  "Unter-Regionen (bis NUTS-Ebene 3)"
+  children: [SubRegion]
+}
+
 
 type RegionsResult {
   regions(
