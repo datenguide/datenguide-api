@@ -12,6 +12,8 @@ import LRU from 'lru-cache'
 import { logger, loggerHook } from './hooks/logger'
 import services from './services'
 import graphql from './graphql'
+import middleware from './middleware'
+import cors from './middleware/cors'
 
 dotenv.config({ path: path.resolve(__dirname, '..', '.env') })
 
@@ -30,6 +32,8 @@ const conf = configuration()
 app.configure(conf)
 app.logger.info(conf(), 'App configuration')
 
+app.configure(middleware)
+app.configure(cors)
 app.use(helmet())
 app.use(compress())
 app.use(express.json())

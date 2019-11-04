@@ -8,5 +8,7 @@
     "auth": "ELASTICSEARCH_AUTH",
     "protocol": "ELASTICSEARCH_PROTOCOL",
     "port": "ELASTICSEARCH_PORT"
-  }
+  },
+  "storageInformationUrl": "STORAGE_INFORMATION_URL",
+  "corsOrigins": "CORS_ORIGINS"
 }
