@@ -5784,10 +5784,10 @@ pify@^4.0.1:
   resolved "https://registry.npmjs.org/pify/-/pify-4.0.1.tgz#4b2cd25c50d598735c50292224fd8c6df41e3231"
   integrity sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==
 
-pino-colada@1.4.5:
-  version "1.4.5"
-  resolved "https://registry.npmjs.org/pino-colada/-/pino-colada-1.4.5.tgz#54b0526879079aa940094297358e1ee38db66e30"
-  integrity sha512-n50pEmLvifXcAhJhoizFp8wDlR4gcaXU0rx8qR0MTULX9tz+qEHG9GP1R9U8QmEGDcLZB0mZmJkDW2jjLueHNg==
+pino-colada@1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/pino-colada/-/pino-colada-1.5.0.tgz#9b50833800d80cde26aa06ba648e501f96f20fb2"
+  integrity sha512-jLnusV/haztZvjaRTZHQ/z7ixvFyC9EBE/lI10ldp/EWC5sMArjNQ0UhRgOEhwHyrgfmCWttKOLO3VNFRBWT2A==
   dependencies:
     chalk "^2.0.1"
     fast-json-parse "^1.0.2"
