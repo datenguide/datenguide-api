@@ -70,7 +70,7 @@
     "node-fetch": "^2.6.0",
     "path": "0.12.7",
     "pino": "5.13.5",
-    "pino-colada": "1.4.5",
+    "pino-colada": "1.5.0",
     "quick-pivot": "2.7.0",
     "serve-favicon": "2.5.0",
     "sift": "8.5.1"
