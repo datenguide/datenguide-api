@@ -2,8 +2,6 @@
 import GraphQLJSON from 'graphql-type-json'
 import { UserInputError } from 'apollo-server-express'
 
-import genesApiSchema from '../../data/schema.json'
-import genesApiMappings from '../../data/mappings.json'
 import transformPaginationArguments from '../argumentTransformers/pagination'
 import { GESAMT_VALUE } from '../schema/genesapi'
 import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '../../services/regions'
@@ -11,12 +9,12 @@ import buildQuery from './queryBuilder'
 
 const MAX_STATISTICS_PER_REGION = 10
 
-export default app => {
+export default (app, measures, mappings) => {
   const elasticSearchIndex = app.get('elasticsearch').index
 
   const valueAttributeResolver = attribute => {
     return async (obj, args) => {
-      const query = buildQuery(elasticSearchIndex, { obj, attribute, args })
+      const query = buildQuery(elasticSearchIndex, { obj, attribute, args }, measures)
       app.logger.debug('query', JSON.stringify(query, null, 2))
 
       const data = await app.service('genesapiRawQuery').find({
@@ -29,7 +27,7 @@ export default app => {
           doc.year = parseInt(doc.year, 10)
           doc.value = doc[attribute].value
           doc.id = doc['fact_id']
-          doc.source = genesApiMappings[attribute].find(
+          doc.source = mappings[attribute].find(
             source => source.name === doc.cube.substr(0, 5)
           )
           Object.keys(args).map(arg => {
@@ -43,7 +41,7 @@ export default app => {
 
   const attributeResolvers = Object.assign(
     {},
-    ...Object.keys(genesApiSchema).map(key => ({
+    ...Object.keys(measures).map(key => ({
       [key]: valueAttributeResolver(key)
     }))
   )
@@ -53,7 +51,6 @@ export default app => {
     const children = info.fieldNodes[0].selectionSet.selections.find(
       f => f.name.value === 'children'
     )
-
     return app.service('regions').get(args.id, {
       query: { $children: children !== null ? 'true' : 'false' }
     })
@@ -115,9 +112,6 @@ export default app => {
         transformPaginationArguments(obj)
       )
     })
-    console.log(regions.data);
-
-
     return regions.data
   }
 

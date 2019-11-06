@@ -44,8 +44,8 @@ app.configure(graphql)
 
 // app.use(favicon(path.join(app.get('public'), 'favicon.ico')))
 app.use('/', express.static(app.get('public')))
-app.use(express.notFound())
 app.use(express.errorHandler(app.get('errorhandler')))
+// app.use(express.notFound())
 
 app.hooks({
   before: {

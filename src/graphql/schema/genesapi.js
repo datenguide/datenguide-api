@@ -1,6 +1,5 @@
+/* eslint-disable camelcase */
 import { gql } from 'apollo-server-express'
-import genesApiSchema from '../../data/schema.json'
-import genesApiMappings from '../../data/mappings.json'
 
 export const GESAMT_VALUE = 'GESAMT'
 
@@ -9,50 +8,57 @@ const mapAll = (obj, fn) =>
     .map(key => fn(key, obj[key]))
     .join('\n')
 
-const argumentValueToEnumValue = (id, { name, value }) => `
-"${name}"
-${value}
-`
-
-const argumentToEnum = (id, { name, values }) => `
-"${name}"
-enum ${id} {
- ${mapAll(values, argumentValueToEnumValue)}
- "Gesamt"
- ${GESAMT_VALUE}
+const argumentValueToEnumValue = (id, { title_de, name }) => {
+  return `
+  "${title_de}"
+  ${name.replace(/-/g, '_')}
+  `
 }
-`
 
-// TODO map directly from GENESIS catalog instead of extracting from json schema?
-const extractAllSchemaArguments = schema =>
-  Object.keys(schema)
-    .map(key => schema[key].args)
-    .reduce((acc, curr) => {
-      Object.keys(curr).forEach(key => {
-        acc[key] = curr[key]
-      })
-      return acc
-    }, {})
-
-const argumentToField = (id, { name }) => `
-"${name}"
-${id}: ${id}
-`
-
-const argToFilter = arg => `${arg}: JSON`
-
-const argsToFilterType = (id, args) =>
-  Object.keys(args).length > 0
-    ? `
-  "Experimental complex filter"
-  input ${id}Filter {
-   ${mapAll(args, argToFilter)}
+const dimensionToEnum = (id, { title_de, values }) => {
+  return `
+  "${title_de}"
+  enum ${id} {
+   ${mapAll(values, argumentValueToEnumValue)}
+   "Gesamt"
+   ${GESAMT_VALUE}
   }
   `
-    : ''
+}
 
-const attributeToType = (id, { args }) => `
-${argsToFilterType(id, args)}
+export default (measures, mappings) => {
+  // TODO map directly from GENESIS catalog instead of extracting from json schema?
+  const extractAllSchemaDimensions = schema =>
+    Object.keys(schema)
+      .map(key => schema[key].dimensions)
+      .reduce((acc, curr) => {
+        Object.keys(curr).forEach(key => {
+          acc[key] = curr[key]
+        })
+        return acc
+      }, {})
+
+  const dimensionToField = (id, { title_de }) => {
+    return `
+  "${title_de}"
+  ${id}: ${id}
+  `
+  }
+
+  const dimensionToFilter = arg => `${arg}: JSON`
+
+  const dimensionsToFilterType = (id, dimensions) =>
+    Object.keys(dimensions).length > 0
+      ? `
+  "Experimental complex filter"
+  input ${id}Filter {
+   ${mapAll(dimensions, dimensionToFilter)}
+  }
+  `
+      : ''
+
+  const measureToType = (id, { dimensions }) => `
+${dimensionsToFilterType(id, dimensions)}
 
 type ${id} {
   "Interne eindeutige ID"
@@ -63,33 +69,34 @@ type ${id} {
   value: Float
   "Quellenverweis zur GENESIS Regionaldatenbank"
   source: Source
-  ${mapAll(args, argumentToField)}
+  ${mapAll(dimensions, dimensionToField)}
 }
 `
 
-// eslint-disable-next-line camelcase
-const statisticsToEnumValue = (id, {title_de: title, name}) => `
+  const statisticToEnumValue = (id, { title_de: title, name }) => `
 "${title}"
 R${name}
 `
 
-const attributeToStatisticsEnum = (id) => `
+  const measureToSourceStatisticsEnum = id => `
 enum ${id}Statistics {
-  ${mapAll(genesApiMappings[id], statisticsToEnumValue)}
+  ${mapAll(mappings[id], statisticToEnumValue)}
 }
 `
 
-const argumentToArgument = arg => `${arg}: [${arg}]`
+  const dimensionToArgument = dimension => {
+    return `${dimension}: [${dimension}]`
+  }
 
-const attributeToField = (id, { name, description, source, args }) => {
-  const filterAttribute =
-    Object.keys(args).length > 0
-      ? `
+  const measureToField = (id, { name, description, source, dimensions }) => {
+    const filterAttribute =
+      Object.keys(dimensions).length > 0
+        ? `
   "Experimental complex filter"
    filter: ${id}Filter
   `
-      : ''
-  return `
+        : ''
+    return `
   """
   **${name}**
   *aus GENESIS-Statistik "${source.title_de}" ${source.name})*
@@ -100,13 +107,13 @@ const attributeToField = (id, { name, description, source, args }) => {
   year: [Int],
   "Statistik"
   statistics: [${id}Statistics],
-  ${mapAll(args, argumentToArgument)},
+  ${mapAll(dimensions, dimensionToArgument)},
   ${filterAttribute}
   ): [${id}]
   `
-}
+  }
 
-const schema = `
+  const schema = `
 scalar JSON
 
 type Source {
@@ -117,9 +124,9 @@ type Source {
   url: String
 }
 
-${mapAll(extractAllSchemaArguments(genesApiSchema), argumentToEnum)}
-${mapAll(genesApiSchema, attributeToType)}
-${mapAll(genesApiSchema, attributeToStatisticsEnum)}
+${mapAll(extractAllSchemaDimensions(measures), dimensionToEnum)}
+${mapAll(measures, measureToType)}
+${mapAll(measures, measureToSourceStatisticsEnum)}
 
 type Region {
   "Regionalschlüssel"
@@ -130,7 +137,7 @@ type Region {
   nuts: Int
   "Unter-Regionen (bis NUTS-Ebene 3)"
   children: [SubRegion]
-  ${mapAll(genesApiSchema, attributeToField)}
+  ${mapAll(measures, measureToField)}
 }
 
 type SubRegion {
@@ -188,6 +195,7 @@ type Query {
 }
 `
 
-export default gql`
-  ${schema}
-`
+  return gql`
+    ${schema}
+  `
+}

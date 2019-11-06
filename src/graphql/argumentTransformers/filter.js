@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import sift from 'sift'
 
-import genesApiSchema from '../../data/schema'
 import { GESAMT_VALUE } from '../schema/genesapi'
 
 const mergeArgs = argumentLists => {
@@ -21,13 +20,13 @@ const mergeArgs = argumentLists => {
   return mergedArgs
 }
 
-const resolveSiftFilter = (attribute, args) => {
+const resolveSiftFilter = (attribute, args, measures) => {
   const siftifiedArgs = _.mapValues(args, value =>
     _.mapKeys(value, (__, key) => `$${key}`)
   )
 
   return Object.keys(siftifiedArgs).reduce((acc, curr) => {
-    acc[curr] = genesApiSchema[attribute].args[curr].values
+    acc[curr] = measures[attribute].args[curr].values
       .map(v => v.value)
       .concat(GESAMT_VALUE)
       .filter(sift(siftifiedArgs[curr]))
@@ -35,7 +34,7 @@ const resolveSiftFilter = (attribute, args) => {
   }, {})
 }
 
-const transformFilterArgument = params => {
+const transformFilterArgument = (params, measures) => {
   const { obj, attribute, args } = params
   if (args && args.filter) {
     const filterArgs = args.filter
@@ -43,7 +42,7 @@ const transformFilterArgument = params => {
     return {
       obj,
       attribute,
-      args: mergeArgs([args, resolveSiftFilter(attribute, filterArgs)])
+      args: mergeArgs([args, resolveSiftFilter(attribute, filterArgs, measures)])
     }
   }
   return params
