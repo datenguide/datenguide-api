@@ -1,7 +1,6 @@
 import { ApolloServer } from 'apollo-server-express'
 import { graphiqlExpress } from 'graphql-server-express'
-import { mergeSchemas } from 'graphql-tools'
-
+import { mergeTypes } from 'merge-graphql-schemas'
 import catalogSchema from './schema/catalog'
 import genesApiSchema from './schema/genesapi'
 import catalogResolvers from './resolvers/catalog'
@@ -9,10 +8,8 @@ import genesApiResolvers from './resolvers/genesapi'
 
 export default async app => {
   const server = new ApolloServer({
-    schema: mergeSchemas({
-      schemas: [catalogSchema, genesApiSchema],
-      resolvers: [catalogResolvers(app), genesApiResolvers(app)]
-    }),
+    typeDefs: mergeTypes([catalogSchema, genesApiSchema]),
+    resolvers: [catalogResolvers(app), genesApiResolvers(app)],
     introspection: true,
     playground: true
   })
