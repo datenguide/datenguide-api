@@ -15,7 +15,7 @@ yarn dev
 
 ## Using the API
 
-Try the GraphQL playground: https://api-next.datengui.de/graphql
+Try the GraphQL playground: https://api.datengui.de/graphql
 
 Query for a single region:
 
