@@ -26,8 +26,8 @@ const resolveSiftFilter = (attribute, args, measures) => {
   )
 
   return Object.keys(siftifiedArgs).reduce((acc, curr) => {
-    acc[curr] = measures[attribute].args[curr].values
-      .map(v => v.value)
+    acc[curr] = measures[attribute].dimensions[curr].values
+      .map(v => v.key)
       .concat(GESAMT_VALUE)
       .filter(sift(siftifiedArgs[curr]))
     return acc

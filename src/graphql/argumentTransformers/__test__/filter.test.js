@@ -1,13 +1,20 @@
+import app from '../../../app'
 import transformFilterArgument from '../filter'
 
 describe('transformFilterArgument', () => {
+  let schema = null
+  beforeAll(async () => {
+    schema = await app.service('treeApiSchema').find()
+  })
+
   it('leaves regular arguments unchanged', () => {
     const input = {
       obj: {},
       attribute: 'WAHL09',
       args: { PART04: 'SPD' }
     }
-    const result = transformFilterArgument(input)
+    console.log('schema', schema.measures);
+    const result = transformFilterArgument(input, schema.measures)
     expect(result).toEqual(input)
   })
 
@@ -17,7 +24,8 @@ describe('transformFilterArgument', () => {
       attribute: 'WAHL09',
       args: { filter: { PART04: { nin: ['AFD'] } } }
     }
-    const result = transformFilterArgument(input)
+    console.log('schema', schema.measures);
+    const result = transformFilterArgument(input, schema.measures)
     expect(result).toEqual({
       obj: {},
       attribute: 'WAHL09',
@@ -44,19 +52,12 @@ describe('transformFilterArgument', () => {
         filter: { PART04: { nin: ['AFD', 'CDU', 'SPD'] } }
       }
     }
-    const result = transformFilterArgument(input)
+    const result = transformFilterArgument(input, schema.measures)
     expect(result).toEqual({
       obj: {},
       attribute: 'WAHL09',
       args: {
-        PART04: [
-          'SPD',
-          'B90_GRUENE',
-          'DIELINKE',
-          'FDP',
-          'SONSTIGE',
-          'GESAMT'
-        ]
+        PART04: ['SPD', 'B90_GRUENE', 'DIELINKE', 'FDP', 'SONSTIGE', 'GESAMT']
       }
     })
   })

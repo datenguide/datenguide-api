@@ -7,26 +7,8 @@ import catalogResolvers from './resolvers/catalog'
 import genesApiResolvers from './resolvers/genesapi'
 
 export default async app => {
-  const data = await app.service('schema').find()
 
-  // generate tree API schema from new schema
-  const measures = {}
-  const mappings = {}
-  Object.keys(data).forEach(statistic => {
-    if (statistic !== "99910") { // FIXME: something's wrong with regionalatlas schema
-      const statisticSchema = data[statistic]
-      Object.keys(statisticSchema.measures).forEach(measure => {
-        measures[measure] = {
-          ...data[statistic].measures[measure],
-          source: statisticSchema
-        }
-        if (!mappings[measure]) {
-          mappings[measure] = []
-        }
-        mappings[measure].push(statisticSchema)
-      })
-    }
-  })
+  const { measures, mappings} = await app.service('treeApiSchema').find()
 
   const server = new ApolloServer({
     typeDefs:  mergeTypes([catalogSchema, genesApiSchema(measures, mappings)]),
