@@ -25,8 +25,6 @@ const getMerkmalsKatalog = args =>
         if (callErr) {
           return reject(callErr)
         }
-        // console.log('result', result)
-        // console.log('body', body)
         return resolve(result)
       })
     })
