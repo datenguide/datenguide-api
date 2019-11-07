@@ -1,5 +1,7 @@
 # datenguide-api
 
+[![Build Status](https://travis-ci.com/datenguide/datenguide-api.svg?branch=master)](https://travis-ci.com/datenguide/datenguide-api)
+
 > Datenguide API server
 
 ## About
