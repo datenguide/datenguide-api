@@ -13,7 +13,6 @@ describe('transformFilterArgument', () => {
       attribute: 'WAHL09',
       args: { PART04: 'SPD' }
     }
-    console.log('schema', schema.measures);
     const result = transformFilterArgument(input, schema.measures)
     expect(result).toEqual(input)
   })
@@ -24,7 +23,6 @@ describe('transformFilterArgument', () => {
       attribute: 'WAHL09',
       args: { filter: { PART04: { nin: ['AFD'] } } }
     }
-    console.log('schema', schema.measures);
     const result = transformFilterArgument(input, schema.measures)
     expect(result).toEqual({
       obj: {},

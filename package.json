@@ -73,7 +73,8 @@
     "pino-colada": "1.5.0",
     "quick-pivot": "2.7.0",
     "serve-favicon": "2.5.0",
-    "sift": "8.5.1"
+    "sift": "8.5.1",
+    "soap": "^0.30.0"
   },
   "devDependencies": {
     "@babel/core": "7.7.0",
