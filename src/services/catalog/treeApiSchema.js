@@ -6,20 +6,17 @@ export default async app => {
       const measures = {}
       const mappings = {}
       Object.keys(data).forEach(statistic => {
-        if (statistic !== '99910') {
-          // FIXME: something's wrong with regionalatlas schema
-          const statisticSchema = data[statistic]
-          Object.keys(statisticSchema.measures).forEach(measure => {
-            measures[measure] = {
-              ...data[statistic].measures[measure],
-              source: statisticSchema
-            }
-            if (!mappings[measure]) {
-              mappings[measure] = []
-            }
-            mappings[measure].push(statisticSchema)
-          })
-        }
+        const statisticSchema = data[statistic]
+        Object.keys(statisticSchema.measures).forEach(measure => {
+          measures[measure] = {
+            ...data[statistic].measures[measure],
+            source: statisticSchema
+          }
+          if (!mappings[measure]) {
+            mappings[measure] = []
+          }
+          mappings[measure].push(statisticSchema)
+        })
       })
       return {
         measures,
