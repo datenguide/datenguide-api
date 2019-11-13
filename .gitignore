@@ -110,6 +110,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # Others
-lib/
 .env
 .env.prod
