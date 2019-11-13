@@ -58,6 +58,7 @@
     "feathers-envhelpers": "0.6.2",
     "feathers-hooks-common": "4.20.7",
     "feathers-logger": "0.3.2",
+    "file-system-cache": "^1.0.5",
     "genesis-online-js": "^0.0.3",
     "graphql": "14.5.8",
     "graphql-server-express": "1.4.1",
