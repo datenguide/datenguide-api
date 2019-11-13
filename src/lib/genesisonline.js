@@ -4,17 +4,20 @@ import rimraf from 'rimraf'
 import { rechercheService2010 } from 'genesis-online-js'
 
 const ALPHABET = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ']
-
 const MERKMALE = 'MERKMALE'
+const CACHE_PATH = '.cache'
 
 const cache = Cache()
 
 const deleteCacheIfExpired = app => {
-  const { mtimeMs } = fs.statSync('.cache')
+  if (!fs.existsSync(CACHE_PATH)) {
+    return
+  }
+  const { mtimeMs } = fs.statSync(CACHE_PATH)
   const ageInHours = (new Date().getTime() - mtimeMs) / 1000 / 60 / 60
   if (ageInHours > 24) {
     app.logger.info('cache has expired, deleting')
-    rimraf.sync('.cache')
+    rimraf.sync(CACHE_PATH)
   }
 }
 
