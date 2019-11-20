@@ -76,7 +76,7 @@
     "quick-pivot": "2.7.0",
     "rimraf": "^3.0.0",
     "serve-favicon": "2.5.0",
-    "sift": "8.5.1",
+    "sift": "9.0.0",
     "soap": "^0.30.0"
   },
   "devDependencies": {
