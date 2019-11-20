@@ -1,0 +1,11 @@
+{
+  region(id: "13") {
+    id
+    name
+    BEV001(statistics: [R12612]) {
+      year
+      value
+      ALTMT1
+    }
+  }
+}

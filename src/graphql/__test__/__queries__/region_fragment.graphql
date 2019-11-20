@@ -1,0 +1,9 @@
+{
+  region(id: "10") {
+    ...foo
+  }
+}
+
+fragment foo on Region {
+  name
+}

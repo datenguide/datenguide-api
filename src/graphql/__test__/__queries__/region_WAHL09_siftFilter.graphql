@@ -1,0 +1,11 @@
+{
+  region(id: "11") {
+    id
+    name
+    WAHL09(year: 2017, filter: { PART04: { nin: ["AFD", "CDU"] } }) {
+      year
+      value
+      PART04
+    }
+  }
+}

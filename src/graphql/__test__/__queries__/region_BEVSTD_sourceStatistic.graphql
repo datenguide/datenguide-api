@@ -1,0 +1,10 @@
+{
+  region(id: "01001") {
+    id
+    name
+    BEVSTD(statistics: R12411) {
+      year
+      value
+    }
+  }
+}

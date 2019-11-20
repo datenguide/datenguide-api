@@ -85,6 +85,7 @@
     "@babel/plugin-proposal-object-rest-spread": "7.6.2",
     "@babel/preset-env": "7.7.1",
     "babel-eslint": "10.0.3",
+    "apollo-server-testing": "^2.9.9",
     "babel-watch": "7.0.0",
     "eslint": "6.6.0",
     "eslint-config-airbnb-base": "14.0.0",

@@ -1,0 +1,11 @@
+{
+  region(id: "11") {
+    id
+    name
+    WAHL09(year: 2017) {
+      year
+      value
+      PART04
+    }
+  }
+}

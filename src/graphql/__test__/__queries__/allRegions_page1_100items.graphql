@@ -1,0 +1,16 @@
+{
+  allRegions(page: 1, itemsPerPage: 100) {
+    regions(parent: "11") {
+      id
+      name
+      WAHL09(year: 2017, PART04: B90_GRUENE) {
+        value
+        year
+        PART04
+      }
+    }
+    page
+    itemsPerPage
+    total
+  }
+}
