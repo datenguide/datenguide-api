@@ -1,0 +1,18 @@
+{
+  region(id: "11") {
+    id
+    name
+    BETR08(year: [2001, 2003]) {
+      year
+      value
+      source {
+        title_de
+        name
+      }
+    }
+    WAHL04(year: [2014]) {
+      year
+      value
+    }
+  }
+}

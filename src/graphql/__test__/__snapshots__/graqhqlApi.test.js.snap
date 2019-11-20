@@ -133,6 +133,76 @@ Object {
 }
 `;
 
+exports[`GraphQL API if fetches the correct data for query "region_BETR08_WAHL09_Nmeasures.graphql" 1`] = `
+Object {
+  "data": Object {
+    "region": Object {
+      "BETR08": Array [
+        Object {
+          "source": Object {
+            "name": "41120",
+            "title_de": "Allgemeine Agrarstrukturerhebung (bis 2007)",
+          },
+          "value": 37,
+          "year": 2001,
+        },
+        Object {
+          "source": Object {
+            "name": "41120",
+            "title_de": "Allgemeine Agrarstrukturerhebung (bis 2007)",
+          },
+          "value": 33,
+          "year": 2003,
+        },
+      ],
+      "WAHL04": Array [
+        Object {
+          "value": 1159666,
+          "year": 2014,
+        },
+        Object {
+          "value": 232274,
+          "year": 2014,
+        },
+        Object {
+          "value": 188344,
+          "year": 2014,
+        },
+        Object {
+          "value": 31953,
+          "year": 2014,
+        },
+        Object {
+          "value": 278694,
+          "year": 2014,
+        },
+        Object {
+          "value": 91759,
+          "year": 2014,
+        },
+        Object {
+          "value": 220998,
+          "year": 2014,
+        },
+        Object {
+          "value": 115644,
+          "year": 2014,
+        },
+      ],
+      "id": "11",
+      "name": "Berlin",
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
 exports[`GraphQL API if fetches the correct data for query "region_BETR08_withAlias.graphql" 1`] = `
 Object {
   "data": Object {
