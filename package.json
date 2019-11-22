@@ -71,7 +71,7 @@
     "merge-graphql-schemas": "^1.7.3",
     "node-fetch": "^2.6.0",
     "path": "0.12.7",
-    "pino": "5.13.6",
+    "pino": "5.14.0",
     "pino-colada": "1.5.0",
     "quick-pivot": "2.7.0",
     "rimraf": "^3.0.0",
