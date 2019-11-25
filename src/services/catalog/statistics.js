@@ -10,7 +10,7 @@ export default async app => {
     if (cached) {
       return cached
     }
-    const raw = await app.service('schema').find()
+    const raw = await app.service('catalog/schema').find()
     const result = Object.values(raw).map(s => flattenStatistic(s))
     app.cache.set(ALL_STATISTICS, result)
     return result
@@ -20,7 +20,7 @@ export default async app => {
     find: async ({ query }) => {
       if (query && query.ids) {
         const { ids } = query
-        const raw = await app.service('schema').find()
+        const raw = await app.service('catalog/schema').find()
         return _.uniq(ids).map(id => {
           const statistic = raw[id]
           if (!statistic) {
@@ -33,9 +33,9 @@ export default async app => {
     }
   }
 
-  app.use('/statistics', service)
+  app.use('/catalog/statistics', service)
   app
-    .service('statistics')
+    .service('catalog/statistics')
     .hooks({
       before: {
         all: [],

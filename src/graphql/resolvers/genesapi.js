@@ -4,7 +4,7 @@ import { UserInputError } from 'apollo-server-express'
 
 import transformPaginationArguments from '../argumentTransformers/pagination'
 import { GESAMT_VALUE } from '../schema/genesapi'
-import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '../../services/regions'
+import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '../../services/catalog/regions'
 import buildQuery from './queryBuilder'
 
 const MAX_STATISTICS_PER_REGION = 10
@@ -51,7 +51,7 @@ export default (app, measures, mappings) => {
     const children = info.fieldNodes[0].selectionSet.selections.find(
       f => f.name.value === 'children'
     )
-    return app.service('regions').get(args.id, {
+    return app.service('catalog/regions').get(args.id, {
       query: { $children: children !== null ? 'true' : 'false' }
     })
   }
@@ -83,7 +83,7 @@ export default (app, measures, mappings) => {
     }
 
     // get total number of results (count query)
-    const regions = await app.service('regions').find({
+    const regions = await app.service('catalog/regions').find({
       query: Object.assign({}, regionArguments, {
         $skip: 0,
         $limit: 0
@@ -105,7 +105,7 @@ export default (app, measures, mappings) => {
       f => f.name.value === 'children'
     )
 
-    const regions = await app.service('regions').find({
+    const regions = await app.service('catalog/regions').find({
       query: Object.assign(
         { $children: children !== null ? 'true' : 'false' },
         args,
