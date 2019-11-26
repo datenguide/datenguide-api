@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { GESAMT_VALUE } from '../schema/genesapi'
+import { GESAMT_VALUE } from '../schema/genesapiTree'
 import transformFilterArgument from '../argumentTransformers/filter'
 
 const regionQuery = val => {

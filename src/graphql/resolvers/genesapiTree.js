@@ -3,7 +3,7 @@ import GraphQLJSON from 'graphql-type-json'
 import { UserInputError } from 'apollo-server-express'
 
 import transformPaginationArguments from '../argumentTransformers/pagination'
-import { GESAMT_VALUE } from '../schema/genesapi'
+import { GESAMT_VALUE } from '../schema/genesapiTree'
 import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '../../services/catalog/regions'
 import buildQuery from './queryBuilder'
 

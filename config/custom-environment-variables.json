@@ -14,5 +14,6 @@
   "genesisLogin": {
     "kennung": "GENESIS_KENNUNG",
     "passwort": "GENESIS_PASSWORT"
-  }
+  },
+  "genesapiTabularUrl": "GENESAPI_TABULAR_URL"
 }
