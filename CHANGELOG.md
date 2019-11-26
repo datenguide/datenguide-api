@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Added
 - `statistics` and `measures` GraphQL queries to inspect and query the data schema
 - `children` field in `region` query 
-- The server now downloads `info.json` on startup and imports the latest schema from GenesAPI `schema.json` instead of previously bundled and static `schema.json`
+- The server now downloads `info.json` on startup and imports the latest schema from GenesAPI `schema.json` and `names.json` instead of previously bundled and static files
 - Query and Schema tests
 
 ## Security

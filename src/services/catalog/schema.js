@@ -53,9 +53,9 @@ export default async app => {
     }
   }
 
-  app.use('/schema', service)
+  app.use('/catalog/schema', service)
   app
-    .service('schema')
+    .service('catalog/schema')
     .hooks({
       before: {
         all: [],

@@ -9,7 +9,7 @@ const getAllMeasures = async app => {
   if (cached) {
     return cached
   }
-  const raw = await app.service('schema').find()
+  const raw = await app.service('catalog/schema').find()
   const result = Object.values(raw).reduce(
     (acc, curr) =>
       acc.concat(
@@ -28,7 +28,7 @@ export default async app => {
     find: async ({ query }) => {
       if (query && query.ids) {
         const { ids } = query
-        const raw = await app.service('schema').find()
+        const raw = await app.service('catalog/schema').find()
         return _.uniq(ids).map(id => {
           const { statisticId, measureId } = id
           if (!statisticId || !measureId) {
@@ -53,9 +53,9 @@ export default async app => {
     }
   }
 
-  app.use('/measures', service)
+  app.use('/catalog/measures', service)
   app
-    .service('measures')
+    .service('catalog/measures')
     .hooks({
       before: {
         all: [],

@@ -1,7 +1,7 @@
 export default async app => {
   const service = {
     find: async () => {
-      const data = await app.service('schema').find()
+      const data = await app.service('catalog/schema').find()
 
       const measures = {}
       const mappings = {}
