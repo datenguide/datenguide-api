@@ -8,57 +8,117 @@ Object {
       "page": 0,
       "regions": Array [
         Object {
-          "WAHL09": Array [],
-          "id": "11001",
+          "WAHL09": Array [
+            Object {
+              "PART04": "B90_GRUENE",
+              "value": 234947,
+              "year": 2017,
+            },
+          ],
+          "id": "110",
+          "name": "Berlin",
+        },
+        Object {
+          "WAHL09": Array [
+            Object {
+              "PART04": "B90_GRUENE",
+              "value": 234947,
+              "year": 2017,
+            },
+          ],
+          "id": "11000",
+          "name": "Berlin",
+        },
+        Object {
+          "WAHL09": Array [
+            Object {
+              "PART04": "B90_GRUENE",
+              "value": 234947,
+              "year": 2017,
+            },
+          ],
+          "id": "11000000",
+          "name": "Berlin, Stadt",
+        },
+        Object {
+          "WAHL09": Array [
+            Object {
+              "PART04": "B90_GRUENE",
+              "value": 25708,
+              "year": 2017,
+            },
+          ],
+          "id": "11001001",
           "name": "Berlin-Mitte",
         },
         Object {
-          "WAHL09": Array [],
-          "id": "11002",
+          "WAHL09": Array [
+            Object {
+              "PART04": "B90_GRUENE",
+              "value": 28368,
+              "year": 2017,
+            },
+          ],
+          "id": "11002002",
           "name": "Berlin-Friedrichshain-Kreuzberg",
         },
         Object {
-          "WAHL09": Array [],
-          "id": "11003",
+          "WAHL09": Array [
+            Object {
+              "PART04": "B90_GRUENE",
+              "value": 33360,
+              "year": 2017,
+            },
+          ],
+          "id": "11003003",
           "name": "Berlin-Pankow",
         },
         Object {
-          "WAHL09": Array [],
-          "id": "11004",
+          "WAHL09": Array [
+            Object {
+              "PART04": "B90_GRUENE",
+              "value": 26589,
+              "year": 2017,
+            },
+          ],
+          "id": "11004004",
           "name": "Berlin-Charlottenburg-Wilmersdorf",
         },
         Object {
-          "WAHL09": Array [],
-          "id": "11005",
+          "WAHL09": Array [
+            Object {
+              "PART04": "B90_GRUENE",
+              "value": 9244,
+              "year": 2017,
+            },
+          ],
+          "id": "11005005",
           "name": "Berlin-Spandau",
         },
         Object {
-          "WAHL09": Array [],
-          "id": "11006",
+          "WAHL09": Array [
+            Object {
+              "PART04": "B90_GRUENE",
+              "value": 25361,
+              "year": 2017,
+            },
+          ],
+          "id": "11006006",
           "name": "Berlin-Steglitz-Zehlendorf",
         },
         Object {
-          "WAHL09": Array [],
-          "id": "11007",
+          "WAHL09": Array [
+            Object {
+              "PART04": "B90_GRUENE",
+              "value": 27956,
+              "year": 2017,
+            },
+          ],
+          "id": "11007007",
           "name": "Berlin-Tempelhof-Schöneberg",
         },
-        Object {
-          "WAHL09": Array [],
-          "id": "11008",
-          "name": "Berlin-Neukölln",
-        },
-        Object {
-          "WAHL09": Array [],
-          "id": "11009",
-          "name": "Berlin-Treptow-Köpenick",
-        },
-        Object {
-          "WAHL09": Array [],
-          "id": "11010",
-          "name": "Berlin-Marzahn-Hellersdorf",
-        },
       ],
-      "total": 13,
+      "total": 15,
     },
   },
   "errors": undefined,
@@ -79,28 +139,62 @@ Object {
       "page": 1,
       "regions": Array [
         Object {
-          "WAHL09": Array [],
-          "id": "11011",
-          "name": "Berlin-Lichtenberg",
-        },
-        Object {
-          "WAHL09": Array [],
-          "id": "11012",
-          "name": "Berlin-Reinickendorf",
+          "WAHL09": Array [
+            Object {
+              "PART04": "B90_GRUENE",
+              "value": 18446,
+              "year": 2017,
+            },
+          ],
+          "id": "11008008",
+          "name": "Berlin-Neukölln",
         },
         Object {
           "WAHL09": Array [
             Object {
               "PART04": "B90_GRUENE",
-              "value": 234947,
+              "value": 12168,
               "year": 2017,
             },
           ],
-          "id": "11000000",
-          "name": "Berlin",
+          "id": "11009009",
+          "name": "Berlin-Treptow-Köpenick",
+        },
+        Object {
+          "WAHL09": Array [
+            Object {
+              "PART04": "B90_GRUENE",
+              "value": 5621,
+              "year": 2017,
+            },
+          ],
+          "id": "11010010",
+          "name": "Berlin-Marzahn-Hellersdorf",
+        },
+        Object {
+          "WAHL09": Array [
+            Object {
+              "PART04": "B90_GRUENE",
+              "value": 9821,
+              "year": 2017,
+            },
+          ],
+          "id": "11011011",
+          "name": "Berlin-Lichtenberg",
+        },
+        Object {
+          "WAHL09": Array [
+            Object {
+              "PART04": "B90_GRUENE",
+              "value": 12305,
+              "year": 2017,
+            },
+          ],
+          "id": "11012012",
+          "name": "Berlin-Reinickendorf",
         },
       ],
-      "total": 13,
+      "total": 15,
     },
   },
   "errors": undefined,
@@ -120,7 +214,7 @@ Object {
       "itemsPerPage": 100,
       "page": 1,
       "regions": Array [],
-      "total": 13,
+      "total": 15,
     },
   },
   "errors": undefined,
@@ -31853,7 +31947,7 @@ Object {
         },
       ],
       "id": "01001",
-      "name": "Flensburg",
+      "name": "Flensburg, Kreisfreie Stadt",
     },
   },
   "errors": undefined,
