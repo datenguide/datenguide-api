@@ -1,17 +1,18 @@
 import { gql } from 'apollo-server-express'
 
-export default gql`  
-  
+export default gql`
+  scalar JSON
+
   enum Type {
       integer
       string
   }
-  
+
   type Field {
       name: String!,
       type: Type!
   }
-  
+
   type Row {
       index: Int,
       region_id: String,
@@ -20,14 +21,14 @@ export default gql`
       value: Int,
       statistic: String
   }
-  
+
   type Schema {
       fields: [Field]
   }
 
   type TableResult {
     schema: Schema
-    data: [Row]!
+    data: JSON!
   }
 
   input RegionSelection {
@@ -46,32 +47,34 @@ export default gql`
     dimensions: [DimensionSelection]
   }
 
-#  enum Layout {
-#    long
-#    region
-#    time
-#  }
+  enum Layout {
+    long
+    region
+    time
+  }
 
-#  enum Labels {
-#    id
-#    name
-#    both
-#  }
+  enum Labels {
+    id
+    name
+    both
+  }
 
-#  enum Format {
-#    csv
-#    tsv
-#    json
-#  }
+  enum Format {
+    csv
+    tsv
+    json
+  }
+
 
   type Query {
     table(
-      regions: RegionSelection
+      region: [String]
+      level: [Int]
       measures: [MeasureSelection]
-#      time: String
-#      layout: Layout
-#      labels: Labels
-#      format: Format
+      time: String
+      layout: Layout
+      labels: Labels
+      format: Format
     ): TableResult!
   }
 `
