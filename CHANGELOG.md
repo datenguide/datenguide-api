@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2019-11-29
+
 ## Added
 - `statisticsCatalog` and `measuresCatalog` GraphQL queries to inspect and query the data schema
 - The server now downloads `info.json` on startup and imports the latest schema from GenesAPI `schema.json` and `names.json` instead of previously bundled and static files
@@ -22,5 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GraphQL Playground and GraphiQL Web UIs for interactive GraphQL queries
 - HTML homepage for API server
 
-[Unreleased]: https://github.com/datenguide/datenguide-api/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/datenguide/datenguide-api/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/datenguide/datenguide-api/releases/tag/v0.2.0
 [0.1.0]: https://github.com/datenguide/datenguide-api/releases/tag/v0.1.0
