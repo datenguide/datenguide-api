@@ -23,27 +23,6 @@ const rawRegionsToObjects = (regions, ids = []) =>
     .filter(id => ids.includes(id))
     .map(id => ({ id, name: regions[id], nuts: getNuts(id) }))
 
-// TODO re-enable
-// const fetchChildren = async (app, region) => {
-//   let children
-//   if (region.nuts === 1) {
-//     children = await app
-//       .service('catalog/regions')
-//       .find({ query: { parent: region.id, nuts: 2 } })
-//       .map(c => fetchChildren(c))
-//     if (children.length === 0) {
-//       children = await app
-//         .service('catalog/regions')
-//         .find({ query: { parent: region.id, nuts: 3 } })
-//     }
-//   } else if (region.nuts === 2) {
-//     children = await app
-//       .service('catalog/regions')
-//       .find({ query: { parent: region.id, nuts: 3 } })
-//   }
-//   return { ...region, children }
-// }
-
 export default async app => {
   const getRaw = async () => {
     const cached = app.cache.get(RAW_REGIONS)
@@ -89,12 +68,6 @@ export default async app => {
         .filter(id => parent === undefined || hasParent(id, parent))
         .filter(id => nuts === undefined || isNuts(id, nuts))
         .filter(id => lau === undefined || isLau(id, lau))
-
-      // // const result =
-      // // params.query.$children === 'true'
-      // //   ? selectedRegions.map(r => fetchChildren(r))
-      // //   : selectedRegions
-      // const result = selectedRegions
 
 
       const limit = Math.min(
