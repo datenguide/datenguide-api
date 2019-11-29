@@ -75,7 +75,7 @@ export default gql`
     }
 
     type Query {
-        statistics(ids: [String]): [Statistic]!
-        measures(ids: [MeasureDescription]): [Measure]!
+        statisticsCatalog(ids: [String]): [Statistic]!
+        measuresCatalog(ids: [MeasureDescription]): [Measure]!
     }
 `
