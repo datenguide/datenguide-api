@@ -98,16 +98,6 @@ Using argument filters:
 
 nuts only goes from 1-3, 'Gemeinden' can be selected with lau=1 or lau=2. Currently they both return the same thing: everything below nuts level. (because lau=1 is not implemented yet).
 
-## Changelog
-
-__0.0.2__
-
-- Ported v1 API features
-
-__0.0.1__
-
-- Initial release
-
 ## License
 
 Copyright (c) 2016
