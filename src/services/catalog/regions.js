@@ -37,7 +37,13 @@ export default async app => {
       const info = await fetch(storageInformationUrl)
       const infoJson = await info.json()
       app.logger.info('download complete: storage information')
-      const regionsUrl = infoJson.storages.regionNames
+      app.logger.info('checking that regionalstatistik is available')
+      if (infoJson.storages.regionalstatistik) {
+        app.logger.info('ok')
+      } else {
+        app.logger.error('no info for regionalstatistik found')
+      }
+      const regionsUrl = infoJson.storages.regionalstatistik.regionNames
       app.logger.info(`fetching regions from URL ${regionsUrl}..`)
       const schema = await fetch(regionsUrl)
       const result = await schema.json()
