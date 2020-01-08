@@ -68,7 +68,7 @@ export default gql`
 
   type Query {
     table(
-      region: [String]
+      regions: [RegionSelection]
       level: [Int]
       measures: [MeasureSelection]
       time: String

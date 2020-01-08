@@ -1,6 +1,5 @@
 import fetch from 'isomorphic-unfetch'
 import queryString from 'query-string'
-import _ from 'lodash'
 
 const mapValues = (values = []) =>
   values.length > 0 ? `:${values.join('|')}` : ''
@@ -18,9 +17,14 @@ export default app => {
   const genesapiTabularUrl = app.get('genesapiTabularUrl')
 
   const tabularResolver = async (obj, args) => {
-    const regionsQuery = queryString.stringify(_.omit(args, ['measures']), {
-      arrayFormat: 'comma'
-    })
+
+    const regionsQuery = args.regions
+      .map(r =>
+        queryString.stringify(r, {
+          arrayFormat: 'comma'
+        })
+      )
+      .join('&')
 
     const measuresQuery = args.measures.map(
       m => `${m.id}${mapDimensions(m.dimensions)}`
