@@ -78,12 +78,12 @@ const attributeQuery = (attribute, args) => [
 
 const nonPresentDimensionsQuery = (measures, conflictingMeasures, measure, dimensions) => {
   // FIXME filtering conflicting dimensions
-  if (Object.keys(conflictingMeasures).contains(measure)){
+  if (Object.keys(conflictingMeasures).includes(measure)){
     return conflictingMeasures[measure].map(dimension => ({
       exists: {field: dimension}
     }))
   }
-  
+
   const presentDimensions = Object.keys(dimensions)
   const allMeasureDimensions = Object.keys(measures[measure].dimensions)
   const nonPresentDimensions = allMeasureDimensions.filter(
