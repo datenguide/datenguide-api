@@ -26,11 +26,13 @@ const dimensionToEnum = (id, { title_de, values }) => {
   `
 }
 
-export default (measures, mappings) => {
-  // TODO map directly from GENESIS catalog instead of extracting from json schema?
+export default (measures, mappings, conflictingMeasures) => {
   const extractAllSchemaDimensions = schema =>
     Object.keys(schema)
-      .map(key => schema[key].dimensions)
+      .map(key =>
+        // FIXME filtering conflicting dimensions
+        conflictingMeasures.includes(key) ? {} : schema[key].dimensions
+      )
       .reduce((acc, curr) => {
         Object.keys(curr).forEach(key => {
           acc[key] = curr[key]
@@ -57,21 +59,28 @@ export default (measures, mappings) => {
   `
       : ''
 
-  const measureToType = (id, { dimensions }) => `
-${dimensionsToFilterType(id, dimensions)}
+  const measureToType = (id, { dimensions }) => {
+    // FIXME filtering conflicting dimensions
+    if (conflictingMeasures.includes(id)) {
+      // eslint-disable-next-line no-param-reassign
+      dimensions = {}
+    }
+    return `
+  ${dimensionsToFilterType(id, dimensions)}
 
-type ${id} {
-  "Interne eindeutige ID"
-  id: String
-  "Jahr des Stichtages"
-  year: Int
-  "Wert"
-  value: Float
-  "Quellenverweis zur GENESIS Regionaldatenbank"
-  source: Source
-  ${mapAll(dimensions, dimensionToField)}
-}
-`
+  type ${id} {
+    "Interne eindeutige ID"
+    id: String
+    "Jahr des Stichtages"
+    year: Int
+    "Wert"
+    value: Float
+    "Quellenverweis zur GENESIS Regionaldatenbank"
+    source: Source
+    ${mapAll(dimensions, dimensionToField)}
+  }
+  `
+  }
 
   const statisticToEnumValue = (id, { title_de: title, name }) => `
 "${title}"
@@ -89,6 +98,12 @@ enum ${id}Statistics {
   }
 
   const measureToField = (id, { name, description, source, dimensions }) => {
+    // FIXME filtering conflicting dimensions
+    if (conflictingMeasures.includes(id)) {
+      // eslint-disable-next-line no-param-reassign
+      dimensions = {}
+    }
+
     const filterAttribute =
       Object.keys(dimensions).length > 0
         ? `

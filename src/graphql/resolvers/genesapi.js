@@ -12,7 +12,7 @@ import buildQuery from './queryBuilder'
 
 const MAX_STATISTICS_PER_REGION = 10
 
-export default (app, measures, mappings) => {
+export default (app, measures, conflictingMeasures, mappings) => {
   const elasticSearchIndex = app.get('elasticsearch').index
 
   const valueAttributeResolver = attribute => {
@@ -20,7 +20,8 @@ export default (app, measures, mappings) => {
       const query = buildQuery(
         elasticSearchIndex,
         { obj, attribute, args },
-        measures
+        measures,
+        conflictingMeasures
       )
       app.logger.debug('query', JSON.stringify(query, null, 2))
 

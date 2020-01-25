@@ -5,15 +5,19 @@ import catalogSchema from './schema/catalog'
 import genesApiSchema from './schema/genesapi'
 import catalogResolvers from './resolvers/catalog'
 import genesApiResolvers from './resolvers/genesapi'
+import getConflictingMeasures from '../lib/conflictingMeasures'
 
 export const createServer = async app => {
   const { measures, mappings} = await app.service('treeApiSchema').find()
 
+  // FIXME filtering conflicting dimensions
+  const conflictingMeasures = await getConflictingMeasures(app)
+
   return new ApolloServer({
-    typeDefs:  mergeTypes([catalogSchema, genesApiSchema(measures, mappings)]),
+    typeDefs:  mergeTypes([catalogSchema, genesApiSchema(measures, mappings, Object.keys(conflictingMeasures))]),
     resolvers: [
       catalogResolvers(app),
-      genesApiResolvers(app, measures, mappings)
+      genesApiResolvers(app, measures, conflictingMeasures, mappings)
     ],
     introspection: true,
     playground: true

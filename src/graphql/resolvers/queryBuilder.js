@@ -76,7 +76,14 @@ const attributeQuery = (attribute, args) => [
   })
 ]
 
-const nonPresentDimensionsQuery = (measures, measure, dimensions) => {
+const nonPresentDimensionsQuery = (measures, conflictingMeasures, measure, dimensions) => {
+  // FIXME filtering conflicting dimensions
+  if (Object.keys(conflictingMeasures).contains(measure)){
+    return conflictingMeasures[measure].map(dimension => ({
+      exists: {field: dimension}
+    }))
+  }
+  
   const presentDimensions = Object.keys(dimensions)
   const allMeasureDimensions = Object.keys(measures[measure].dimensions)
   const nonPresentDimensions = allMeasureDimensions.filter(
@@ -89,7 +96,7 @@ const nonPresentDimensionsQuery = (measures, measure, dimensions) => {
   }))
 }
 
-const buildQuery = (index, params, measures) => {
+const buildQuery = (index, params, measures, conflictingMeasures) => {
   const { obj, attribute, args } = transformFilterArgument(params, measures)
 
   return {
@@ -102,7 +109,7 @@ const buildQuery = (index, params, measures) => {
           filter: {
             bool: {
               must: [regionQuery(obj.id), ...attributeQuery(attribute, args)],
-              must_not: nonPresentDimensionsQuery(measures, attribute, args)
+              must_not: nonPresentDimensionsQuery(measures, conflictingMeasures, attribute, args)
             }
           }
         }
