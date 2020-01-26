@@ -4,7 +4,7 @@ export default gql`
   scalar JSON
 
   enum Type {
-      integer
+      number
       string
   }
 
