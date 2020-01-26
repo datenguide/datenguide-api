@@ -26,9 +26,16 @@ export default gql`
       fields: [Field]
   }
 
+  type Pagination {
+      page: Int
+      itemsPerPage: Int
+      total: Int
+  }
+
   type TableResult {
     schema: Schema
     data: JSON!
+    pagination: Pagination
   }
 
   input RegionSelection {
@@ -74,7 +81,9 @@ export default gql`
       time: String
       layout: Layout
       labels: Labels
-      format: Format
+      format: Format,
+      page: Int,
+      itemsPerPage: Int
     ): TableResult!
   }
 `
