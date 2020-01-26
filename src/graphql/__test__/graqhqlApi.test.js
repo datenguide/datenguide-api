@@ -7,7 +7,7 @@ import { createServer } from '../index'
 
 const files = fs.readdirSync(path.join(__dirname, '__queries__'))
 
-jest.setTimeout(500000)
+jest.setTimeout(5000000)
 
 describe('GraphQL API', () => {
   let apolloQuery
