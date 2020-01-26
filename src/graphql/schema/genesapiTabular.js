@@ -5,6 +5,7 @@ export default gql`
 
   enum Type {
       number
+      integer
       string
   }
 
