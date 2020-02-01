@@ -1034,17 +1034,10 @@
     config "^3.2.4"
     debug "^4.1.1"
 
-"@feathersjs/errors@4.5.0", "@feathersjs/errors@^4.4.1", "@feathersjs/errors@^4.5.0":
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/@feathersjs/errors/-/errors-4.5.0.tgz#215c5d4b3934c71ce17e991af158666028c053b9"
-  integrity sha512-//aFWsTNCn0hThgnsjlD/k544U5qHKJ4DY/pXlCGAZ0NjUdrQUitDSRgYH+aA5FiGibG8Xv8NRjLBz6ToBAf0A==
-  dependencies:
-    debug "^4.1.1"
-
-"@feathersjs/errors@^4.3.4":
-  version "4.3.7"
-  resolved "https://registry.yarnpkg.com/@feathersjs/errors/-/errors-4.3.7.tgz#ee576d06f5dfc502aa2ed1a0ee13380fa30d71e5"
-  integrity sha512-OGyPZpq5qkr6TjG5aqFBNgpsK3pwhMRxHPjHkGXBKfseRACTS//ma3kJhRiGxhFetu5IsIsAYBpLRhyTbiBi8w==
+"@feathersjs/errors@4.5.1", "@feathersjs/errors@^4.3.4", "@feathersjs/errors@^4.4.1", "@feathersjs/errors@^4.5.0":
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/@feathersjs/errors/-/errors-4.5.1.tgz#59692b9f3ea2965393d0cf6586b82256195418bc"
+  integrity sha512-ztNL+g7pmZm4xYfmgc9ZtHfuWQl83CpCDtkXk3wZB8h4u4U0j1nUE6/QikmwzLS+/wHOnBDI7qSWV9ZnxzX1ww==
   dependencies:
     debug "^4.1.1"
 
