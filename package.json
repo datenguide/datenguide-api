@@ -42,7 +42,7 @@
     "@feathersjs/configuration": "4.5.0",
     "@feathersjs/errors": "4.5.0",
     "@feathersjs/express": "4.5.0",
-    "@feathersjs/feathers": "4.5.0",
+    "@feathersjs/feathers": "4.5.1",
     "apollo-cache-inmemory": "1.6.5",
     "apollo-client": "2.6.8",
     "apollo-link-schema": "1.2.4",
