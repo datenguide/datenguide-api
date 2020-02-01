@@ -60,7 +60,7 @@
     "feathers-logger": "0.3.2",
     "file-system-cache": "^1.0.5",
     "genesis-online-js": "^0.0.3",
-    "graphql": "14.5.8",
+    "graphql": "14.6.0",
     "graphql-server-express": "1.4.1",
     "graphql-type-json": "0.3.1",
     "helmet": "3.21.2",
