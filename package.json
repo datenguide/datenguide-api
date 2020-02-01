@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@babel/cli": "7.8.3",
-    "@feathersjs/configuration": "4.5.0",
+    "@feathersjs/configuration": "4.5.1",
     "@feathersjs/errors": "4.5.0",
     "@feathersjs/express": "4.5.0",
     "@feathersjs/feathers": "4.5.0",
