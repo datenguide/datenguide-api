@@ -74,7 +74,7 @@
     "path": "0.12.7",
     "pino": "5.17.0",
     "pino-colada": "1.5.1",
-    "query-string": "^6.11.0",
+    "query-string": "^6.11.1",
     "quick-pivot": "2.7.0",
     "rimraf": "^3.0.2",
     "serve-favicon": "2.5.0",
@@ -97,6 +97,9 @@
     "eslint-plugin-jest": "23.8.1",
     "husky": "4.2.3",
     "mocha": "7.1.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "prettier": "1.19.1",
     "pretty-quick": "2.0.1",
     "request": "2.88.2",
@@ -122,40 +125,38 @@
     ]
   },
   "eslintConfig": {
-    "extends": [
-      "airbnb-base",
-      "plugin:jest/recommended",
-      "prettier"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 7
-    },
     "parser": "babel-eslint",
-    "globals": {
-      "Teikei": true
-    },
     "rules": {
-      "no-extra-semi": 2,
-      "semi": 0
+      "no-console": [
+        "error",
+        {
+          "allow": [
+            "warn",
+            "error"
+          ]
+        }
+      ]
+    },
+    "env": {
+      "jest/globals": true
     },
     "plugins": [
-      "babel",
       "jest"
     ],
-    "env": {
-      "browser": true,
-      "node": true,
-      "jest": true
-    }
+    "extends": [
+      "standard",
+      "prettier"
+    ]
   },
   "prettier": {
+    "tabWidth": 2,
     "semi": false,
     "singleQuote": true
   },
   "husky": {
     "hooks": {
       "pre-push": "yarn lint",
-      "pre-commit": "yarn prettier"
+      "pre-commit": "yarn pretty-quick"
     }
   }
 }
