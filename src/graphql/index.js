@@ -1,5 +1,4 @@
 import { ApolloServer } from 'apollo-server-express'
-import { graphiqlExpress } from 'graphql-server-express'
 import { mergeTypes } from 'merge-graphql-schemas'
 import catalogSchema from './schema/catalog'
 import genesApiTreeSchema from './schema/genesapiTree'
@@ -29,15 +28,5 @@ export const createServer = async app => {
 
 export default async app => {
   const server = await createServer(app)
-
-  // apollo / apollo playground
   server.applyMiddleware({ app })
-
-  // graphiql
-  app.use(
-    '/graphiql',
-    graphiqlExpress({
-      endpointURL: '/graphql'
-    })
-  )
 }
