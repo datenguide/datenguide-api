@@ -27,7 +27,6 @@ const dimensionToEnum = (id, { title_de, values }) => {
 }
 
 export default (measures, mappings) => {
-  // TODO map directly from GENESIS catalog instead of extracting from json schema?
   const extractAllSchemaDimensions = schema =>
     Object.keys(schema)
       .map(key => schema[key].dimensions)
