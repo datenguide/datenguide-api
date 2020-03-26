@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import sift from 'sift'
 
-import { GESAMT_VALUE } from '../schema/genesapi'
+import { GESAMT_VALUE } from '../schema/genesapiTree'
 
 const mergeArgs = argumentLists => {
   const mergedArgs = {}
@@ -42,7 +42,10 @@ const transformFilterArgument = (params, measures) => {
     return {
       obj,
       attribute,
-      args: mergeArgs([args, resolveSiftFilter(attribute, filterArgs, measures)])
+      args: mergeArgs([
+        args,
+        resolveSiftFilter(attribute, filterArgs, measures)
+      ])
     }
   }
   return params

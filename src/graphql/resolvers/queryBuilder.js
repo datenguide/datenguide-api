@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { GESAMT_VALUE } from '../schema/genesapi'
+import { GESAMT_VALUE } from '../schema/genesapiTree'
 import transformFilterArgument from '../argumentTransformers/filter'
 
 const regionQuery = val => {
@@ -68,8 +68,14 @@ const attributeQuery = (attribute, args) => [
     return {
       bool: {
         should: [
-          ...valueArgsQuery(arg, args[arg].filter(v => v !== GESAMT_VALUE)),
-          ...gesamtValueArgQuery(arg, args[arg].filter(v => v === GESAMT_VALUE))
+          ...valueArgsQuery(
+            arg,
+            args[arg].filter(v => v !== GESAMT_VALUE)
+          ),
+          ...gesamtValueArgQuery(
+            arg,
+            args[arg].filter(v => v === GESAMT_VALUE)
+          )
         ]
       }
     }
