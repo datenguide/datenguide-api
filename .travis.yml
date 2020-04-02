@@ -8,6 +8,6 @@ env:
     - ELASTICSEARCH_HOST=dev.elastic.genesapi.org
     - ELASTICSEARCH_PROTOCOL=https
     - ELASTICSEARCH_PORT=443
-    - ELASTICSEARCH_VERSION=7.4
+    - ELASTICSEARCH_VERSION=7.6
     - ELASTICSEARCH_INDEX=genesapi-regionalstatistik-3
     - STORAGE_INFORMATION_URL=https://data.genesapi.org/info.json
