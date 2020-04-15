@@ -26,7 +26,7 @@ export default (app) => {
   const genesapiTabularUrl = app.get('genesapiTabularUrl')
 
   const tabularResolver = async (obj, args) => {
-    const { regions, measures, labels, page, itemsPerPage } = args
+    const { regions, measures, labels, layout, page, itemsPerPage } = args
 
     const regionsQuery = regions
       .map((r) =>
@@ -44,6 +44,7 @@ export default (app) => {
       regionsQuery,
       `data=${measuresQuery}`,
       `labels=${labels || 'id'}`,
+      `layout=${layout || 'long'}`,
       'format=json',
     ].join('&')}`
 
