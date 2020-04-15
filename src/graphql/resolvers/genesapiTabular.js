@@ -13,37 +13,38 @@ const paginate = (list, itemsPerPage, page) => {
 const mapValues = (values = []) =>
   values.length > 0 ? `:${values.join('|')}` : ''
 
-const mapDimension = d => {
+const mapDimension = (d) => {
   return `${d.name}${mapValues(d.values)}`
 }
 
 const mapDimensions = (dimensions = []) =>
   dimensions.length > 0
-    ? `(${dimensions.map(d => mapDimension(d)).join(',')})`
+    ? `(${dimensions.map((d) => mapDimension(d)).join(',')})`
     : ''
 
-export default app => {
+export default (app) => {
   const genesapiTabularUrl = app.get('genesapiTabularUrl')
 
   const tabularResolver = async (obj, args) => {
-    const { regions, measures, page, itemsPerPage } = args
+    const { regions, measures, labels, page, itemsPerPage } = args
 
     const regionsQuery = regions
-      .map(r =>
+      .map((r) =>
         queryString.stringify(r, {
-          arrayFormat: 'comma'
+          arrayFormat: 'comma',
         })
       )
       .join('&')
 
     const measuresQuery = measures.map(
-      m => `${m.id}${mapDimensions(m.dimensions)}`
+      (m) => `${m.id}${mapDimensions(m.dimensions)}`
     )
 
     const url = `${genesapiTabularUrl}?${[
       regionsQuery,
       `data=${measuresQuery}`,
-      'format=json'
+      `labels=${labels || 'id'}`,
+      'format=json',
     ].join('&')}`
 
     app.logger.debug('url', url)
@@ -59,7 +60,7 @@ export default app => {
         page !== undefined && itemsPerPage === undefined
           ? DEFAULT_ITEMS_PER_PAGE
           : itemsPerPage,
-      total
+      total,
     }
 
     json.pagination = pagination
@@ -70,7 +71,7 @@ export default app => {
 
   return {
     Query: {
-      table: tabularResolver
-    }
+      table: tabularResolver,
+    },
   }
 }
