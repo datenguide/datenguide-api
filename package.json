@@ -64,7 +64,7 @@
     "graphql-type-json": "0.3.1",
     "helmet": "3.22.0",
     "isomorphic-unfetch": "^3.0.0",
-    "jest": "^25.2.3",
+    "jest": "^26.1.0",
     "json2csv": "5.0.0",
     "lodash": "4.17.15",
     "lru-cache": "^5.1.1",
