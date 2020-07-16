@@ -66,7 +66,7 @@
     "isomorphic-unfetch": "^3.0.0",
     "jest": "^25.2.3",
     "json2csv": "5.0.0",
-    "lodash": "4.17.15",
+    "lodash": "4.17.19",
     "lru-cache": "^5.1.1",
     "merge-graphql-schemas": "^1.7.6",
     "node-fetch": "^2.6.0",
