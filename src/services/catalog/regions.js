@@ -125,7 +125,7 @@ export default async (app) => {
       }
     },
     get: async (id) => {
-      const result = getRegionsByIds([id])
+      const result = await getRegionsByIds([id])
       return result.length === 1 ? result[0] : null
     },
     setup: async (feathersApp) => {
