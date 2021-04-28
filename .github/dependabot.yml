@@ -1,0 +1,20 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: monthly
+  open-pull-requests-limit: 10
+  target-branch: preview
+  ignore:
+  - dependency-name: pino
+    versions:
+    - 6.11.0
+    - 6.9.0
+  - dependency-name: apollo-server-core
+    versions:
+    - 2.19.1
+    - 2.19.2
+  - dependency-name: feathers-hooks-common
+    versions:
+    - 5.0.4
